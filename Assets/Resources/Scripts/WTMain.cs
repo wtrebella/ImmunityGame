@@ -18,12 +18,14 @@ public class WTMain : MonoBehaviour {
 		fp.AddResolutionLevel(480f, 1.0f, 1.0f, "-res1");
 		fp.AddResolutionLevel(1136f, 2.0f, 2.0f, "-res2");
 		fp.AddResolutionLevel(2048f, 4.0f, 4.0f, "-res4");
-		fp.backgroundColor = Color.white;
+		fp.backgroundColor = new Color(0.3f, 0.3f, 0.3f, 1.0f);
 		fp.origin = Vector2.zero;
 		
 		Futile.instance.Init(fp);
 		
+		Futile.atlasManager.LoadAtlas("Atlases/ExtrudersSheet");
 		Futile.atlasManager.LoadAtlas("Atlases/ImmunitySheet");
+		Futile.atlasManager.LoadFont("TwCen", "twCen.png", "Atlases/twCen");
 		
 		Go.defaultEaseType = EaseType.SineInOut;
 		
