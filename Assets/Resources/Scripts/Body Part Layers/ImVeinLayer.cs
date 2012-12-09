@@ -36,18 +36,6 @@ public class ImVeinLayer : ImAbstractBodyPartLayer {
 		newVein = new ImBodyPart(new VeinEndpoints(NodePlacement.Neck, NodePlacement.Heart), veinColor);
 		bodyParts.Add(newVein);
 		
-		/*newVein = new ImBodyPart(new VeinEndpoints(NodePlacement.Neck, NodePlacement.LungLeft), veinColor);
-		bodyParts.Add(newVein);
-				
-		newVein = new ImBodyPart(new VeinEndpoints(NodePlacement.ShoulderLeft, NodePlacement.Neck), veinColor);
-		bodyParts.Add(newVein);
-		
-		newVein = new ImBodyPart(new VeinEndpoints(NodePlacement.Neck, NodePlacement.LungRight), veinColor);
-		bodyParts.Add(newVein);
-		
-		newVein = new ImBodyPart(new VeinEndpoints(NodePlacement.Neck, NodePlacement.ShoulderRight), veinColor);
-		bodyParts.Add(newVein);*/
-		
 		newVein = new ImBodyPart(new VeinEndpoints(NodePlacement.Heart, NodePlacement.Liver), veinColor);
 		bodyParts.Add(newVein);
 		

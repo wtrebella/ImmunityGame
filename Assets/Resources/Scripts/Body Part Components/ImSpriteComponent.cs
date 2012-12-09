@@ -7,7 +7,7 @@ public class ImSpriteComponent {
 	
 	private FSprite sprite_;
 	private float defaultSpriteRotation_ = 0.0f;
-	private float defaultSpriteScale_ = 0.6f;
+	private float defaultSpriteScale_ = 1.0f;
 	private Color defaultSpriteColor_ = Color.white;
 	private TweenChain spritePulsateTween_;
 	
@@ -68,7 +68,7 @@ public class ImSpriteComponent {
 			Vector2 lowerNodePosition = fromNodePosition.y <= toNodePosition.y ? fromNodePosition : toNodePosition;
 			Vector2 higherNodePosition = toNodePosition.y >= fromNodePosition.y ? toNodePosition : fromNodePosition;
 			
-			sprite_.width = 2f;
+			sprite_.width = 5f;
 			sprite_.height = Mathf.Sqrt(Mathf.Pow(toNodePosition.y - fromNodePosition.y, 2) + Mathf.Pow(toNodePosition.x - fromNodePosition.x, 2));
 			float rotation = 90 + 360 - Mathf.Rad2Deg * Mathf.Atan((higherNodePosition.y - lowerNodePosition.y) / (higherNodePosition.x - lowerNodePosition.x));
 			if (Mathf.Sign(higherNodePosition.x - lowerNodePosition.x) == -1f) rotation += 180f;

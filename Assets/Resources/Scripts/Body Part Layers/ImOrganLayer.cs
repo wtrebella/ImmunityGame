@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 public class ImOrganLayer : ImAbstractBodyPartLayer {	
 	public ImOrganLayer(WTImmunity owner) : base(owner) {		
-		ImBodyPart heart = new ImBodyPart(OrganType.Heart, -20f, 0.6f, Color.red);
-		ImBodyPart brain = new ImBodyPart(OrganType.Brain, 0f, 0.6f, Color.magenta);
-		ImBodyPart liver = new ImBodyPart(OrganType.Liver, -20f, 0.6f, Color.cyan);
-		ImBodyPart lungLeft = new ImBodyPart(OrganType.LungLeft, 20f, 0.6f, Color.blue);
-		ImBodyPart lungRight = new ImBodyPart(OrganType.LungRight, -20f, 0.6f, Color.blue);
-		ImBodyPart stomach = new ImBodyPart(OrganType.Stomach, -30f, 0.6f, Color.yellow);
-		ImBodyPart intestines = new ImBodyPart(OrganType.Intestines, 0f, 0.6f, Color.green);
+		ImBodyPart heart = new ImBodyPart(OrganType.Heart, -20f, 1.0f, Color.red);
+		ImBodyPart brain = new ImBodyPart(OrganType.Brain, 0f, 1.0f, Color.magenta);
+		ImBodyPart liver = new ImBodyPart(OrganType.Liver, -20f, 1.0f, Color.cyan);
+		ImBodyPart lungLeft = new ImBodyPart(OrganType.LungLeft, 20f, 1.0f, Color.blue);
+		ImBodyPart lungRight = new ImBodyPart(OrganType.LungRight, -20f, 1.0f, Color.blue);
+		ImBodyPart stomach = new ImBodyPart(OrganType.Stomach, -30f, 1.0f, Color.yellow);
+		ImBodyPart intestines = new ImBodyPart(OrganType.Intestines, 0f, 1.0f, Color.green);
 		
 		bodyParts.Add(heart);
 		bodyParts.Add(brain);
@@ -20,13 +20,16 @@ public class ImOrganLayer : ImAbstractBodyPartLayer {
 		bodyParts.Add(stomach);
 		bodyParts.Add(intestines);
 		
-		heart.spriteComponent.PlaceSpriteAt(2f, 86f);
-		brain.spriteComponent.PlaceSpriteAt(-6f, 181f);
-		liver.spriteComponent.PlaceSpriteAt(-8f, 60f);
-		lungLeft.spriteComponent.PlaceSpriteAt(-21f, 91f);
-		lungRight.spriteComponent.PlaceSpriteAt(20f, 94f);
-		stomach.spriteComponent.PlaceSpriteAt(9f, 44f);
-		intestines.spriteComponent.PlaceSpriteAt(-4f, 7f);
+		float maxWidth = 35f * 1.3f;
+		float maxHeight = 302f * 1.3f;
+		
+		heart.spriteComponent.PlaceSpriteAt(0.086f * maxWidth, 0.474f * maxHeight);
+		brain.spriteComponent.PlaceSpriteAt(-0.286f * maxWidth, 1.0f * maxHeight);
+		liver.spriteComponent.PlaceSpriteAt(-0.371f * maxWidth, 0.331f * maxHeight);
+		lungLeft.spriteComponent.PlaceSpriteAt(-1.0f * maxWidth, 0.503f * maxHeight);
+		lungRight.spriteComponent.PlaceSpriteAt(0.943f * maxWidth, 0.52f * maxHeight);
+		stomach.spriteComponent.PlaceSpriteAt(0.429f * maxWidth, 0.242f * maxHeight);
+		intestines.spriteComponent.PlaceSpriteAt(-0.2f * maxWidth, 0.04f * maxHeight);
 
 		foreach (ImBodyPart organ in bodyParts) {
 			AddChild(organ.spriteComponent.sprite);

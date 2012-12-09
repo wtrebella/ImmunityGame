@@ -2,23 +2,23 @@
 
 "body.png":
 {
-	"frame": {"x":6,"y":556,"w":519,"h":1335},
+	"frame": {"x":6,"y":6,"w":684,"h":1735},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":18,"y":20,"w":519,"h":1335},
-	"sourceSize": {"w":565,"h":1367}
+	"spriteSourceSize": {"x":13,"y":27,"w":684,"h":1735},
+	"sourceSize": {"w":734,"h":1777}
 },
 "brain.png":
 {
-	"frame": {"x":174,"y":1901,"w":96,"h":84},
-	"rotated": true,
+	"frame": {"x":525,"y":1931,"w":125,"h":111},
+	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":11,"y":8,"w":96,"h":84},
-	"sourceSize": {"w":120,"h":102}
+	"spriteSourceSize": {"x":14,"y":9,"w":125,"h":111},
+	"sourceSize": {"w":157,"h":133}
 },
 "circle.psd":
 {
-	"frame": {"x":648,"y":728,"w":170,"h":170},
+	"frame": {"x":525,"y":1751,"w":170,"h":170},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":15,"y":15,"w":170,"h":170},
@@ -26,47 +26,47 @@
 },
 "heart.png":
 {
-	"frame": {"x":86,"y":1901,"w":78,"h":99},
-	"rotated": false,
+	"frame": {"x":660,"y":1931,"w":101,"h":127},
+	"rotated": true,
 	"trimmed": true,
-	"spriteSourceSize": {"x":2,"y":2,"w":78,"h":99},
-	"sourceSize": {"w":84,"h":101}
+	"spriteSourceSize": {"x":3,"y":4,"w":101,"h":127},
+	"sourceSize": {"w":109,"h":131}
 },
 "intestines.png":
 {
-	"frame": {"x":648,"y":556,"w":193,"h":162},
-	"rotated": false,
+	"frame": {"x":6,"y":1751,"w":252,"h":211},
+	"rotated": true,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":2,"w":193,"h":162},
-	"sourceSize": {"w":195,"h":166}
+	"spriteSourceSize": {"x":0,"y":2,"w":252,"h":211},
+	"sourceSize": {"w":254,"h":217}
 },
 "liver.png":
 {
-	"frame": {"x":459,"y":1901,"w":161,"h":66},
-	"rotated": false,
+	"frame": {"x":430,"y":1751,"w":208,"h":85},
+	"rotated": true,
 	"trimmed": true,
-	"spriteSourceSize": {"x":1,"y":0,"w":161,"h":66},
-	"sourceSize": {"w":163,"h":68}
+	"spriteSourceSize": {"x":2,"y":2,"w":208,"h":85},
+	"sourceSize": {"w":212,"h":89}
 },
 "lungLeft.png":
 {
-	"frame": {"x":268,"y":1901,"w":83,"h":181},
-	"rotated": true,
+	"frame": {"x":227,"y":1751,"w":107,"h":235},
+	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":1,"y":1,"w":83,"h":181},
-	"sourceSize": {"w":85,"h":183}
+	"spriteSourceSize": {"x":2,"y":2,"w":107,"h":235},
+	"sourceSize": {"w":111,"h":239}
 },
 "lungRight.png":
 {
-	"frame": {"x":459,"y":1977,"w":59,"h":179},
-	"rotated": true,
+	"frame": {"x":344,"y":1751,"w":76,"h":232},
+	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":2,"y":1,"w":59,"h":179},
-	"sourceSize": {"w":63,"h":181}
+	"spriteSourceSize": {"x":3,"y":1,"w":76,"h":232},
+	"sourceSize": {"w":82,"h":236}
 },
 "popoverEdgeCurved.psd":
 {
-	"frame": {"x":121,"y":2010,"w":25,"h":25},
+	"frame": {"x":41,"y":2013,"w":25,"h":25},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":2,"w":25,"h":25},
@@ -74,23 +74,31 @@
 },
 "popoverEdgeStraight.psd":
 {
-	"frame": {"x":86,"y":2010,"w":25,"h":25},
+	"frame": {"x":6,"y":2013,"w":25,"h":25},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":25,"h":25},
 	"sourceSize": {"w":25,"h":25}
 },
+"popoverTriangle.psd":
+{
+	"frame": {"x":227,"y":1996,"w":50,"h":40},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":40},
+	"sourceSize": {"w":50,"h":50}
+},
 "stomach.png":
 {
-	"frame": {"x":6,"y":1901,"w":127,"h":70},
-	"rotated": true,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":127,"h":70},
-	"sourceSize": {"w":127,"h":70}
+	"frame": {"x":1817,"y":6,"w":163,"h":92},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":163,"h":92},
+	"sourceSize": {"w":165,"h":92}
 },
 "twCen.png":
 {
-	"frame": {"x":6,"y":6,"w":1010,"h":540},
+	"frame": {"x":797,"y":6,"w":1010,"h":540},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":1010,"h":540},
@@ -101,8 +109,8 @@
 	"version": "1.0",
 	"image": "ImmunitySheet-res2.png",
 	"format": "RGBA8888",
-	"size": {"w":1024,"h":2048},
+	"size": {"w":2048,"h":2048},
 	"scale": "0.5",
-	"smartupdate": "$TexturePacker:SmartUpdate:8f7f058612049012e7fb98c5b27dea22$"
+	"smartupdate": "$TexturePacker:SmartUpdate:dd62ff634a9157f11374e5c500c3e2e7$"
 }
 }

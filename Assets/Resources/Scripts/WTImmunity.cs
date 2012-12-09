@@ -12,50 +12,61 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	private ImBodyPart currentOrgan;
 	private ImUILayer uiLayer;
 	private FContainer gameLayer;
-	private float zoomLevel_ = 1.0f;
+	private float zoomLevel_;
+	private bool isZoomed_ = false;
+	private float doubleClickTimer_ = 1000.0f;
+	private const float DOUBLE_CLICK_MAX_WAIT = 0.4f;
+	private float MAX_GAMELAYER_SCROLL = Futile.screen.height;
+	private float MIN_GAMELAYER_SCROLL = 0;
+	
+	private ImPopoverDialogue pop;
 
 	public WTImmunity() : base("") {	
 		gameLayer = new FContainer();
+		gameLayer.x = Futile.screen.halfWidth;
+		gameLayer.y = Futile.screen.halfHeight;
+		gameLayer.scale = 0.45f;
+		zoomLevel_ = gameLayer.scale;
 		AddChild(gameLayer);
 		
 		FSprite sprite = new FSprite("body.png");
-		sprite.scale = 0.6f;
-		sprite.x = Futile.screen.halfWidth;
-		sprite.y = Futile.screen.halfHeight;
 		gameLayer.AddChild(sprite);
 		
 		organLayer = new ImOrganLayer(this);
-		organLayer.x = Futile.screen.halfWidth;
-		organLayer.y = Futile.screen.halfHeight;
 		gameLayer.AddChild(organLayer);
 		
 		veinLayer = new ImVeinLayer(this);
-		veinLayer.x = Futile.screen.halfWidth;
-		veinLayer.y = Futile.screen.halfHeight;
 		gameLayer.AddChild(veinLayer);
 		
 		nodeLayer = new ImNodeLayer(this);
-		nodeLayer.x = Futile.screen.halfWidth;
-		nodeLayer.y = Futile.screen.halfHeight;
 		gameLayer.AddChild(nodeLayer);
 				
-		uiLayer = new ImUILayer();
+		pop = new ImPopoverDialogue(100f, 300f, 4f, PopoverTriangleDirectionType.PointingRight);
+		AddChild(pop);
+		
+		/*uiLayer = new ImUILayer();
 		uiLayer.zoomInButton.SignalPress += OnPressedUIButton;
 		uiLayer.zoomOutButton.SignalPress += OnPressedUIButton;
-		AddChild(uiLayer);
+		AddChild(uiLayer);*/
 	}
 
 	override public void HandleAddedToStage() {
 		base.HandleAddedToStage();
 		Futile.touchManager.AddSingleTouchTarget(this);
+		Futile.instance.SignalUpdate += HandleUpdate;
 	}
 	
 	override public void HandleRemovedFromStage() {
 		base.HandleRemovedFromStage();
 		Futile.touchManager.RemoveSingleTouchTarget(this);
+		Futile.instance.SignalUpdate -= HandleUpdate;
 	}
 	
-	public void Zoom(Vector2 globalFocalPoint, float zoomLevel, bool withAnimation) {						
+	public void HandleUpdate() {
+		doubleClickTimer_ += Time.fixedDeltaTime;
+	}
+	
+	public void Zoom(Vector2 globalFocalPoint, float zoomLevel, bool withAnimation) {								
 		zoomLevel_ = zoomLevel;
 		
 		float oldScale = gameLayer.scale;
@@ -68,27 +79,32 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		Vector2 transformedFocalPoint = new Vector2(newScale / oldScale * scaledLocalPos.x, newScale / oldScale * scaledLocalPos.y);
 		Vector2 deltaPoint = new Vector2(scaledLocalPos.x - transformedFocalPoint.x, scaledLocalPos.y - transformedFocalPoint.y);
 		
+		float newX = gameLayer.x + deltaPoint.x;
+		float newY = gameLayer.y + deltaPoint.y;
+		
+		if (isZoomed_) {
+			newX = Futile.screen.halfWidth;
+			newY = Futile.screen.halfHeight;
+		}
+		
 		if (!withAnimation) {
 			gameLayer.scale = newScale;
-			gameLayer.x += deltaPoint.x;
-			gameLayer.y += deltaPoint.y;
+			gameLayer.x = newX;
+			gameLayer.y = newY;
 		}
 		else {
 			Go.to(gameLayer, 0.3f, new TweenConfig()
 				.floatProp("scale", newScale)
-				.floatProp("x", gameLayer.x + deltaPoint.x)
-				.floatProp("y", gameLayer.y + deltaPoint.y));
+				.floatProp("x", newX)
+				.floatProp("y", newY));
 		}
-	}
-	
-	public void OnPressedUIButton(FButton button) {
-		UIButtonType buttonType = (UIButtonType)button.data;
 		
-		if (buttonType == UIButtonType.ZoomIn) Zoom(new Vector2(Futile.screen.halfWidth, Futile.screen.halfHeight), zoomLevel_ * 2.0f, true);
-		if (buttonType == UIButtonType.ZoomOut) Zoom(new Vector2(Futile.screen.halfWidth, Futile.screen.halfHeight), zoomLevel_ * 0.5f, true);
+		isZoomed_ = !isZoomed_;
 	}
-	
+		
 	public bool HandleSingleTouchBegan(FTouch touch) {		
+		pop.PlaceAtPosition(touch.position.x, touch.position.y);
+		
 		foreach (ImBodyPart node in nodeLayer.bodyParts) {
 			if (node.spriteComponent.SpriteContainsGlobalPoint(touch.position)) {
 				node.nodeComponent.health -= Random.Range(1, 50);
@@ -110,17 +126,34 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 				return true;
 			}
 		}
+		
 		if (!touchedOrgan && currentOrgan != null) {
 			currentOrgan.isSelected = false;
 			currentOrgan = null;
 		}
 		
+		if (doubleClickTimer_ <= DOUBLE_CLICK_MAX_WAIT) {
+			doubleClickTimer_ = 1000.0f;
+			
+			float newZoomLevel;
+			
+			if (isZoomed_) newZoomLevel = zoomLevel_ * 0.5f;
+			else newZoomLevel = zoomLevel_ * 2.0f;
+			
+			Zoom(new Vector2(Futile.screen.halfWidth, touch.position.y), newZoomLevel, true);
+		}
+		else doubleClickTimer_ = 0;
+		
 		return true;
 	}
 	
 	public void HandleSingleTouchMoved(FTouch touch) {
-		gameLayer.x += touch.deltaPosition.x;
-		gameLayer.y += touch.deltaPosition.y;
+		if (isZoomed_) {
+			float newY = gameLayer.y + touch.deltaPosition.y;
+			if (newY > MAX_GAMELAYER_SCROLL) newY = MAX_GAMELAYER_SCROLL;
+			if (newY < MIN_GAMELAYER_SCROLL) newY = MIN_GAMELAYER_SCROLL;
+			gameLayer.y = newY;
+		}
 	}
 	
 	public void HandleSingleTouchEnded(FTouch touch) {
