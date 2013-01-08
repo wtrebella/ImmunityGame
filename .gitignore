@@ -111,3 +111,5 @@ UpgradeLog*.XML
 *.sln
 
 *.userprefs
+
+Extras/.DS_Store

@@ -48,12 +48,12 @@ public class FLetterQuad
 		bottomLeft.Set(rect.xMin,rect.yMin);
 	}
 	
-	//this essentially moves the quads by a certain offset
-	//the mod stuff is used to make sure the quad is resting on a whole pixel
+	//this moves the quads by a certain offset
 	public void CalculateVectors(float offsetX, float offsetY)
 	{
 		float scaleInverse = Futile.displayScaleInverse;
 		
+		//the stuff is used to make sure the quad is resting on a whole pixel
 		float xMod = (rect.xMin+offsetX) % scaleInverse;
 		float yMod = (rect.yMin+offsetY) % scaleInverse;
 		
@@ -132,6 +132,7 @@ public class FFont
 	private FCharInfo[] _charInfos;
 	private FCharInfo[] _charInfosByID; //chars with the index of array being the char id
 	private FKerningInfo[] _kerningInfos;
+	private int _kerningCount;
 	
 	private FKerningInfo _nullKerning = new FKerningInfo();
 	
@@ -188,7 +189,7 @@ public class FFont
 		int c = 0;
 		int k = 0;
 		
-		_charInfosByID = new FCharInfo[127];
+		_charInfosByID = new FCharInfo[255];
 		
 		float resourceScale = Futile.resourceScale;
 		
@@ -295,41 +296,21 @@ public class FFont
 					}
 				}
 
-				if(element.isRotated)
-				{
-					Rect uvRect = new Rect 	
-					(
-						_element.uvRect.x + _element.uvRect.width - ((charInfo.y+charInfo.height+0.5f)/textureSize.x*resourceScale),
-						_element.uvRect.y + _element.uvRect.height - ((charInfo.x+charInfo.width+0.5f)/textureSize.y*resourceScale),
-						charInfo.height/textureSize.x*resourceScale,
-						charInfo.width/textureSize.y*resourceScale
-					);
-					
-					charInfo.uvRect = uvRect;
-					
-					charInfo.uvBottomLeft.Set(uvRect.xMin,uvRect.yMax);
-					charInfo.uvTopLeft.Set(uvRect.xMax,uvRect.yMax);
-					charInfo.uvTopRight.Set(uvRect.xMax,uvRect.yMin);
-					charInfo.uvBottomRight.Set(uvRect.xMin,uvRect.yMin);
-				}
-				else
-				{
-					Rect uvRect = new Rect 	
-					(
-						_element.uvRect.x + charInfo.x/textureSize.x*resourceScale,
-						(textureSize.y-charInfo.y-charInfo.height)/textureSize.y*resourceScale - (1.0f - _element.uvRect.yMax),
-						charInfo.width/textureSize.x*resourceScale,
-						charInfo.height/textureSize.y*resourceScale
-					);
+				Rect uvRect = new Rect 	
+				(
+					_element.uvRect.x + charInfo.x/textureSize.x*resourceScale,
+					(textureSize.y-charInfo.y-charInfo.height)/textureSize.y*resourceScale - (1.0f - _element.uvRect.yMax),
+					charInfo.width/textureSize.x*resourceScale,
+					charInfo.height/textureSize.y*resourceScale
+				);
+			
+				charInfo.uvRect = uvRect;
 				
-					charInfo.uvRect = uvRect;
-					
-					charInfo.uvTopLeft.Set(uvRect.xMin,uvRect.yMax);
-					charInfo.uvTopRight.Set(uvRect.xMax,uvRect.yMax);
-					charInfo.uvBottomRight.Set(uvRect.xMax,uvRect.yMin);
-					charInfo.uvBottomLeft.Set(uvRect.xMin,uvRect.yMin);
-				}
-				
+				charInfo.uvTopLeft.Set(uvRect.xMin,uvRect.yMax);
+				charInfo.uvTopRight.Set(uvRect.xMax,uvRect.yMax);
+				charInfo.uvBottomRight.Set(uvRect.xMax,uvRect.yMin);
+				charInfo.uvBottomLeft.Set(uvRect.xMin,uvRect.yMin);
+
 				_charInfosByID[charInfo.charID] = charInfo;
 				_charInfos[c] = charInfo;
 				
@@ -339,40 +320,51 @@ public class FFont
 			{
 				wasKerningFound = true;
 				int kerningCount = int.Parse(words[1].Split('=')[1]);
-				_kerningInfos = new FKerningInfo[kerningCount];
+				_kerningInfos = new FKerningInfo[kerningCount+100]; //kerning count can be wrong so just add 100 items of potential fudge factor
 			}
 			else if(words[0] == "kerning") //kerning first=56  second=57  amount=-1
 			{
 				FKerningInfo kerningInfo = new FKerningInfo();
+				
+				kerningInfo.first = -1;
 				
 				wordCount = words.Length;
 				
 				for(int w = 1; w<wordCount; w++)
 				{
 					string[] parts = words[w].Split('=');	
-					string partName = parts[0];
-					int partValue = int.Parse(parts[1]);
-					
-					if(partName == "first")
+					if(parts.Length >= 2)
 					{
-						kerningInfo.first = partValue;
-					}
-					else if(partName == "second")
-					{
-						kerningInfo.second = partValue;
-					}
-					else if(partName == "amount")
-					{
-						kerningInfo.amount = partValue * _configRatio;
+						string partName = parts[0];
+						int partValue = int.Parse(parts[1]);
+						
+						if(partName == "first")
+						{
+							kerningInfo.first = partValue;
+						}
+						else if(partName == "second")
+						{
+							kerningInfo.second = partValue;
+						}
+						else if(partName == "amount")
+						{
+							kerningInfo.amount = partValue * _configRatio;
+						}
 					}
 				}
 				
-				_kerningInfos[k] = kerningInfo;
+				if(kerningInfo.first != -1)
+				{
+					_kerningInfos[k] = kerningInfo;
+				}
 				
 				k++;
 			}
 			
 		}
+		
+		_kerningCount = k;
+		
 		
 		if(!wasKerningFound) //if there are no kernings at all (like in a pixel font), then make an empty kerning array
 		{
@@ -467,8 +459,7 @@ public class FFont
 			{
 				FKerningInfo foundKerning = _nullKerning;
 				
-				int kerningInfoCount = _kerningInfos.Length;
-				for(int k = 0; k<kerningInfoCount-1; k++)
+				for(int k = 0; k<_kerningCount; k++)
 				{
 					FKerningInfo kerningInfo = _kerningInfos[k];
 					if(kerningInfo.first == previousLetter && kerningInfo.second == letter)

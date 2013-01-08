@@ -23,7 +23,7 @@ public interface FSingleTouchableInterface
 
 	void HandleSingleTouchCanceled(FTouch touch);
 	
-	int touchPriority
+	int touchPriority //FNodes have this defined by default
 	{
 		get;	
 	}
@@ -259,6 +259,7 @@ public class FTouchManager
 
 	private void UpdatePrioritySorting()
 	{
+		_needsPrioritySort = false;
 		_singleTouchables.Sort(PriorityComparison);
 	}
 	
@@ -280,7 +281,7 @@ public class FTouchManager
 				_singleTouchables.Add(touchable);
 			}
 		}
-		
+		_needsPrioritySort = true;
 	}
 	
 	public void AddMultiTouchTarget(FMultiTouchableInterface touchable)

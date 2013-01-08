@@ -22,7 +22,7 @@ public class FAtlasElement
 	public Rect sourceRect;
 	public Vector2 sourceSize;
 	public bool isTrimmed;
-	public bool isRotated;
+	//public bool isRotated;
 	
 	public FAtlasElement Clone()
 	{
@@ -45,7 +45,6 @@ public class FAtlasElement
 		element.sourceRect = sourceRect;
 		element.sourceSize = sourceSize;
 		element.isTrimmed = isTrimmed;
-		element.isRotated = isRotated;
 		
 		return element;
 	}
@@ -67,6 +66,22 @@ public class FAtlas
 	private Vector2 _textureSize;
 	
 	private bool _isSingleImage;
+	
+	private bool _isTextureAnAsset = false;
+	
+	//TODO: allow users to pass a dictionary of pre-built atlas data if they want
+	public FAtlas (string name, Texture texture, int index)
+	{
+		_name = name;
+		_imagePath = "";
+		_dataPath = "";
+		_index = index;
+		
+		_texture = texture;
+		_textureSize = new Vector2(_texture.width,_texture.height);
+		
+		CreateAtlasFromSingleImage();
+	}
 	
 	public FAtlas (string name, string imagePath, string dataPath, int index, bool shouldLoadAsSingleImage)
 	{
@@ -98,6 +113,8 @@ public class FAtlas
 		{
 			Debug.Log ("Futile: Couldn't load the atlas texture from: " + _imagePath);	
 		}
+		
+		_isTextureAnAsset = true;
 		
 		_textureSize = new Vector2(_texture.width,_texture.height);
 	}
@@ -146,7 +163,11 @@ public class FAtlas
 			IDictionary itemDict = (IDictionary)item.Value;
 			
 			element.isTrimmed = (bool)itemDict["trimmed"];
-			element.isRotated = (bool)itemDict["rotated"];			
+			
+			if((bool)itemDict["rotated"])
+			{
+				throw new NotSupportedException("Futile no longer supports TexturePacker's \"rotated\" flag. Please disable it when creating the "+_dataPath+" atlas.");
+			}
 			
 			IDictionary frame = (IDictionary)itemDict["frame"];
 			
@@ -155,42 +176,21 @@ public class FAtlas
 			float rectW = float.Parse(frame["w"].ToString());
 			float rectH = float.Parse(frame["h"].ToString()); 
 			
-			Rect uvRect; 
+			Rect uvRect = new Rect
+			(
+				rectX/_textureSize.x + uvOffsetX,
+				((_textureSize.y - rectY - rectH)/_textureSize.y)+uvOffsetY,
+				rectW/_textureSize.x,
+				rectH/_textureSize.y
+			);
 				
-			if(element.isRotated)
-			{
-				uvRect = new Rect
-				(
-					rectX/_textureSize.x + uvOffsetY,
-					((_textureSize.y - rectY - rectW)/_textureSize.y)-uvOffsetX,
-					rectH/_textureSize.x,
-					rectW/_textureSize.y
-				);
-				
-				element.uvRect = uvRect;
+			element.uvRect = uvRect;
+		
+			element.uvTopLeft.Set(uvRect.xMin,uvRect.yMax);
+			element.uvTopRight.Set(uvRect.xMax,uvRect.yMax);
+			element.uvBottomRight.Set(uvRect.xMax,uvRect.yMin);
+			element.uvBottomLeft.Set(uvRect.xMin,uvRect.yMin);
 			
-				element.uvBottomLeft.Set(uvRect.xMin,uvRect.yMax);
-				element.uvTopLeft.Set(uvRect.xMax,uvRect.yMax);
-				element.uvTopRight.Set(uvRect.xMax,uvRect.yMin);
-				element.uvBottomRight.Set(uvRect.xMin,uvRect.yMin);
-			}
-			else 
-			{
-				uvRect = new Rect
-				(
-					rectX/_textureSize.x + uvOffsetX,
-					((_textureSize.y - rectY - rectH)/_textureSize.y)+uvOffsetY,
-					rectW/_textureSize.x,
-					rectH/_textureSize.y
-				);
-				
-				element.uvRect = uvRect;
-			
-				element.uvTopLeft.Set(uvRect.xMin,uvRect.yMax);
-				element.uvTopRight.Set(uvRect.xMax,uvRect.yMax);
-				element.uvBottomRight.Set(uvRect.xMax,uvRect.yMin);
-				element.uvBottomLeft.Set(uvRect.xMin,uvRect.yMin);
-			}
 			
 			IDictionary sourceRect = (IDictionary)itemDict["spriteSourceSize"];
 
@@ -250,7 +250,6 @@ public class FAtlas
 		
 		element.sourceSize = new Vector2(_textureSize.x*scaleInverse,_textureSize.y*scaleInverse);
 		element.isTrimmed = false;
-		element.isRotated = false;
 		
 		_elements.Add (element);
 		_elementsByName.Add (element.name, element);
@@ -258,7 +257,12 @@ public class FAtlas
 
 	public void Unload ()
 	{
-		Resources.UnloadAsset(_texture);
+		if(_isTextureAnAsset)
+		{
+			Resources.UnloadAsset(_texture);
+		}
+		
+		UnityEngine.Object.Destroy(_texture);
 	}
 	
 	public List<FAtlasElement> elements

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class FContainer : FNode
 {
-	protected List<FNode> _childNodes = new List<FNode>();
+	protected List<FNode> _childNodes = new List<FNode>(5);
 	
 	private int _oldChildNodesHash = 0;
 	
@@ -44,7 +44,10 @@ public class FContainer : FNode
 				childNode.HandleAddedToStage();	
 			}
 			
-			if(_shouldSortByZ) Futile.instance.SignalUpdate += HandleUpdate;
+			if(_shouldSortByZ) 
+			{
+				Futile.instance.SignalUpdate += HandleUpdateAndSort;
+			}
 		}
 		
 	}
@@ -62,16 +65,19 @@ public class FContainer : FNode
 				childNode.HandleRemovedFromStage();	
 				childNode.stage = null;
 			}
+			
+			if(_shouldSortByZ)
+			{
+				Futile.instance.SignalUpdate -= HandleUpdateAndSort;
+			}
 		}
-		
-		Futile.instance.SignalUpdate -= HandleUpdate;
 	}
 	
-	private void HandleUpdate()
+	private void HandleUpdateAndSort()
 	{
-		if(SortByZ()) //if the child order was changed, rearrange the quads
+		if(SortByZ()) //sort the order, and then if the child order was changed, rearrange the quads
 		{
-			_stage.HandleQuadsChanged();	
+			if(_isOnStage) _stage.HandleFacetsChanged();	
 		}
 	}
 	
@@ -94,7 +100,7 @@ public class FContainer : FNode
 		{
 			_childNodes.RemoveAt(nodeIndex);
 			_childNodes.Add(node);
-			if(_isOnStage) _stage.HandleQuadsChanged(); 
+			if(_isOnStage) _stage.HandleFacetsChanged(); 
 		}
 	}
 	
@@ -134,7 +140,7 @@ public class FContainer : FNode
 				_childNodes.Insert(newIndex, node);
 			}
 			
-			if(_isOnStage) _stage.HandleQuadsChanged();
+			if(_isOnStage) _stage.HandleFacetsChanged();
 		}
 	}
 	
@@ -172,11 +178,17 @@ public class FContainer : FNode
 				
 				if(_shouldSortByZ)
 				{
-					if(_isOnStage) Futile.instance.SignalUpdate += HandleUpdate;
+					if(_isOnStage) 
+					{
+						Futile.instance.SignalUpdate += HandleUpdateAndSort;
+					}
 				}
 				else 
 				{
-					if(_isOnStage) Futile.instance.SignalUpdate -= HandleUpdate;
+					if(_isOnStage) 
+					{
+						Futile.instance.SignalUpdate -= HandleUpdateAndSort;
+					}
 				}
 			}
 		}
