@@ -13,7 +13,7 @@ public class ImNode : ImEntity {
 		
 		this.nodePlacement = nodePlacement;
 		
-		AddComponent(new ImSpriteComponent("circle.psd", 0f, 0.25f, new Color(0.5f, 0, 0, 1)));
+		AddComponent(new ImSpriteComponent("circleSpriteComponent", "circle.psd", 0f, 0.25f, new Color(0.5f, 0, 0, 1)));
 	}
 	
 	public ImOrgan CorrespondingOrganInOrganLayer(ImOrganLayer organLayer) {

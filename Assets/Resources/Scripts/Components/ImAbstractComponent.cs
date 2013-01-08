@@ -14,7 +14,7 @@ public class ImAbstractComponent {
 	
 	//private float health_;
 	
-	public ImAbstractComponent(string name = "abstract component") {
+	public ImAbstractComponent(string name) {
 		name_ = name;
 		//health_ = maxHealth;
 	}
