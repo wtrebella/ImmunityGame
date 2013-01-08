@@ -1,9 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class ImSpriteComponent {
+public class ImSpriteComponent : ImAbstractComponent {
 	public string imageName;
-	public ImBodyPart owner;
 	
 	private FSprite sprite_;
 	private float defaultSpriteRotation_ = 0.0f;
@@ -11,8 +10,7 @@ public class ImSpriteComponent {
 	private Color defaultSpriteColor_ = Color.white;
 	private TweenChain spritePulsateTween_;
 	
-	public ImSpriteComponent(ImBodyPart owner, float defaultSpriteRotation, float defaultSpriteScale, Color defaultSpriteColor) {
-		this.owner = owner;
+	public ImSpriteComponent(float defaultSpriteRotation, float defaultSpriteScale, Color defaultSpriteColor) {
 		defaultSpriteRotation_ = defaultSpriteRotation;
 		defaultSpriteScale_ = defaultSpriteScale;
 		defaultSpriteColor_ = defaultSpriteColor;
