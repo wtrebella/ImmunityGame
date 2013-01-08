@@ -9,8 +9,11 @@ public class ImNode : ImEntity {
 		name = string.Format("node: a node at " + ImConfig.NameForNodePlacement(nodePlacement));
 		
 		this.nodePlacement = nodePlacement;
+		ImSliceSpriteComponent ssc = new ImSliceSpriteComponent("circleSliceSpriteComponent", "circle.psd");
+		ssc.sprite.scale = 0.25f;
+		ssc.sprite.color = Color.red;
+		AddComponent(ssc);
 		
-		AddComponent(new ImSpriteComponent("circleSpriteComponent", "circle.psd", 0f, 0.25f, new Color(0.5f, 0, 0, 1)));
 		AddComponent(new ImHealthComponent("healthComponent", 100));
 	}
 	

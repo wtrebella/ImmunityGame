@@ -110,7 +110,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		
 		foreach (ImEntity entity in nodeLayer.entities) {
 			ImNode node = entity as ImNode;
-			if (node.SpriteComponents()[0].SpriteContainsGlobalPoint(touch.position)) {
+			if (node.SliceSpriteComponents()[0].SpriteContainsGlobalPoint(touch.position)) {
 				node.HealthComponent().currentHealth -= Random.Range(1, 50);
 				return true;
 			}
