@@ -59,6 +59,10 @@ public class ImEntity : FContainer {
 		return scs;
 	}
 	
+	public ImHealthComponent HealthComponent() {
+		return (ImHealthComponent)ComponentsForType(ComponentType.Health)[0];	
+	}
+	
 	#region Getters/Setters
 		
 	public bool isSelected {

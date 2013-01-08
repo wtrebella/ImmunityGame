@@ -4,16 +4,14 @@ using System.Collections.Generic;
 
 public class ImNode : ImEntity {
 	public NodePlacement nodePlacement = NodePlacement.None;
-
-	//private NodeType nodeType_ = NodeType.None;
 	
 	public ImNode(NodePlacement nodePlacement, string name = "a node") : base(name) {		
-		//nodeType_ = nodeType;
 		name = string.Format("node: a node at " + ImConfig.NameForNodePlacement(nodePlacement));
 		
 		this.nodePlacement = nodePlacement;
 		
 		AddComponent(new ImSpriteComponent("circleSpriteComponent", "circle.psd", 0f, 0.25f, new Color(0.5f, 0, 0, 1)));
+		AddComponent(new ImHealthComponent("healthComponent", 100));
 	}
 	
 	public ImOrgan CorrespondingOrganInOrganLayer(ImOrganLayer organLayer) {
@@ -24,8 +22,4 @@ public class ImNode : ImEntity {
 	public List<ImVein> CorrespondingVeinsInVeinLayer(ImVeinLayer veinLayer) {
 		return veinLayer.VeinsForNodePlacement(nodePlacement);
 	}
-	
-	/*public NodeType nodeType {
-		get {return nodeType_;}	
-	}*/
 }

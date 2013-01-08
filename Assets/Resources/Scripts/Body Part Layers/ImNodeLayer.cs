@@ -10,7 +10,7 @@ public class ImNodeLayer : ImAbstractEntityLayer {
 			node.x = pos.x;
 			node.y = pos.y;
 			
-			//node.nodeComponent.SignalHealthChanged += BodyPartHealthChanged;
+			node.HealthComponent().SignalHealthChanged += NodeHealthChanged;
 			entities.Add(node);
 			AddChild(node);
 		}
@@ -22,5 +22,10 @@ public class ImNodeLayer : ImAbstractEntityLayer {
 			if (node.nodePlacement == placement) return node;		
 		}
 		return null;
+	}
+	
+	public void NodeHealthChanged(ImAbstractComponent ac) {
+		ImNode node = (ImNode)ac.owner;
+		
 	}
 }
