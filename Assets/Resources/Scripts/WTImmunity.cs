@@ -9,7 +9,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	public ImNodeLayer nodeLayer;
 	public ImVeinLayer veinLayer;
 	
-	private ImBodyPart currentOrgan;
+	private ImOrgan currentOrgan;
 	private ImUILayer uiLayer;
 	private FContainer gameLayer;
 	private float zoomLevel_;
@@ -32,13 +32,16 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		FSprite sprite = new FSprite("body.png");
 		gameLayer.AddChild(sprite);
 		
-		organLayer = new ImOrganLayer(this);
+		organLayer = new ImOrganLayer();
+		organLayer.owner = this;
 		gameLayer.AddChild(organLayer);
 		
-		veinLayer = new ImVeinLayer(this);
+		veinLayer = new ImVeinLayer();
+		veinLayer.owner = this;
 		gameLayer.AddChild(veinLayer);
 		
-		nodeLayer = new ImNodeLayer(this);
+		nodeLayer = new ImNodeLayer();
+		nodeLayer.owner = this;
 		gameLayer.AddChild(nodeLayer);
 				
 		/*pop = new ImPopoverDialogue(100f, 300f, 4f, PopoverTriangleDirectionType.PointingRight);
@@ -105,16 +108,18 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	public bool HandleSingleTouchBegan(FTouch touch) {		
 		//pop.PlaceAtPosition(touch.position.x, touch.position.y);
 		
-		foreach (ImBodyPart node in nodeLayer.bodyParts) {
-			if (node.spriteComponent.SpriteContainsGlobalPoint(touch.position)) {
-				node.nodeComponent.health -= Random.Range(1, 50);
+		foreach (ImEntity entity in nodeLayer.entities) {
+			ImNode node = entity as ImNode;
+			if (node.ComponentsForType(ComponentType.Sprite)[0].SpriteContainsGlobalPoint(touch.position)) {
+				//node.nodeComponent.health -= Random.Range(1, 50);
 				return true;
 			}
 		}
 		
 		bool touchedOrgan = false;
-		foreach (ImBodyPart organ in organLayer.bodyParts) {
-			if (organ.spriteComponent.SpriteContainsGlobalPoint(touch.position)) {
+		foreach (ImEntity entity in organLayer.entities) {
+			ImOrgan organ = entity as ImOrgan;
+			if (organ.ComponentsForType(ComponentType.Sprite)[0].SpriteContainsGlobalPoint(touch.position)) {
 				touchedOrgan = true;
 				if (currentOrgan != null) {
 					if (currentOrgan == organ) break;

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ImVeinLayer : ImAbstractEntityLayer {
-	public ImVeinLayer(WTImmunity owner) : base(owner) {
+	public ImVeinLayer() {
 		Color veinColor = Color.black;
 		
 		entities.Add(new ImVein(new VeinEndpoints(NodePlacement.HandLeft, NodePlacement.ElbowLeft), veinColor));

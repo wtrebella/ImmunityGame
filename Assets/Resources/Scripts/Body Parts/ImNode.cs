@@ -16,18 +16,6 @@ public class ImNode : ImEntity {
 		AddComponent(new ImSpriteComponent("circle.psd", 0f, 0.25f, new Color(0.5f, 0, 0, 1)));
 	}
 	
-	override public string Description() {
-		string description = "";
-		
-		/*switch (nodeType_) {
-		case NodeType.NormalNode:
-			description = "Normal node";
-			break;
-		}*/
-		
-		return description;
-	}
-	
 	public ImOrgan CorrespondingOrganInOrganLayer(ImOrganLayer organLayer) {
 		OrganType organType = ImConfig.OrganTypeForNodePlacement(nodePlacement);
 		return organLayer.OrganForType(organType);

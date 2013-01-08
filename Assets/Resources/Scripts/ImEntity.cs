@@ -12,7 +12,7 @@ public class ImEntity : FContainer {
 	
 	protected bool isSelected_ = false;
 	
-	private ImEntity(string name = "an entity") {
+	public ImEntity(string name = "an entity") {
 		this.name = name;
 		components_ = new Dictionary<string, ImAbstractComponent>();
 		
@@ -22,7 +22,7 @@ public class ImEntity : FContainer {
 	
 	public void AddComponent(ImAbstractComponent component) {
 		components_.Add(component.name, component);
-		if (SignalComponentAdded) SignalComponentAdded(component);
+		if (SignalComponentAdded != null) SignalComponentAdded(component);
 	}
 	
 	public void HandleComponentAdded(ImAbstractComponent component) {
@@ -53,11 +53,13 @@ public class ImEntity : FContainer {
 		}
 	}
 	
-	#region Getters/Setters
-		
-	public BodyPartType bodyPartType {
-		get {return bodyPartType_;}	
+	public List<ImSpriteComponent> SpriteComponents() {
+		List<ImSpriteComponent> scs = new List<ImSpriteComponent>();
+		foreach (ImAbstractComponent comp in ComponentsForType(ComponentType.Sprite)) scs.Add((ImSpriteComponent)comp);
+		return scs;
 	}
+	
+	#region Getters/Setters
 		
 	public bool isSelected {
 		get {
@@ -66,10 +68,10 @@ public class ImEntity : FContainer {
 		set {
 			isSelected_ = value;
 			if (isSelected_) {
-				spriteComponent_.StartPulsatingSprite();
+				SpriteComponents()[0].StartPulsatingSprite();
 			}
 			else {
-				spriteComponent_.StopPulsatingSprite();
+				SpriteComponents()[0].StopPulsatingSprite();
 			}
 		}
 	}

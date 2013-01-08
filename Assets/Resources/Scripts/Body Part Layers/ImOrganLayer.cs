@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ImOrganLayer : ImAbstractEntityLayer {	
-	public ImOrganLayer(WTImmunity owner) : base(owner) {		
+	public ImOrganLayer() {		
 		ImOrgan heart = new ImOrgan(OrganType.Heart);
 		ImOrgan brain = new ImOrgan(OrganType.Brain);
 		ImOrgan liver = new ImOrgan(OrganType.Liver);

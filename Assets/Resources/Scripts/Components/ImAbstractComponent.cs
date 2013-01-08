@@ -19,10 +19,6 @@ public class ImAbstractComponent {
 		//health_ = maxHealth;
 	}
 	
-	virtual public string Description() {
-		return "I'm an abstract body part!";
-	}
-	
 	/*public float health {
 		get {return health_;}
 		set {

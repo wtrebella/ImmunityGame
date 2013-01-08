@@ -39,12 +39,4 @@ public class ImVein : ImEntity {
 		
 		return nodes;
 	}
-
-	override public string Description() {
-		string description = "";
-		
-		// add this in later
-		
-		return description;
-	}
 }

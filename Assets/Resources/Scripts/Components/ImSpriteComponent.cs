@@ -16,13 +16,6 @@ public class ImSpriteComponent : ImAbstractComponent {
 		sprite_ = new FSprite(imageName);
 		sprite_.rotation = defaultSpriteRotation_;
 		sprite_.scale = defaultSpriteScale_;
-	}
-	
-	public void InitSprite(ImAbstractBodyPartComponent component) {
-		if (component.owner.bodyPartType == BodyPartType.Vein) {
-			
-		}		
-		
 		sprite_.color = defaultSpriteColor_;
 		
 		spritePulsateTween_ = new TweenChain();
