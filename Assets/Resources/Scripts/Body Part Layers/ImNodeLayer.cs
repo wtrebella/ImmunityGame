@@ -5,15 +5,13 @@ using System.Collections.Generic;
 public class ImNodeLayer : ImAbstractEntityLayer {	
 	public ImNodeLayer(WTImmunity owner) : base(owner) {		
 		for (int i = 0; i < (int)(NodePlacement.MAX - 1); i++) {
-			ImNode node = new ImNode(0, 0.25f, new Color(0.5f, 0, 0, 1));
-			// still messed up
-			node.nodeComponent.nodePlacement = (NodePlacement)(i + 1);
-			Vector2 pos = PositionForNodePlacement(node.nodeComponent.nodePlacement);
+			ImNode node = new ImNode((NodePlacement)(i + 1));
+			Vector2 pos = ImConfig.PositionForNodePlacement(node.nodePlacement);
 			node.spriteComponent.PlaceSpriteAt(pos.x, pos.y);
 			
-			node.nodeComponent.SignalHealthChanged += BodyPartHealthChanged;
-			bodyParts.Add(node);
-			AddChild(node.spriteComponent.sprite);
+			//node.nodeComponent.SignalHealthChanged += BodyPartHealthChanged;
+			entities.Add(node);
+			AddChild(node);
 		}
 	}
 	

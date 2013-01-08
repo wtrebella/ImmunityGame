@@ -30,6 +30,17 @@ public class ImVeinLayer : ImAbstractEntityLayer {
 			ImVein vein = entity as ImVein;
 			vein.name = string.Format("vein; from " + ImConfig.NameForNodePlacement(vein.veinEndpoints.fromNodePlacement) + " to " + ImConfig.NameForNodePlacement(vein.veinEndpoints.toNodePlacement));
 			AddChild(vein);
+			
+			Vector2 fromNodePosition = ImConfig.PositionForNodePlacement(vein.veinEndpoints.fromNodePlacement);
+			Vector2 toNodePosition = ImConfig.PositionForNodePlacement(vein.veinEndpoints.toNodePlacement);
+			Vector2 lowerNodePosition = fromNodePosition.y <= toNodePosition.y ? fromNodePosition : toNodePosition;
+			Vector2 higherNodePosition = toNodePosition.y >= fromNodePosition.y ? toNodePosition : fromNodePosition;
+			
+			float sRotation = 90 + 360 - Mathf.Rad2Deg * Mathf.Atan((higherNodePosition.y - lowerNodePosition.y) / (higherNodePosition.x - lowerNodePosition.x));
+			if (Mathf.Sign(higherNodePosition.x - lowerNodePosition.x) == -1f) sRotation += 180f;
+			
+			vein.x = lowerNodePosition.x;
+			vein.y = lowerNodePosition.y;
 		}
 	}
 	

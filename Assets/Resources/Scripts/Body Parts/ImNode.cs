@@ -7,9 +7,12 @@ public class ImNode : ImEntity {
 
 	//private NodeType nodeType_ = NodeType.None;
 	
-	public ImNode(string name = "a node") : base(name) {		
+	public ImNode(NodePlacement nodePlacement, string name = "a node") : base(name) {		
 		//nodeType_ = nodeType;
-
+		name = string.Format("node: a node at " + ImConfig.NameForNodePlacement(nodePlacement));
+		
+		this.nodePlacement = nodePlacement;
+		
 		AddComponent(new ImSpriteComponent("circle.psd", 0f, 0.25f, new Color(0.5f, 0, 0, 1)));
 	}
 	

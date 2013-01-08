@@ -20,23 +20,7 @@ public class ImSpriteComponent : ImAbstractComponent {
 	
 	public void InitSprite(ImAbstractBodyPartComponent component) {
 		if (component.owner.bodyPartType == BodyPartType.Vein) {
-			imageName = "whiteSquare.png";
 			
-			sprite_ = new FSprite(imageName);
-			sprite_.anchorY = 0;
-			
-			Vector2 fromNodePosition = ImNodeLayer.PositionForNodePlacement(component.owner.veinComponent.veinEndpoints.fromNodePlacement);
-			Vector2 toNodePosition = ImNodeLayer.PositionForNodePlacement(component.owner.veinComponent.veinEndpoints.toNodePlacement);
-			Vector2 lowerNodePosition = fromNodePosition.y <= toNodePosition.y ? fromNodePosition : toNodePosition;
-			Vector2 higherNodePosition = toNodePosition.y >= fromNodePosition.y ? toNodePosition : fromNodePosition;
-			
-			sprite_.width = 5f;
-			sprite_.height = Mathf.Sqrt(Mathf.Pow(toNodePosition.y - fromNodePosition.y, 2) + Mathf.Pow(toNodePosition.x - fromNodePosition.x, 2));
-			float rotation = 90 + 360 - Mathf.Rad2Deg * Mathf.Atan((higherNodePosition.y - lowerNodePosition.y) / (higherNodePosition.x - lowerNodePosition.x));
-			if (Mathf.Sign(higherNodePosition.x - lowerNodePosition.x) == -1f) rotation += 180f;
-			sprite_.rotation = rotation;
-			sprite_.x = lowerNodePosition.x;
-			sprite_.y = lowerNodePosition.y;
 		}		
 		
 		sprite_.color = defaultSpriteColor_;
@@ -46,11 +30,6 @@ public class ImSpriteComponent : ImAbstractComponent {
 		spritePulsateTween_.append(new Tween(sprite_, 0.2f, new TweenConfig().floatProp("scale", defaultSpriteScale_ + 0.03f)));
 		spritePulsateTween_.append(new Tween(sprite_, 0.2f, new TweenConfig().floatProp("scale", defaultSpriteScale_)));
 		Go.addTween(spritePulsateTween_);
-	}
-	
-	public void PlaceSpriteAt(float x, float y) {
-		sprite_.x = x;
-		sprite_.y = y;
 	}
 	
 	public void StartPulsatingSprite() {
