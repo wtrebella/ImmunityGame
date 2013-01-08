@@ -1,61 +1,25 @@
 using UnityEngine;
 using System.Collections;
 
-public class ImSpriteComponent : ImAbstractComponent {
-	public string imageName;
-	
+public class ImSpriteComponent : ImAbstractComponent {	
 	private FSprite sprite_;
 	private float defaultSpriteRotation_ = 0.0f;
 	private float defaultSpriteScale_ = 1.0f;
 	private Color defaultSpriteColor_ = Color.white;
 	private TweenChain spritePulsateTween_;
 	
-	public ImSpriteComponent(float defaultSpriteRotation, float defaultSpriteScale, Color defaultSpriteColor) {
+	public ImSpriteComponent(string imageName, float defaultSpriteRotation, float defaultSpriteScale, Color defaultSpriteColor) {
 		defaultSpriteRotation_ = defaultSpriteRotation;
 		defaultSpriteScale_ = defaultSpriteScale;
 		defaultSpriteColor_ = defaultSpriteColor;
+	
+		sprite_ = new FSprite(imageName);
+		sprite_.rotation = defaultSpriteRotation_;
+		sprite_.scale = defaultSpriteScale_;
 	}
 	
 	public void InitSprite(ImAbstractBodyPartComponent component) {
-		if (component.owner.bodyPartType == BodyPartType.Organ) {
-			ImOrganComponent orgComponent = component as ImOrganComponent;
-			switch (orgComponent.organType) {
-			case OrganType.Brain:
-				imageName = "brain.png";
-				break;
-			case OrganType.Heart:
-				imageName = "heart.png";
-				break;
-			case OrganType.Intestines:
-				imageName = "intestines.png";
-				break;
-			case OrganType.Liver:
-				imageName = "liver.png";
-				break;
-			case OrganType.LungLeft:
-				imageName = "lungLeft.png";
-				break;
-			case OrganType.LungRight:
-				imageName = "lungRight.png";
-				break;
-			case OrganType.Stomach:
-				imageName = "stomach.png";
-				break;
-			default:
-				break;
-			}
-			
-			sprite_ = new FSprite(imageName);
-			sprite_.rotation = defaultSpriteRotation_;
-			sprite_.scale = defaultSpriteScale_;
-		}
-		else if (component.owner.bodyPartType == BodyPartType.Node) {
-			imageName = "circle.psd";
-			sprite_ = new FSprite(imageName);
-			sprite_.rotation = defaultSpriteRotation_;
-			sprite_.scale = defaultSpriteScale_;
-		}
-		else if (component.owner.bodyPartType == BodyPartType.Vein) {
+		if (component.owner.bodyPartType == BodyPartType.Vein) {
 			imageName = "whiteSquare.png";
 			
 			sprite_ = new FSprite(imageName);

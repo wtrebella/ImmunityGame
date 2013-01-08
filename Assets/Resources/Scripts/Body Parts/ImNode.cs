@@ -7,8 +7,10 @@ public class ImNode : ImEntity {
 
 	//private NodeType nodeType_ = NodeType.None;
 	
-	public ImNode(string name) : base(name) {		
+	public ImNode(string name = "a node") : base(name) {		
 		//nodeType_ = nodeType;
+
+		AddComponent(new ImSpriteComponent("circle.psd", 0f, 0.25f, new Color(0.5f, 0, 0, 1)));
 	}
 	
 	override public string Description() {

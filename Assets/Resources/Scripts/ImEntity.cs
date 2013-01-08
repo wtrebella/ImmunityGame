@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System;
 
 public class ImEntity : FContainer {	
+	public string name;
+	
 	private event Action<ImAbstractComponent> SignalComponentAdded;
 	private event Action<ImAbstractComponent> SignalComponentRemoved;
 	private Dictionary<string, ImAbstractComponent> components_;
-	private string name_;
 	
 	protected bool isSelected_ = false;
 	
-	private ImEntity(string name) {
-		name_ = name;
+	private ImEntity(string name = "an entity") {
+		this.name = name;
 		components_ = new Dictionary<string, ImAbstractComponent>();
 		
 		this.SignalComponentAdded += HandleComponentAdded;
@@ -36,12 +37,12 @@ public class ImEntity : FContainer {
 		if (component.componentType == ComponentType.Sprite) RemoveChild((component as ImSpriteComponent).sprite);
 	}
 	
-	public Dictionary<string, ImAbstractComponent> ComponentsForType(ComponentType type) {
-		Dictionary<string, ImAbstractComponent> dict = new Dictionary<string, ImAbstractComponent>();
+	public List<ImAbstractComponent> ComponentsForType(ComponentType type) {
+		List<ImAbstractComponent> comps = new List<ImAbstractComponent>();
 		foreach (string key in components_.Keys) {
-			if (components_[key].componentType == type) dict.Add(key, components_[key]);
+			if (components_[key].componentType == type) comps.Add(components_[key]);
 		}
-		return dict;
+		return comps;
 	}
 	
 	public ImAbstractComponent ComponentForName(string name) {
@@ -56,10 +57,6 @@ public class ImEntity : FContainer {
 		
 	public BodyPartType bodyPartType {
 		get {return bodyPartType_;}	
-	}
-	
-	public string name {
-		get {return name_;}	
 	}
 		
 	public bool isSelected {

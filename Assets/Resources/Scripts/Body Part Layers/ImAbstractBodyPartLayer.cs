@@ -2,16 +2,16 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ImAbstractBodyPartLayer : FContainer {
-	public List<ImBodyPart> bodyParts;
+public class ImAbstractEntityLayer : FContainer {
+	public List<ImEntity> entities;
 	public WTImmunity owner;
 	
-	public ImAbstractBodyPartLayer(WTImmunity owner) {
-		this.owner = owner;
-		bodyParts = new List<ImBodyPart>();
+	public ImAbstractEntityLayer(/*WTImmunity owner*/) {
+		//this.owner = owner;
+		entities = new List<ImEntity>();
 	}
 	
-	public void BodyPartHealthChanged(ImAbstractBodyPartComponent bodyPartComponent) {
+	/*public void BodyPartHealthChanged(ImAbstractBodyPartComponent bodyPartComponent) {
 		ImBodyPart bodyPart = bodyPartComponent.owner;
 		BodyPartType bodyPartType = bodyPart.bodyPartType;
 		
@@ -24,5 +24,5 @@ public class ImAbstractBodyPartLayer : FContainer {
 		Go.to(bodyPart.spriteComponent.sprite, deltaScale, new TweenConfig()
 			.floatProp("scale", newScale)
 			.setEaseType(EaseType.Linear));
-	}
+	}*/
 }

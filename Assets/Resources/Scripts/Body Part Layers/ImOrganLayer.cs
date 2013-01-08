@@ -2,43 +2,42 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ImOrganLayer : ImAbstractBodyPartLayer {	
+public class ImOrganLayer : ImAbstractEntityLayer {	
 	public ImOrganLayer(WTImmunity owner) : base(owner) {		
-		ImBodyPart heart = new ImBodyPart(OrganType.Heart, -20f, 1.0f, Color.red);
-		ImBodyPart brain = new ImBodyPart(OrganType.Brain, 0f, 1.0f, Color.magenta);
-		ImBodyPart liver = new ImBodyPart(OrganType.Liver, -20f, 1.0f, Color.cyan);
-		ImBodyPart lungLeft = new ImBodyPart(OrganType.LungLeft, 20f, 1.0f, Color.blue);
-		ImBodyPart lungRight = new ImBodyPart(OrganType.LungRight, -20f, 1.0f, Color.blue);
-		ImBodyPart stomach = new ImBodyPart(OrganType.Stomach, -30f, 1.0f, Color.yellow);
-		ImBodyPart intestines = new ImBodyPart(OrganType.Intestines, 0f, 1.0f, Color.green);
+		ImOrgan heart = new ImOrgan(OrganType.Heart);
+		ImOrgan brain = new ImOrgan(OrganType.Brain);
+		ImOrgan liver = new ImOrgan(OrganType.Liver);
+		ImOrgan lungLeft = new ImOrgan(OrganType.LungLeft);
+		ImOrgan lungRight = new ImOrgan(OrganType.LungRight);
+		ImOrgan stomach = new ImOrgan(OrganType.Stomach);
+		ImOrgan intestines = new ImOrgan(OrganType.Intestines);
 		
-		bodyParts.Add(heart);
-		bodyParts.Add(brain);
-		bodyParts.Add(liver);
-		bodyParts.Add(lungLeft);
-		bodyParts.Add(lungRight);
-		bodyParts.Add(stomach);
-		bodyParts.Add(intestines);
+		entities.Add(heart);
+		entities.Add(brain);
+		entities.Add(liver);
+		entities.Add(lungLeft);
+		entities.Add(lungRight);
+		entities.Add(stomach);
+		entities.Add(intestines);
+		
+		foreach (ImEntity entity in entities) AddChild(entity);
 		
 		float maxWidth = 35f * 1.3f;
 		float maxHeight = 302f * 1.3f;
 		
-		heart.spriteComponent.PlaceSpriteAt(0.086f * maxWidth, 0.474f * maxHeight);
-		brain.spriteComponent.PlaceSpriteAt(-0.286f * maxWidth, 1.0f * maxHeight);
-		liver.spriteComponent.PlaceSpriteAt(-0.371f * maxWidth, 0.331f * maxHeight);
-		lungLeft.spriteComponent.PlaceSpriteAt(-1.0f * maxWidth, 0.503f * maxHeight);
-		lungRight.spriteComponent.PlaceSpriteAt(0.943f * maxWidth, 0.52f * maxHeight);
-		stomach.spriteComponent.PlaceSpriteAt(0.429f * maxWidth, 0.242f * maxHeight);
-		intestines.spriteComponent.PlaceSpriteAt(-0.2f * maxWidth, 0.04f * maxHeight);
-
-		foreach (ImBodyPart organ in bodyParts) {
-			AddChild(organ.spriteComponent.sprite);
-		}
+		heart.ComponentsForType(ComponentType.Sprite)[0].PlaceSpriteAt(0.086f * maxWidth, 0.474f * maxHeight);
+		brain.ComponentsForType(ComponentType.Sprite)[0].PlaceSpriteAt(-0.286f * maxWidth, 1.0f * maxHeight);
+		liver.ComponentsForType(ComponentType.Sprite)[0].PlaceSpriteAt(-0.371f * maxWidth, 0.331f * maxHeight);
+		lungLeft.ComponentsForType(ComponentType.Sprite)[0].PlaceSpriteAt(-1.0f * maxWidth, 0.503f * maxHeight);
+		lungRight.ComponentsForType(ComponentType.Sprite)[0].PlaceSpriteAt(0.943f * maxWidth, 0.52f * maxHeight);
+		stomach.ComponentsForType(ComponentType.Sprite)[0].PlaceSpriteAt(0.429f * maxWidth, 0.242f * maxHeight);
+		intestines.ComponentsForType(ComponentType.Sprite)[0].PlaceSpriteAt(-0.2f * maxWidth, 0.04f * maxHeight);
 	}
 	
-	public ImBodyPart OrganForType(OrganType type) {
-		foreach (ImBodyPart organ in bodyParts) {
-			if (organ.organComponent.organType == type) return organ;		
+	public ImOrgan OrganForType(OrganType type) {
+		foreach (ImEntity entity in entities) {
+			ImOrgan organ = entity as ImOrgan;
+			if (organ.organType == type) return organ;		
 		}
 		return null;
 	}
