@@ -19,7 +19,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	private float MAX_GAMELAYER_SCROLL = Futile.screen.height;
 	private float MIN_GAMELAYER_SCROLL = 0;
 	
-	private ImPopoverDialogue pop;
+	//private ImPopoverDialogue pop;
 
 	public WTImmunity() : base("") {	
 		gameLayer = new FContainer();
@@ -41,8 +41,8 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		nodeLayer = new ImNodeLayer(this);
 		gameLayer.AddChild(nodeLayer);
 				
-		pop = new ImPopoverDialogue(100f, 300f, 4f, PopoverTriangleDirectionType.PointingRight);
-		AddChild(pop);
+		/*pop = new ImPopoverDialogue(100f, 300f, 4f, PopoverTriangleDirectionType.PointingRight);
+		AddChild(pop);*/
 		
 		/*uiLayer = new ImUILayer();
 		uiLayer.zoomInButton.SignalPress += OnPressedUIButton;
@@ -103,7 +103,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	}
 		
 	public bool HandleSingleTouchBegan(FTouch touch) {		
-		pop.PlaceAtPosition(touch.position.x, touch.position.y);
+		//pop.PlaceAtPosition(touch.position.x, touch.position.y);
 		
 		foreach (ImBodyPart node in nodeLayer.bodyParts) {
 			if (node.spriteComponent.SpriteContainsGlobalPoint(touch.position)) {

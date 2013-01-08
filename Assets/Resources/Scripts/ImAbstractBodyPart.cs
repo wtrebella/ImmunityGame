@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public enum BodyPartType {
 	None,
@@ -13,17 +14,24 @@ public enum BodyPartType {
 	Limb
 }
 
-public class ImBodyPart {
+public class ImAbstractBodyPart {
 	protected bool isSelected_ = false;
 	
+	private event Action<ImAbstractBodyPartComponent> SignalComponentAdded;
+	private event Action<ImAbstractBodyPartComponent> SignalComponentRemoved;
+	private Dictionary<string, ImAbstractBodyPartComponent> components_;
 	private BodyPartType bodyPartType_;
-	
 	private ImSpriteComponent spriteComponent_;
 	private ImOrganComponent organComponent_;
 	private ImNodeComponent nodeComponent_;
 	private ImVeinComponent veinComponent_;
-	
-	private ImBodyPart(OrganType organType, NodeType nodeType, VeinEndpoints veinEndpoints, float spriteRotation, float spriteScale, Color spriteColor) {
+
+	private ImAbstractBodyPart(OrganType organType, NodeType nodeType, VeinEndpoints veinEndpoints, float spriteRotation, float spriteScale, Color spriteColor) {
+		components_ = new Dictionary<string, ImAbstractBodyPartComponent>();
+		
+		this.SignalComponentAdded += HandleComponentAdded;
+		this.SignalComponentRemoved += HandleComponentRemoved;
+		
 		bodyPartType_ = BodyPartType.None;
 				
 		if (organType != OrganType.None) {
@@ -45,17 +53,24 @@ public class ImBodyPart {
 		spriteComponent_.InitSprite(BodyPartComponent());
 	}
 	
-	public ImBodyPart(OrganType organType, float spriteRotation, float spriteScale, Color spriteColor) : this(organType, NodeType.None, new VeinEndpoints(NodePlacement.None, NodePlacement.None), spriteRotation, spriteScale, spriteColor) {
+	public void AddComponent(ImAbstractBodyPartComponent component) {
+		components_.Add(component.name, component);
+		if (SignalComponentAdded) SignalComponentAdded(component);
+	}
+	
+	public void HandleComponentAdded(ImAbstractBodyPartComponent component) {
 		
 	}
 	
-	public ImBodyPart(NodeType nodeType, float spriteRotation, float spriteScale, Color spriteColor) : this(OrganType.None, nodeType, new VeinEndpoints(NodePlacement.None, NodePlacement.None), spriteRotation, spriteScale, spriteColor) {
+	public void HandleComponentRemoved(ImAbstractBodyPartComponent component) {
 		
 	}
 	
-	public ImBodyPart(VeinEndpoints veinEndpoints, Color spriteColor) : this(OrganType.None, NodeType.None, veinEndpoints, 0f, 1f, spriteColor) {
-		
+	public List<ImAbstractBodyPartComponent> ComponentsForType() {
+		// should this return a dictionary?
 	}
+
+	// add a ComponentForName thingy
 	
 	public ImAbstractBodyPartComponent BodyPartComponent() {
 		ImAbstractBodyPartComponent component = null;
@@ -69,12 +84,14 @@ public class ImBodyPart {
 	
 	#region Getters/Setters
 	
+	// fix/delete all these babies
+	
 	public BodyPartType bodyPartType {
 		get {return bodyPartType_;}	
 	}
 	
-	public ImOrganComponent organComponent {
-		get {return organComponent_;}	
+	public ImOrganComponent OrganComponent() {
+		return organComponent_;	
 	}
 	
 	public ImNodeComponent nodeComponent {
