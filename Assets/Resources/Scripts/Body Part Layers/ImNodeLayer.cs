@@ -26,6 +26,6 @@ public class ImNodeLayer : ImAbstractEntityLayer {
 	
 	public void NodeHealthChanged(ImAbstractComponent ac) {
 		ImNode node = (ImNode)ac.owner;
-		
+		node.SpriteComponents()[0].sprite.scale = node.HealthComponent().currentHealth / node.HealthComponent().maxHealth;
 	}
 }

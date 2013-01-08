@@ -9,6 +9,8 @@ public class ImHealthComponent : ImAbstractComponent {
 	private float maxHealth_;
 	
 	public ImHealthComponent(string name, float maxHealth) : base(name) {
+		componentType_ = ComponentType.Health;
+		
 		maxHealth_ = maxHealth;
 		currentHealth = maxHealth;
 	}
@@ -18,7 +20,7 @@ public class ImHealthComponent : ImAbstractComponent {
 		set {
 			float prevHealth = currentHealth_;
 			currentHealth_ = value;
-			if (health_ < 0) health_ = 0;
+			if (currentHealth_ < 0) currentHealth_ = 0;
 			if (currentHealth_ != prevHealth) {
 				if (SignalHealthChanged != null) SignalHealthChanged(this);
 			}
