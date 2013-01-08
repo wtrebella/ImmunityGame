@@ -8,7 +8,7 @@ public class ImSpriteComponent : ImAbstractComponent {
 	private Color defaultSpriteColor_ = Color.white;
 	private TweenChain spritePulsateTween_;
 	
-	public ImSpriteComponent(string imageName, float defaultSpriteRotation, float defaultSpriteScale, Color defaultSpriteColor) {
+	public ImSpriteComponent(string imageName, float defaultSpriteRotation, float defaultSpriteScale, Color defaultSpriteColor) : base("a sprite component") {
 		defaultSpriteRotation_ = defaultSpriteRotation;
 		defaultSpriteScale_ = defaultSpriteScale;
 		defaultSpriteColor_ = defaultSpriteColor;

@@ -110,7 +110,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		
 		foreach (ImEntity entity in nodeLayer.entities) {
 			ImNode node = entity as ImNode;
-			if (node.ComponentsForType(ComponentType.Sprite)[0].SpriteContainsGlobalPoint(touch.position)) {
+			if (node.SpriteComponents()[0].SpriteContainsGlobalPoint(touch.position)) {
 				//node.nodeComponent.health -= Random.Range(1, 50);
 				return true;
 			}
@@ -119,7 +119,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		bool touchedOrgan = false;
 		foreach (ImEntity entity in organLayer.entities) {
 			ImOrgan organ = entity as ImOrgan;
-			if (organ.ComponentsForType(ComponentType.Sprite)[0].SpriteContainsGlobalPoint(touch.position)) {
+			if (organ.SpriteComponents()[0].SpriteContainsGlobalPoint(touch.position)) {
 				touchedOrgan = true;
 				if (currentOrgan != null) {
 					if (currentOrgan == organ) break;
