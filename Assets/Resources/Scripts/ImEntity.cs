@@ -29,14 +29,14 @@ public class ImEntity : FContainer {
 		component.owner = this;
 		
 		if (component.componentType == ComponentType.Sprite) AddChild((component as ImSpriteComponent).sprite);
-		if (component.componentType == ComponentType.SliceSprite) AddChild((component as ImSliceSpriteComponent).sprite);
+		if (component.componentType == ComponentType.RadialWipe) AddChild((component as ImRadialWipeSpriteComponent).sprite);
 	}
 	
 	public void HandleComponentRemoved(ImAbstractComponent component) {
 		component.owner = null;
 		
 		if (component.componentType == ComponentType.Sprite) RemoveChild((component as ImSpriteComponent).sprite);
-		if (component.componentType == ComponentType.SliceSprite) RemoveChild((component as ImSliceSpriteComponent).sprite);
+		if (component.componentType == ComponentType.RadialWipe) RemoveChild((component as ImRadialWipeSpriteComponent).sprite);
 	}
 	
 	public List<ImAbstractComponent> ComponentsForType(ComponentType type) {
@@ -61,10 +61,10 @@ public class ImEntity : FContainer {
 		return scs;
 	}
 	
-	public List<ImSliceSpriteComponent> SliceSpriteComponents() {
-		List<ImSliceSpriteComponent> sscs = new List<ImSliceSpriteComponent>();
-		foreach (ImAbstractComponent comp in ComponentsForType(ComponentType.SliceSprite)) sscs.Add((ImSliceSpriteComponent)comp);
-		return sscs;
+	public List<ImRadialWipeSpriteComponent> RadialWipeSpriteComponents() {
+		List<ImRadialWipeSpriteComponent> rwscs = new List<ImRadialWipeSpriteComponent>();
+		foreach (ImAbstractComponent comp in ComponentsForType(ComponentType.RadialWipe)) rwscs.Add((ImRadialWipeSpriteComponent)comp);
+		return rwscs;
 	}
 	
 	public ImHealthComponent HealthComponent() {

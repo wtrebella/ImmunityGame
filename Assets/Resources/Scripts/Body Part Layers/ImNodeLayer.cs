@@ -26,6 +26,6 @@ public class ImNodeLayer : ImAbstractEntityLayer {
 	
 	public void NodeHealthChanged(ImAbstractComponent ac) {
 		ImNode node = (ImNode)ac.owner;
-		node.SliceSpriteComponents()[0].sprite.width = 15;//node.HealthComponent().currentHealth / node.HealthComponent().maxHealth;
+		node.RadialWipeSpriteComponents()[0].sprite.percentage = node.HealthComponent().currentHealth / node.HealthComponent().maxHealth;
 	}
 }

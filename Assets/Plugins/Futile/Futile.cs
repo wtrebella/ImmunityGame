@@ -45,11 +45,11 @@ public class Futile : MonoBehaviour
 	static private List<FStage> _stages;
 	static private bool _isDepthChangeNeeded = false;
 	
+	public delegate void FutileUpdateDelegate();
 	
-	public event Action SignalUpdate;
-	public event Action SignalLateUpdate;
-	
-	
+	public event FutileUpdateDelegate SignalUpdate;
+	public event FutileUpdateDelegate SignalFixedUpdate;
+	public event FutileUpdateDelegate SignalLateUpdate;
 	
 	
 	private GameObject _cameraHolder;
@@ -274,6 +274,11 @@ public class Futile : MonoBehaviour
 		
 		if(SignalLateUpdate != null) SignalLateUpdate();
 	}	
+	
+	private void FixedUpdate()
+	{
+		if(SignalFixedUpdate != null) SignalFixedUpdate();
+	}
 	
 	private void OnApplicationQuit()
 	{

@@ -9,8 +9,6 @@ public class FAtlasManager
 	
 	private List<FAtlas> _atlases = new List<FAtlas>();
 	
-	private List<FAtlasElement> _allElements = new List<FAtlasElement>();
-	
 	private Dictionary<string, FAtlasElement> _allElementsByName = new Dictionary<string, FAtlasElement>();
 	
 	private List<FFont> _fonts = new List<FFont>();
@@ -40,6 +38,15 @@ public class FAtlasManager
 		AddAtlas(atlas);
 	}
 	
+	public void LoadAtlasFromTexture (string name, string dataPath, Texture texture)
+	{
+		if(DoesContainAtlas(name)) return; //we already have it, don't load it again
+		
+		FAtlas atlas = new FAtlas(name, dataPath, texture, _nextAtlasIndex++);
+		
+		AddAtlas(atlas);
+	}
+	
 	public void ActuallyLoadAtlasOrImage(string name, string imagePath, string dataPath)
 	{
 		if(DoesContainAtlas(name)) return; //we already have it, don't load it again
@@ -59,15 +66,12 @@ public class FAtlasManager
 		{
 			FAtlasElement element = atlas.elements[e];
 			
-			element.indexInManager = _allElements.Count;
 			element.atlas = atlas;
 			element.atlasIndex = atlas.index;
 			
-			_allElements.Add(element);
-			
 			if(_allElementsByName.ContainsKey(element.name))
 			{
-				throw new Exception("Duplicate element name found! All element names must be unique!");	
+				throw new FutileException("Duplicate element name found! All element names must be unique!");	
 			}
 			else 
 			{
@@ -82,6 +86,23 @@ public class FAtlasManager
 	{
 		ActuallyLoadAtlasOrImage(atlasPath, atlasPath+Futile.resourceSuffix, atlasPath+Futile.resourceSuffix);
 	}
+	
+	public void LoadAtlas(string atlasPath, bool isSpecialPNG) //load a special image with the suffix "_image.bytes"
+	{
+		if(DoesContainAtlas(atlasPath)) return; //we already have it, don't load it again
+		
+		string filePath = atlasPath+Futile.resourceSuffix+"_png";
+		
+		TextAsset text = Resources.Load (filePath, typeof(TextAsset)) as TextAsset;
+		
+		Texture2D texture = new Texture2D(0,0,TextureFormat.ARGB32,false);
+		
+		texture.LoadImage(text.bytes);
+		
+		Resources.UnloadAsset(text);
+		
+		Futile.atlasManager.LoadAtlasFromTexture(atlasPath,atlasPath+Futile.resourceSuffix, texture);
+	}
 
 	public void LoadImage(string imagePath)
 	{
@@ -90,27 +111,34 @@ public class FAtlasManager
 	
 	public void ActuallyUnloadAtlasOrImage(string name)
 	{
+		bool wasAtlasRemoved = false;
+		
 		int atlasCount = _atlases.Count;
-		for(int a = 0; a<atlasCount; ++a)
+		
+		for(int a = atlasCount-1; a>=0; a--) //reverse order so deletions ain't no thang
 		{
 			FAtlas atlas = _atlases[a];
 			
 			if(atlas.name == name)
 			{
-				for(int e = _allElements.Count-1; e>=0; e--)
+				int elementCount = atlas.elements.Count;
+				
+				for(int e = 0; e<elementCount; e++)
 				{
-					FAtlasElement element = _allElements[e];
-					
-					if(element.atlas == atlas)
-					{
-						_allElements.RemoveAt(e);	
-						_allElementsByName.Remove(element.name);
-					}
+					_allElementsByName.Remove(atlas.elements[e].name);	
 				}
 				
 				atlas.Unload();
 				_atlases.RemoveAt(a);
+				
+				wasAtlasRemoved = true;
 			}
+		}
+		
+		if(wasAtlasRemoved)
+		{
+			Futile.stage.renderer.Clear();
+			Resources.UnloadUnusedAssets();
 		}
 	}
 	
@@ -131,23 +159,27 @@ public class FAtlasManager
 		{
 			return _allElementsByName[elementName];
 		}
-		throw new Exception("Couldn't find element named '"+elementName+"'");
+		throw new FutileException("Couldn't find element named '"+elementName+"'");
 	}
 	
 	public FFont GetFontWithName(string fontName)
 	{
+		if(!_fontsByName.ContainsKey(fontName))
+		{
+			throw new FutileException("Couldn't find font named '"+fontName+"'");
+		}
 		return _fontsByName[fontName];	
 	}
 
-	public void LoadFont (string name, string elementName, string configPath)
+	public void LoadFont (string name, string elementName, string configPath, float offsetX, float offsetY)
 	{
-		LoadFont (name,elementName,configPath,new FTextParams());
+		LoadFont (name,elementName,configPath, offsetX, offsetY, new FTextParams());
 	}
 	
-	public void LoadFont (string name, string elementName, string configPath, FTextParams fontTextParams)
+	public void LoadFont (string name, string elementName, string configPath, float offsetX, float offsetY, FTextParams textParams)
 	{
 		FAtlasElement element = GetElementWithName(elementName);
-		FFont font = new FFont(name,element,configPath, fontTextParams);
+		FFont font = new FFont(name,element,configPath, offsetX, offsetY, textParams);
 	
 		_fonts.Add(font);
 		_fontsByName.Add (name, font);

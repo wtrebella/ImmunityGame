@@ -9,7 +9,7 @@ public class ImNode : ImEntity {
 		name = string.Format("node: a node at " + ImConfig.NameForNodePlacement(nodePlacement));
 		
 		this.nodePlacement = nodePlacement;
-		ImSliceSpriteComponent ssc = new ImSliceSpriteComponent("circleSliceSpriteComponent", "circle.psd");
+		ImRadialWipeSpriteComponent ssc = new ImRadialWipeSpriteComponent("circleRadialWipeComponent", "circle.psd");
 		ssc.sprite.scale = 0.25f;
 		ssc.sprite.color = Color.red;
 		AddComponent(ssc);

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 //parts of this were inspired by https://github.com/prime31/UIToolkit/blob/master/Assets/Plugins/UIToolkit/UIElements/UIText.cs
 
+//how to interpret BMFont files: http://www.gamedev.net/topic/284560-bmfont-and-how-to-interpret-the-fnt-file/
+
 public class FCharInfo
 {
 	public int charID;
@@ -130,26 +132,31 @@ public class FFont
 	private string _configPath;
 	
 	private FCharInfo[] _charInfos;
-	private FCharInfo[] _charInfosByID; //chars with the index of array being the char id
+	private Dictionary<uint,FCharInfo> _charInfosByID; //chars with the index of array being the char id
 	private FKerningInfo[] _kerningInfos;
 	private int _kerningCount;
 	
 	private FKerningInfo _nullKerning = new FKerningInfo();
 	
 	private float _lineHeight;
-	private int _lineBase;
+	//private float _lineBase;
 	private int _configWidth;
 	//private int _configHeight;
 	private float _configRatio;
 	
-	private FTextParams _fontTextParams;
+	private FTextParams _textParams;
 	
-	public FFont (string name, FAtlasElement element, string configPath, FTextParams fontTextParams)
+	private float _offsetX;
+	private float _offsetY;
+	
+	public FFont (string name, FAtlasElement element, string configPath, float offsetX, float offsetY, FTextParams textParams)
 	{
 		_name = name;
 		_element = element;
 		_configPath = configPath;
-		_fontTextParams = fontTextParams;
+		_textParams = textParams;
+		_offsetX = offsetX;
+		_offsetY = offsetY;
 		
 		LoadAndParseConfigFile();
 	}
@@ -160,7 +167,7 @@ public class FFont
 		
 		if(asset == null)
 		{
-			throw new Exception("Couldn't find font config file " + _configPath);	
+			throw new FutileException("Couldn't find font config file " + _configPath);	
 		}
 		
 		string[] separators = new string[1]; 
@@ -182,14 +189,18 @@ public class FFont
 		
 		if(lines.Length <= 1) //WHAT
 		{
-			throw new Exception("Your font file is messed up");
+			throw new FutileException("Your font file is messed up");
 		}
 		
 		int wordCount = 0;
 		int c = 0;
 		int k = 0;
 		
-		_charInfosByID = new FCharInfo[255];
+		_charInfosByID = new Dictionary<uint, FCharInfo>(127);
+		
+		//insert an empty char to be used when a character isn't in the font data file
+		FCharInfo emptyChar = new FCharInfo();
+		_charInfosByID[0] = emptyChar;
 		
 		float resourceScale = Futile.resourceScale;
 		
@@ -197,14 +208,12 @@ public class FFont
 		
 		bool wasKerningFound = false;
 		
-		int lint = -1;
-		
 		int lineCount = lines.Length;
+		
 		for(int n = 0; n<lineCount; ++n)
 		{
 			string line = lines[n];
 			
-			lint++;
 			string [] words = line.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 			
 			/* we don't care about these, or else they could be in the elseif
@@ -227,7 +236,8 @@ public class FFont
 				//this is the ratio of the config vs the size of the actual texture element
 				_configRatio = _element.sourceSize.x/_configWidth;
 				
-				_lineHeight = int.Parse(words[1].Split('=')[1]) * _configRatio;		
+				_lineHeight = int.Parse(words[1].Split('=')[1]) * _configRatio;	
+				//_lineBase = int.Parse(words[2].Split('=')[1]) * _configRatio;	
 			}
 			else if(words[0] == "chars") //chars count=92
 			{
@@ -311,7 +321,7 @@ public class FFont
 				charInfo.uvBottomRight.Set(uvRect.xMax,uvRect.yMin);
 				charInfo.uvBottomLeft.Set(uvRect.xMin,uvRect.yMin);
 
-				_charInfosByID[charInfo.charID] = charInfo;
+				_charInfosByID[(uint)charInfo.charID] = charInfo;
 				_charInfos[c] = charInfo;
 				
 				c++;
@@ -387,6 +397,7 @@ public class FFont
 		
 		char[] letters = text.ToCharArray();
 		
+		//at some point these should probably be pooled and reused so we're not allocing new ones all the time
 		FLetterQuadLine[] lines = new FLetterQuadLine[10];
 		
 		int lettersLength = letters.Length;
@@ -436,6 +447,8 @@ public class FFont
 		float minY = 100000;
 		float maxY = -100000;
 		
+		float usableLineHeight = _lineHeight + textParams.scaledLineHeightOffset + _textParams.scaledLineHeightOffset;
+		
 		for(int c = 0; c<lettersLength; ++c)
 		{
 			char letter = letters[c];
@@ -450,7 +463,7 @@ public class FFont
 				maxY = -100000;
 				
 				nextX = 0;
-				nextY -= _lineHeight + textParams.scaledLineHeightOffset + _fontTextParams.scaledLineHeightOffset;
+				nextY -= usableLineHeight;
 				
 				lineCount++;
 				letterCount = 0;
@@ -471,24 +484,38 @@ public class FFont
 				//TODO: Reuse letterquads with pooling!
 				FLetterQuad letterQuad = new FLetterQuad();
 				
-				charInfo = _charInfosByID[letter];
+				if(_charInfosByID.ContainsKey(letter))
+				{
+					charInfo = _charInfosByID[letter];
+				}
+				else //we don't have that character in the font
+				{
+					//blank,  character (could consider using the "char not found square")
+					charInfo = _charInfosByID[0];
+				}
 				
-				float totalKern = foundKerning.amount + textParams.scaledKerningOffset + _fontTextParams.scaledKerningOffset;
+				float totalKern = foundKerning.amount + textParams.scaledKerningOffset + _textParams.scaledKerningOffset;
 
 				nextX += totalKern; 
 				
 				letterQuad.charInfo = charInfo;
-				//
+				
 				Rect quadRect = new Rect(nextX + charInfo.offsetX, nextY - charInfo.offsetY - charInfo.height, charInfo.width, charInfo.height);
 			
 				letterQuad.rect = quadRect;
 				
 				lines[lineCount].quads[letterCount] = letterQuad;	
 				
+				
+				
 				minX = Math.Min (minX, quadRect.xMin);
 				maxX = Math.Max (maxX, quadRect.xMax);
-				minY = Math.Min (minY, quadRect.yMin);
-				maxY = Math.Max (maxY, quadRect.yMax);
+				maxY = Math.Max (maxY, nextY);
+				
+				minY = Math.Min (minY, nextY - usableLineHeight);
+
+//				minY = Math.Min (minY, quadRect.yMin);
+//				maxY = Math.Max (maxY, quadRect.yMax);
 				
 				nextX += charInfo.xadvance;
 
@@ -497,6 +524,8 @@ public class FFont
 						
 			previousLetter = letter; 
 		}
+		
+		
 		
 		lines[lineCount].bounds = new Rect(minX,minY,maxX-minX,maxY-minY);
 		
@@ -511,6 +540,21 @@ public class FFont
 	public FAtlasElement element
 	{
 		get { return _element;}	
+	}
+	
+	public FTextParams textParams
+	{
+		get { return _textParams;}	
+	}
+	
+	public float offsetX
+	{
+		get { return _offsetX;}	
+	}
+	
+	public float offsetY
+	{
+		get { return _offsetY;}	
 	}
 
 //  Not gonna deal with this stuff unless it's actually needed

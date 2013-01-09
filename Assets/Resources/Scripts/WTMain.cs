@@ -25,7 +25,7 @@ public class WTMain : MonoBehaviour {
 		
 		Futile.atlasManager.LoadAtlas("Atlases/ExtrudersSheet");
 		Futile.atlasManager.LoadAtlas("Atlases/ImmunitySheet");
-		Futile.atlasManager.LoadFont("TwCen", "twCen.png", "Atlases/twCen");
+		Futile.atlasManager.LoadFont("TwCen", "twCen.png", "Atlases/twCen", 0, 0);
 		
 		Go.defaultEaseType = EaseType.SineInOut;
 		

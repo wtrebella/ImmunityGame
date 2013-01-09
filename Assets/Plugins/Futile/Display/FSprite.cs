@@ -22,7 +22,7 @@ public class FSprite : FFacetNode
 	
 	protected FSprite() : base() //for overriding
 	{
-		
+		_localVertices = new Vector2[4];
 	}
 	
 	public FSprite (string elementName) : this(Futile.atlasManager.GetElementWithName(elementName))
@@ -211,6 +211,13 @@ public class FSprite : FFacetNode
 				_areLocalVerticesDirty = true; 
 			}
 		}
+	}
+	
+	//for convenience
+	public void SetAnchor(float newX, float newY)
+	{
+		this.anchorX = newX;
+		this.anchorY = newY;
 	}
 }
 

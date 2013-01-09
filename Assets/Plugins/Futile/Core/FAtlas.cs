@@ -8,7 +8,6 @@ public class FAtlasElement
 	public string name;
 	
 	public int indexInAtlas;
-	public int indexInManager;
 
 	public FAtlas atlas;
 	public int atlasIndex;
@@ -31,7 +30,6 @@ public class FAtlasElement
 		element.name = name;
 		
 		element.indexInAtlas = indexInAtlas;
-		element.indexInManager = indexInManager;
 		
 		element.atlas = atlas;
 		element.atlasIndex = atlasIndex;
@@ -70,7 +68,7 @@ public class FAtlas
 	private bool _isTextureAnAsset = false;
 	
 	//TODO: allow users to pass a dictionary of pre-built atlas data if they want
-	public FAtlas (string name, Texture texture, int index)
+	public FAtlas (string name, Texture texture, int index) //single image
 	{
 		_name = name;
 		_imagePath = "";
@@ -81,6 +79,20 @@ public class FAtlas
 		_textureSize = new Vector2(_texture.width,_texture.height);
 		
 		CreateAtlasFromSingleImage();
+	}
+	
+	public FAtlas (string name, string dataPath, Texture texture, int index) //atlas with data path
+	{
+		_name = name;
+		_imagePath = "";
+		_dataPath = dataPath;
+		_index = index;
+		
+		_texture = texture;
+		_textureSize = new Vector2(_texture.width,_texture.height);
+		
+		_isSingleImage = false;
+		LoadAtlasData();
 	}
 	
 	public FAtlas (string name, string imagePath, string dataPath, int index, bool shouldLoadAsSingleImage)
@@ -109,9 +121,9 @@ public class FAtlas
 	{
 		_texture = (Texture) Resources.Load (_imagePath, typeof(Texture));
 		 
-		if(!_texture)
+		if(_texture == null)
 		{
-			Debug.Log ("Futile: Couldn't load the atlas texture from: " + _imagePath);	
+			throw new FutileException("Couldn't load the atlas texture from: " + _imagePath);	
 		}
 		
 		_isTextureAnAsset = true;
@@ -123,12 +135,17 @@ public class FAtlas
 	{
 		TextAsset dataAsset = (TextAsset) Resources.Load (_dataPath, typeof(TextAsset));
 		
-		if(!dataAsset)
+		if(dataAsset == null)
 		{
-			Debug.Log ("Futile: Couldn't load the atlas data from: " + _dataPath);
+			throw new FutileException("Couldn't load the atlas data from: " + _dataPath);
 		}
 		
 		Dictionary<string,object> dict = dataAsset.text.dictionaryFromJson();
+		
+		if(dict == null)
+		{
+			throw new FutileException("The atlas at " + _dataPath + " was not a proper JSON file. Make sure to select \"Unity3D\" in TexturePacker.");
+		}
 		
 		Dictionary<string,object> frames = (Dictionary<string,object>) dict["frames"];
 		
@@ -158,13 +175,19 @@ public class FAtlas
 			FAtlasElement element = new FAtlasElement();
 			 
 			element.indexInAtlas = index++;
-			element.name = (string) item.Key;
+			
+			string name = (string) item.Key;
+						
+//			int extensionPosition = name.LastIndexOf(".");
+//			if (extensionPosition >= 0) name = name.Substring(0, extensionPosition);
+
+			element.name = name;
 			
 			IDictionary itemDict = (IDictionary)item.Value;
 			
 			element.isTrimmed = (bool)itemDict["trimmed"];
 			
-			if((bool)itemDict["rotated"])
+			if((bool)itemDict["rotated"]) 
 			{
 				throw new NotSupportedException("Futile no longer supports TexturePacker's \"rotated\" flag. Please disable it when creating the "+_dataPath+" atlas.");
 			}
@@ -261,8 +284,6 @@ public class FAtlas
 		{
 			Resources.UnloadAsset(_texture);
 		}
-		
-		UnityEngine.Object.Destroy(_texture);
 	}
 	
 	public List<FAtlasElement> elements
