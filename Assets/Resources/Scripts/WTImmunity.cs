@@ -20,8 +20,11 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	private float MIN_GAMELAYER_SCROLL = 0;
 	
 	//private ImPopoverDialogue pop;
-
+	private ImNewPopoverDialogue pop;
+	
 	public WTImmunity() : base("") {	
+		Futile.AddStage(this);
+		
 		gameLayer = new FContainer();
 		gameLayer.x = Futile.screen.halfWidth;
 		gameLayer.y = Futile.screen.halfHeight;
@@ -44,8 +47,13 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		nodeLayer.owner = this;
 		gameLayer.AddChild(nodeLayer);
 				
-		/*pop = new ImPopoverDialogue(100f, 300f, 4f, PopoverTriangleDirectionType.PointingRight);
+		/*pop = new ImPopoverDialogue(100f, 100f, 4f, PopoverTriangleDirectionType.PointingRight);
 		AddChild(pop);*/
+		
+		pop = new ImNewPopoverDialogue("popover!");
+		pop.x = Futile.screen.halfWidth;
+		pop.y = Futile.screen.halfHeight;
+		AddChild(pop);
 		
 		/*uiLayer = new ImUILayer();
 		uiLayer.zoomInButton.SignalPress += OnPressedUIButton;
@@ -107,6 +115,8 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		
 	public bool HandleSingleTouchBegan(FTouch touch) {		
 		//pop.PlaceAtPosition(touch.position.x, touch.position.y);
+		pop.SliceSpriteComponents()[0].sprite.width = Random.Range(50, 500);
+		pop.SliceSpriteComponents()[0].sprite.height = Random.Range(50, 500);
 		
 		foreach (ImEntity entity in nodeLayer.entities) {
 			ImNode node = entity as ImNode;

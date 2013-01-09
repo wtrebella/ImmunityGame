@@ -29,14 +29,16 @@ public class ImEntity : FContainer {
 		component.owner = this;
 		
 		if (component.componentType == ComponentType.Sprite) AddChild((component as ImSpriteComponent).sprite);
-		if (component.componentType == ComponentType.RadialWipe) AddChild((component as ImRadialWipeSpriteComponent).sprite);
+		if (component.componentType == ComponentType.RadialWipeSprite) AddChild((component as ImRadialWipeSpriteComponent).sprite);
+		if (component.componentType == ComponentType.SliceSprite) AddChild((component as ImSliceSpriteComponent).sprite);
 	}
 	
 	public void HandleComponentRemoved(ImAbstractComponent component) {
 		component.owner = null;
 		
 		if (component.componentType == ComponentType.Sprite) RemoveChild((component as ImSpriteComponent).sprite);
-		if (component.componentType == ComponentType.RadialWipe) RemoveChild((component as ImRadialWipeSpriteComponent).sprite);
+		if (component.componentType == ComponentType.RadialWipeSprite) RemoveChild((component as ImRadialWipeSpriteComponent).sprite);
+		if (component.componentType == ComponentType.SliceSprite) RemoveChild((component as ImSliceSpriteComponent).sprite);
 	}
 	
 	public List<ImAbstractComponent> ComponentsForType(ComponentType type) {
@@ -63,11 +65,18 @@ public class ImEntity : FContainer {
 	
 	public List<ImRadialWipeSpriteComponent> RadialWipeSpriteComponents() {
 		List<ImRadialWipeSpriteComponent> rwscs = new List<ImRadialWipeSpriteComponent>();
-		foreach (ImAbstractComponent comp in ComponentsForType(ComponentType.RadialWipe)) rwscs.Add((ImRadialWipeSpriteComponent)comp);
+		foreach (ImAbstractComponent comp in ComponentsForType(ComponentType.RadialWipeSprite)) rwscs.Add((ImRadialWipeSpriteComponent)comp);
 		return rwscs;
 	}
 	
+	public List<ImSliceSpriteComponent> SliceSpriteComponents() {
+		List<ImSliceSpriteComponent> sscs = new List<ImSliceSpriteComponent>();
+		foreach (ImAbstractComponent comp in ComponentsForType(ComponentType.SliceSprite)) sscs.Add((ImSliceSpriteComponent)comp);
+		return sscs;
+	}
+	
 	public ImHealthComponent HealthComponent() {
+		if (ComponentsForType(ComponentType.Health).Count > 1) Debug.Log("there's more than one health component attached to this object; should there be?");
 		return (ImHealthComponent)ComponentsForType(ComponentType.Health)[0];	
 	}
 	

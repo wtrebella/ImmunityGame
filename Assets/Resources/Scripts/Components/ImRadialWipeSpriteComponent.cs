@@ -5,7 +5,7 @@ public class ImRadialWipeSpriteComponent : ImAbstractComponent {
 	private FRadialWipeSprite sprite_;
 	
 	public ImRadialWipeSpriteComponent(string name, string imageName) : base(name) {
-		componentType_ = ComponentType.RadialWipe;
+		componentType_ = ComponentType.RadialWipeSprite;
 	
 		sprite_ = new FRadialWipeSprite(imageName, true, 90, 1);
 	}
@@ -15,6 +15,6 @@ public class ImRadialWipeSpriteComponent : ImAbstractComponent {
 	}
 	
 	public FRadialWipeSprite sprite {
-		get {return sprite_;}	
+		get {return sprite_;}
 	}
 }

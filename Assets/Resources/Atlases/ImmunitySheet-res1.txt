@@ -82,7 +82,7 @@
 },
 "popoverTriangle.psd":
 {
-	"frame": {"x":256,"y":981,"w":25,"h":21},
+	"frame": {"x":288,"y":981,"w":25,"h":21},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":25,"h":21},
@@ -103,6 +103,14 @@
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":506,"h":272},
 	"sourceSize": {"w":512,"h":512}
+},
+"uiPopover.psd":
+{
+	"frame": {"x":256,"y":981,"w":22,"h":22},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":22},
+	"sourceSize": {"w":22,"h":22}
 }},
 "meta": {
 	"app": "http://www.texturepacker.com",
@@ -111,6 +119,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":1024},
 	"scale": "0.25",
-	"smartupdate": "$TexturePacker:SmartUpdate:cd5e99c5757391d42622b156392f1eb5$"
+	"smartupdate": "$TexturePacker:SmartUpdate:bec7a75565399041bd4c4672facfdd63$"
 }
 }

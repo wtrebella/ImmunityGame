@@ -23,7 +23,8 @@ public enum OrganType {
 public enum ComponentType {
 	None,
 	Sprite,
-	RadialWipe,
+	SliceSprite,
+	RadialWipeSprite,
 	Health
 }
 

@@ -66,7 +66,7 @@
 },
 "popoverEdgeCurved.psd":
 {
-	"frame": {"x":101,"y":1996,"w":25,"h":25},
+	"frame": {"x":155,"y":1993,"w":25,"h":25},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":2,"w":25,"h":25},
@@ -74,7 +74,7 @@
 },
 "popoverEdgeStraight.psd":
 {
-	"frame": {"x":66,"y":1996,"w":25,"h":25},
+	"frame": {"x":120,"y":1996,"w":25,"h":25},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":25,"h":25},
@@ -82,7 +82,7 @@
 },
 "popoverTriangle.psd":
 {
-	"frame": {"x":6,"y":1996,"w":50,"h":40},
+	"frame": {"x":60,"y":1996,"w":50,"h":40},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":40},
@@ -103,6 +103,14 @@
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":1010,"h":540},
 	"sourceSize": {"w":1024,"h":1024}
+},
+"uiPopover.psd":
+{
+	"frame": {"x":6,"y":1996,"w":44,"h":44},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":44,"h":44},
+	"sourceSize": {"w":44,"h":44}
 }},
 "meta": {
 	"app": "http://www.texturepacker.com",
@@ -111,6 +119,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":2048},
 	"scale": "0.5",
-	"smartupdate": "$TexturePacker:SmartUpdate:824adce7d8463a2ffca03d0a0c4559b9$"
+	"smartupdate": "$TexturePacker:SmartUpdate:48498be3bdf49e3f32b8702977005f83$"
 }
 }
