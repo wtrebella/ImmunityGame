@@ -25,6 +25,7 @@ public enum ComponentType {
 	Sprite,
 	SliceSprite,
 	RadialWipeSprite,
+	ScrollContainer,
 	Health
 }
 

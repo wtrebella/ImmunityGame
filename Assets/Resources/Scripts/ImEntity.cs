@@ -31,6 +31,7 @@ public class ImEntity : FContainer {
 		if (component.componentType == ComponentType.Sprite) AddChild((component as ImSpriteComponent).sprite);
 		if (component.componentType == ComponentType.RadialWipeSprite) AddChild((component as ImRadialWipeSpriteComponent).sprite);
 		if (component.componentType == ComponentType.SliceSprite) AddChild((component as ImSliceSpriteComponent).sprite);
+		if (component.componentType == ComponentType.ScrollContainer) AddChild((component as ImScrollContainerComponent).scrollContainer);
 	}
 	
 	public void HandleComponentRemoved(ImAbstractComponent component) {
@@ -39,6 +40,7 @@ public class ImEntity : FContainer {
 		if (component.componentType == ComponentType.Sprite) RemoveChild((component as ImSpriteComponent).sprite);
 		if (component.componentType == ComponentType.RadialWipeSprite) RemoveChild((component as ImRadialWipeSpriteComponent).sprite);
 		if (component.componentType == ComponentType.SliceSprite) RemoveChild((component as ImSliceSpriteComponent).sprite);
+		if (component.componentType == ComponentType.ScrollContainer) RemoveChild((component as ImScrollContainerComponent).scrollContainer);
 	}
 	
 	public List<ImAbstractComponent> ComponentsForType(ComponentType type) {
@@ -78,6 +80,11 @@ public class ImEntity : FContainer {
 	public ImHealthComponent HealthComponent() {
 		if (ComponentsForType(ComponentType.Health).Count > 1) Debug.Log("there's more than one health component attached to this object; should there be?");
 		return (ImHealthComponent)ComponentsForType(ComponentType.Health)[0];	
+	}
+	
+	public ImScrollContainerComponent ScrollContainerComponent() {
+		if (ComponentsForType(ComponentType.ScrollContainer).Count > 1) Debug.Log("there's more than one scroll component attached to this object; should there be?");
+		return (ImScrollContainerComponent)ComponentsForType(ComponentType.ScrollContainer)[0];	
 	}
 	
 	#region Getters/Setters
