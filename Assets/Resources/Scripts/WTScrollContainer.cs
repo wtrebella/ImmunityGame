@@ -89,6 +89,10 @@ public class WTScrollContainer : FContainer, FSingleTouchableInterface {
 			Vector2 deltaPoint = new Vector2(touch.position.x - lastTouchPoint_.x, touch.position.y - lastTouchPoint_.y);
 			lastTouchPoint_ = touch.position;
 			SetContentOffset(new Vector2(contentOffset_.x + deltaPoint.x, contentOffset_.y + deltaPoint.y), false);
+			
+			// for now, just clip stuff that's fully out of bounds; later need to figure out how to crop
+			
+			if (contentSize.Equals(Vector2.zero)) Debug.Log("content size is zero!");
 		}
 	}
 	
