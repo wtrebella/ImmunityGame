@@ -20,6 +20,12 @@ public enum OrganType {
 	Stomach
 }
 
+public enum ScrollType {
+	Horizontal,
+	Vertical,
+	Both
+}
+
 public enum ComponentType {
 	None,
 	Sprite,

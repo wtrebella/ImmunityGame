@@ -5,6 +5,8 @@ public class ImScrollContainerComponent : ImAbstractComponent, WTScrollContainer
 	private WTScrollContainer scrollContainer_;	
 	
 	public ImScrollContainerComponent(string name) : base(name) {
+		componentType_ = ComponentType.ScrollContainer;
+		
 		scrollContainer_ = new WTScrollContainer();
 		scrollContainer_.scrollContainerDelegate = this;
 	}

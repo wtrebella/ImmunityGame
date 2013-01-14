@@ -17,7 +17,8 @@ public interface WTScrollContainerInterface {
 public class WTScrollContainer : FContainer, FSingleTouchableInterface {
 	public WTScrollContainerInterface scrollContainerDelegate;
 	
-	public Vector2 contentOffset = Vector2.zero;
+	public ScrollType scrollType;
+	
 	public Vector2 contentSize = Vector2.zero;
 	public WTEdgeInsets contentInset = new WTEdgeInsets(0, 0, 0, 0);
 	
@@ -27,40 +28,39 @@ public class WTScrollContainer : FContainer, FSingleTouchableInterface {
 	public bool bounces = true;
 	public bool alwaysBounceVertical = true;
 	public bool alwaysBounceHorizontal = true;
-	public bool canCancelContentTouches = true;
 	public bool delaysContentTouches = true;
 	public float decelerationRate = 100f;
 	
 	private bool dragging_ = false;
 	private bool tracking_ = false;
 	private bool decelerating_ = false;
+	private Vector2 originalTouchPoint_;
+	private Vector2 lastTouchPoint_;
+	private Vector2 contentOffset_ = Vector2.zero;
 		
-	public WTScrollContainer() {
-		
+	public WTScrollContainer(ScrollType scrollType = ScrollType.Vertical) {
+		this.scrollType = scrollType;
 	}
 	
-	public void HandleAddedToStage() {
+	override public void HandleAddedToStage() {
+		base.HandleAddedToStage();
 		Futile.touchManager.AddSingleTouchTarget(this);
 	}
 	
-	public void HandleRemovedFromStage() {
+	override public void HandleRemovedFromStage() {
+		base.HandleRemovedFromStage();
 		Futile.touchManager.RemoveSingleTouchTarget(this);
 	}
 	
-	public void SetContentOffset(bool animated) {
-		
+	public void SetContentOffset(Vector2 contentOffset, bool animated) {
+		// for now, don't do animation
+		contentOffset_ = contentOffset;
+		if (scrollType == ScrollType.Both || scrollType == ScrollType.Horizontal) this.x = contentOffset_.x;
+		if (scrollType == ScrollType.Both || scrollType == ScrollType.Vertical) this.y = contentOffset_.y;
 	}
 	
 	public void ScrollRectToVisible(Rect rect, bool animated) {
 		
-	}
-	
-	public bool TouchesShouldBegin(List<FTouch> touches, FContainer contentContainer) {
-		return true;
-	}
-	
-	public bool TouchesShouldCancel(FContainer contentContainer) {
-		return true;
 	}
 	
 	public bool dragging {
@@ -76,14 +76,23 @@ public class WTScrollContainer : FContainer, FSingleTouchableInterface {
 	}
 	
 	public bool HandleSingleTouchBegan(FTouch touch) {
+		// for now, just do dragging, not tracking
+		
+		originalTouchPoint_ = touch.position;
+		lastTouchPoint_ = touch.position;
+		
 		return true;
 	}
 	
 	public void HandleSingleTouchMoved(FTouch touch) {
-		
+		if (!lastTouchPoint_.Equals(touch.position)) {
+			Vector2 deltaPoint = new Vector2(touch.position.x - lastTouchPoint_.x, touch.position.y - lastTouchPoint_.y);
+			lastTouchPoint_ = touch.position;
+			SetContentOffset(new Vector2(contentOffset_.x + deltaPoint.x, contentOffset_.y + deltaPoint.y), false);
+		}
 	}
 	
-	public void HandleSingleTouchMoved(FTouch touch) {
+	public void HandleSingleTouchEnded(FTouch touch) {
 		
 	}
 	
