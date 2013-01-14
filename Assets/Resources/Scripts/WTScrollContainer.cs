@@ -14,7 +14,7 @@ public interface WTScrollContainerInterface {
 	void ScrollContainerDidEndScrollingAnimation(WTScrollContainer scrollContainer);
 }
 
-public class WTScrollContainer : FContainer {
+public class WTScrollContainer : FContainer, FSingleTouchableInterface {
 	public WTScrollContainerInterface scrollContainerDelegate;
 	
 	public Vector2 contentOffset = Vector2.zero;
@@ -37,6 +37,14 @@ public class WTScrollContainer : FContainer {
 		
 	public WTScrollContainer() {
 		
+	}
+	
+	public void HandleAddedToStage() {
+		Futile.touchManager.AddSingleTouchTarget(this);
+	}
+	
+	public void HandleRemovedFromStage() {
+		Futile.touchManager.RemoveSingleTouchTarget(this);
 	}
 	
 	public void SetContentOffset(bool animated) {
@@ -67,6 +75,21 @@ public class WTScrollContainer : FContainer {
 		get {return decelerating_;}	
 	}
 	
+	public bool HandleSingleTouchBegan(FTouch touch) {
+		return true;
+	}
+	
+	public void HandleSingleTouchMoved(FTouch touch) {
+		
+	}
+	
+	public void HandleSingleTouchMoved(FTouch touch) {
+		
+	}
+	
+	public void HandleSingleTouchCanceled(FTouch touch) {
+		
+	}
 	
 	/*
 Managing the Scroll Indicator
