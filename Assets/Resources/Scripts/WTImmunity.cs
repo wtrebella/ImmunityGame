@@ -9,6 +9,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	public ImNodeLayer nodeLayer;
 	public ImVeinLayer veinLayer;
 	
+	private ImEntity currentEntityWithFocus;
 	private ImOrgan currentOrgan;
 	private ImUILayer uiLayer;
 	private FContainer gameLayer;
@@ -49,11 +50,11 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		/*pop = new ImPopoverDialogue(100f, 100f, 4f, PopoverTriangleDirectionType.PointingRight);
 		AddChild(pop);*/
 		
-		pop = new WTPopoverDialogue("popover!");
+		pop = new WTPopoverDialogue(false, "popover!");
 		pop.x = Futile.screen.halfWidth;
 		pop.y = Futile.screen.halfHeight;
 		pop.width = 200f;
-		pop.height = 350f;
+		pop.height = 100f;
 		AddChild(pop);
 		
 		/*WTScrollBar scrollBar = new WTScrollBar("scroll bar!");
@@ -121,6 +122,10 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		
 	public bool HandleSingleTouchBegan(FTouch touch) {		
 		//pop.PlaceAtPosition(touch.position.x, touch.position.y);
+		if (pop.HandleTouchBegan(touch)) {
+			currentEntityWithFocus = pop;
+			return true;
+		}
 		
 		foreach (ImEntity entity in nodeLayer.entities) {
 			ImNode node = entity as ImNode;
@@ -167,6 +172,8 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	}
 	
 	public void HandleSingleTouchMoved(FTouch touch) {
+		if (currentEntityWithFocus == pop) return;
+		
 		if (isZoomed_) {
 			float newY = gameLayer.y + touch.deltaPosition.y;
 			if (newY > MAX_GAMELAYER_SCROLL) newY = MAX_GAMELAYER_SCROLL;
@@ -176,10 +183,10 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	}
 	
 	public void HandleSingleTouchEnded(FTouch touch) {
-
+		currentEntityWithFocus = null;
 	}
 	
 	public void HandleSingleTouchCanceled(FTouch touch) {
-		
+		currentEntityWithFocus = null;
 	}
 }
