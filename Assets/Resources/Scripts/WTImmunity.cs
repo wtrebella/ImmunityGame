@@ -19,8 +19,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	private float MAX_GAMELAYER_SCROLL = Futile.screen.height;
 	private float MIN_GAMELAYER_SCROLL = 0;
 	
-	//private ImPopoverDialogue pop;
-	private ImPopoverDialogue pop;
+	private WTPopoverDialogue pop;
 	
 	public WTImmunity() : base("") {	
 		Futile.AddStage(this);
@@ -50,16 +49,17 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		/*pop = new ImPopoverDialogue(100f, 100f, 4f, PopoverTriangleDirectionType.PointingRight);
 		AddChild(pop);*/
 		
-		pop = new ImPopoverDialogue("popover!");
+		pop = new WTPopoverDialogue("popover!");
 		pop.x = Futile.screen.halfWidth;
 		pop.y = Futile.screen.halfHeight;
-		pop.SliceSpriteComponents()[0].sprite.width = 200f;
-		pop.SliceSpriteComponents()[0].sprite.height = 350f;
+		pop.width = 200f;
+		pop.height = 350f;
+		AddChild(pop);
 		
-		WTScrollBar scrollBar = new WTScrollBar("scroll bar!");
+		/*WTScrollBar scrollBar = new WTScrollBar("scroll bar!");
 		scrollBar.x = 400f;
 		scrollBar.y = Futile.screen.halfHeight - scrollBar.mainSpriteComponent.sprite.height / 2f;
-		AddChild(scrollBar);
+		AddChild(scrollBar);*/
 		
 		/*uiLayer = new ImUILayer();
 		uiLayer.zoomInButton.SignalPress += OnPressedUIButton;
