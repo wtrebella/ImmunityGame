@@ -2,7 +2,7 @@
 
 "body.png":
 {
-	"frame": {"x":6,"y":6,"w":684,"h":1735},
+	"frame": {"x":2,"y":2,"w":684,"h":1735},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":13,"y":27,"w":684,"h":1735},
@@ -10,7 +10,7 @@
 },
 "brain.png":
 {
-	"frame": {"x":471,"y":1931,"w":125,"h":111},
+	"frame": {"x":615,"y":1739,"w":125,"h":111},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":14,"y":9,"w":125,"h":111},
@@ -18,7 +18,7 @@
 },
 "circle.psd":
 {
-	"frame": {"x":471,"y":1751,"w":170,"h":170},
+	"frame": {"x":443,"y":1739,"w":170,"h":170},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":15,"y":15,"w":170,"h":170},
@@ -26,7 +26,7 @@
 },
 "heart.png":
 {
-	"frame": {"x":651,"y":1751,"w":101,"h":127},
+	"frame": {"x":564,"y":1911,"w":101,"h":127},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":3,"y":4,"w":101,"h":127},
@@ -34,7 +34,7 @@
 },
 "intestines.png":
 {
-	"frame": {"x":209,"y":1751,"w":252,"h":211},
+	"frame": {"x":189,"y":1739,"w":252,"h":211},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":2,"w":252,"h":211},
@@ -42,7 +42,7 @@
 },
 "liver.png":
 {
-	"frame": {"x":1799,"y":6,"w":208,"h":85},
+	"frame": {"x":354,"y":1952,"w":208,"h":85},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":2,"w":208,"h":85},
@@ -50,7 +50,7 @@
 },
 "lungLeft.png":
 {
-	"frame": {"x":6,"y":1751,"w":107,"h":235},
+	"frame": {"x":2,"y":1739,"w":107,"h":235},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":2,"w":107,"h":235},
@@ -58,7 +58,7 @@
 },
 "lungRight.png":
 {
-	"frame": {"x":123,"y":1751,"w":76,"h":232},
+	"frame": {"x":111,"y":1739,"w":76,"h":232},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":3,"y":1,"w":76,"h":232},
@@ -66,7 +66,7 @@
 },
 "popoverEdgeCurved.psd":
 {
-	"frame": {"x":155,"y":1993,"w":25,"h":25},
+	"frame": {"x":75,"y":2018,"w":25,"h":25},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":2,"w":25,"h":25},
@@ -74,7 +74,7 @@
 },
 "popoverEdgeStraight.psd":
 {
-	"frame": {"x":120,"y":1996,"w":25,"h":25},
+	"frame": {"x":48,"y":2018,"w":25,"h":25},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":25,"h":25},
@@ -82,15 +82,23 @@
 },
 "popoverTriangle.psd":
 {
-	"frame": {"x":60,"y":1996,"w":50,"h":40},
+	"frame": {"x":48,"y":1976,"w":50,"h":40},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":40},
 	"sourceSize": {"w":50,"h":50}
 },
+"scrollBar.psd":
+{
+	"frame": {"x":667,"y":1852,"w":25,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":25,"h":75},
+	"sourceSize": {"w":25,"h":75}
+},
 "stomach.png":
 {
-	"frame": {"x":606,"y":1931,"w":163,"h":92},
+	"frame": {"x":189,"y":1952,"w":163,"h":92},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":163,"h":92},
@@ -98,7 +106,7 @@
 },
 "twCen.png":
 {
-	"frame": {"x":779,"y":6,"w":1010,"h":540},
+	"frame": {"x":742,"y":2,"w":1010,"h":540},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":1010,"h":540},
@@ -106,7 +114,7 @@
 },
 "uiPopover.psd":
 {
-	"frame": {"x":6,"y":1996,"w":44,"h":44},
+	"frame": {"x":2,"y":1976,"w":44,"h":44},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":44,"h":44},
@@ -119,6 +127,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":2048},
 	"scale": "0.5",
-	"smartupdate": "$TexturePacker:SmartUpdate:48498be3bdf49e3f32b8702977005f83$"
+	"smartupdate": "$TexturePacker:SmartUpdate:0332b95292753a7af2bbe03c20f60290$"
 }
 }

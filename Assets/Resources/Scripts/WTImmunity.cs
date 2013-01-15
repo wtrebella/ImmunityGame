@@ -56,14 +56,10 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		pop.SliceSpriteComponents()[0].sprite.width = 200f;
 		pop.SliceSpriteComponents()[0].sprite.height = 350f;
 		
-		FSprite spriiite = new FSprite("whiteSquare.png");
-		spriiite.width = 50f;
-		spriiite.height = 50f;
-		spriiite.x = 10f;
-		spriiite.y = 10f;
-		spriiite.color = Color.red;
-		pop.ScrollContainerComponent().scrollContainer.AddChild(spriiite);
-		AddChild(pop);
+		WTScrollBar scrollBar = new WTScrollBar("scroll bar!");
+		scrollBar.x = 400f;
+		scrollBar.y = Futile.screen.halfHeight - scrollBar.mainSpriteComponent.sprite.height / 2f;
+		AddChild(scrollBar);
 		
 		/*uiLayer = new ImUILayer();
 		uiLayer.zoomInButton.SignalPress += OnPressedUIButton;
