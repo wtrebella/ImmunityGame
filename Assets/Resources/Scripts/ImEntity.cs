@@ -32,6 +32,7 @@ public class ImEntity : FContainer {
 		if (component.componentType == ComponentType.RadialWipeSprite) AddChild((component as ImRadialWipeSpriteComponent).sprite);
 		if (component.componentType == ComponentType.SliceSprite) AddChild((component as ImSliceSpriteComponent).sprite);
 		if (component.componentType == ComponentType.ScrollContainer) AddChild((component as ImScrollContainerComponent).scrollContainer);
+		if (component.componentType == ComponentType.ScrollBar) AddChild((component as ImScrollBarComponent).scrollBar);
 	}
 	
 	public void HandleComponentRemoved(ImAbstractComponent component) {
@@ -41,6 +42,7 @@ public class ImEntity : FContainer {
 		if (component.componentType == ComponentType.RadialWipeSprite) RemoveChild((component as ImRadialWipeSpriteComponent).sprite);
 		if (component.componentType == ComponentType.SliceSprite) RemoveChild((component as ImSliceSpriteComponent).sprite);
 		if (component.componentType == ComponentType.ScrollContainer) RemoveChild((component as ImScrollContainerComponent).scrollContainer);
+		if (component.componentType == ComponentType.ScrollBar) RemoveChild((component as ImScrollBarComponent).scrollBar);
 	}
 	
 	public List<ImAbstractComponent> ComponentsForType(ComponentType type) {
@@ -60,31 +62,48 @@ public class ImEntity : FContainer {
 	}
 	
 	public List<ImSpriteComponent> SpriteComponents() {
+		if (ComponentsForType(ComponentType.Sprite).Count == 0) return null;
+		
 		List<ImSpriteComponent> scs = new List<ImSpriteComponent>();
 		foreach (ImAbstractComponent comp in ComponentsForType(ComponentType.Sprite)) scs.Add((ImSpriteComponent)comp);
 		return scs;
 	}
 	
 	public List<ImRadialWipeSpriteComponent> RadialWipeSpriteComponents() {
+		if (ComponentsForType(ComponentType.RadialWipeSprite).Count == 0) return null;
+		
 		List<ImRadialWipeSpriteComponent> rwscs = new List<ImRadialWipeSpriteComponent>();
 		foreach (ImAbstractComponent comp in ComponentsForType(ComponentType.RadialWipeSprite)) rwscs.Add((ImRadialWipeSpriteComponent)comp);
 		return rwscs;
 	}
 	
 	public List<ImSliceSpriteComponent> SliceSpriteComponents() {
+		if (ComponentsForType(ComponentType.SliceSprite).Count == 0) return null;
+		
 		List<ImSliceSpriteComponent> sscs = new List<ImSliceSpriteComponent>();
 		foreach (ImAbstractComponent comp in ComponentsForType(ComponentType.SliceSprite)) sscs.Add((ImSliceSpriteComponent)comp);
 		return sscs;
 	}
 	
 	public ImHealthComponent HealthComponent() {
+		if (ComponentsForType(ComponentType.Health).Count == 0) return null;
+		
 		if (ComponentsForType(ComponentType.Health).Count > 1) Debug.Log("there's more than one health component attached to this object; should there be?");
 		return (ImHealthComponent)ComponentsForType(ComponentType.Health)[0];	
 	}
 	
 	public ImScrollContainerComponent ScrollContainerComponent() {
+		if (ComponentsForType(ComponentType.ScrollContainer).Count == 0) return null;
+		
 		if (ComponentsForType(ComponentType.ScrollContainer).Count > 1) Debug.Log("there's more than one scroll component attached to this object; should there be?");
 		return (ImScrollContainerComponent)ComponentsForType(ComponentType.ScrollContainer)[0];	
+	}
+	
+	public ImScrollBarComponent ScrollBarComponent() {
+		if (ComponentsForType(ComponentType.ScrollBar).Count == 0) return null;
+		
+		if (ComponentsForType(ComponentType.ScrollBar).Count > 1) Debug.Log("there's more than one scroll bar component attached to this object; should there be?");
+		return (ImScrollBarComponent)ComponentsForType(ComponentType.ScrollBar)[0];	
 	}
 	
 	#region Getters/Setters

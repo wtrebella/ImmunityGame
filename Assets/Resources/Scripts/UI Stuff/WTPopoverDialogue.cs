@@ -7,13 +7,16 @@ public class WTPopoverDialogue : ImEntity {
 	private float width_;
 	private float height_;
 	private float inset_ = 7.5f;
+	private ImSpriteComponent triangleSpriteComponent;
 	
 	public WTPopoverDialogue(bool withScrollBar, string name = "popover dialogue") : base(name) {
 		AddComponent(new ImSliceSpriteComponent("sliceSpriteComponent", "uiPopover.psd", 100, 100, inset_, inset_, inset_, inset_));
 		
+		triangleSpriteComponent = new ImSpriteComponent("triangleSpriteComponent", "popoverTriangle.psd");
+		AddComponent(triangleSpriteComponent);
+		
 		if (withScrollBar) {
-			scrollBar = new WTScrollBar("scroll bar!");
-			AddChild(scrollBar);
+			AddComponent(new ImScrollBarComponent("scrollBarComponent"));
 		}
 		
 		this.width = 100f;
@@ -27,7 +30,7 @@ public class WTPopoverDialogue : ImEntity {
 			if (width_ != value) {
 				width_ = value;
 				sprite.width = width_;
-				if (scrollBar != null) scrollBar.x = width_ / 2f - scrollBar.width - inset_ / 2f; // why're the insets divided by 2???
+				if (ScrollBarComponent() != null) ScrollBarComponent().scrollBar.x = width_ / 2f - ScrollBarComponent().scrollBar.width - inset_ / 2f; // why're the insets divided by 2???
 			}
 		}
 	}
@@ -39,9 +42,9 @@ public class WTPopoverDialogue : ImEntity {
 			if (height_ != value) {
 				height_ = value;
 				sprite.height = height_;
-				if (scrollBar != null) {
-					scrollBar.height = height_ - inset_;
-					scrollBar.y = -height_ / 2f + inset_ / 2f;
+				if (ScrollBarComponent() != null) {
+					ScrollBarComponent().scrollBar.height = height_ - inset_;
+					ScrollBarComponent().scrollBar.y = -height_ / 2f + inset_ / 2f;
 				}
 			}
 		}

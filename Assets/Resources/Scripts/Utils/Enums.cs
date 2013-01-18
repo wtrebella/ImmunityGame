@@ -1,3 +1,10 @@
+public enum SideType {
+	Top,
+	Right,
+	Bottom,
+	Left
+}
+
 public enum BodyPartType {
 	None,
 	Node,
@@ -30,6 +37,7 @@ public enum ComponentType {
 	None,
 	Sprite,
 	SliceSprite,
+	ScrollBar,
 	RadialWipeSprite,
 	ScrollContainer,
 	Health

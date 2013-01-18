@@ -74,7 +74,11 @@ public class ImOrgan : ImEntity {
 			break;
 		}
 		
-		AddComponent(new ImSpriteComponent("mainOrganSpriteComponent", imageName, defaultRotation, defaultScale, color));
+		ImSpriteComponent sc = new ImSpriteComponent("mainOrganSpriteComponent", imageName);
+		sc.sprite.color = color;
+		sc.defaultSpriteRotation = defaultRotation;
+		sc.defaultSpriteScale = defaultScale;
+		AddComponent(sc);
 	}
 	
 	public ImNode CorrespondingNodeInNodeLayer(ImNodeLayer nodeLayer) {

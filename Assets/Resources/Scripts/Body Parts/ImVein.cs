@@ -12,7 +12,8 @@ public class ImVein : ImEntity {
 	}
 	
 	public void InitSpriteComponent(Color color) {
-		ImSpriteComponent sc = new ImSpriteComponent("mainSpriteComponent", "whiteSquare.png", 0, 1, color);
+		ImSpriteComponent sc = new ImSpriteComponent("mainSpriteComponent", "whiteSquare.png");
+		sc.sprite.color = color;
 	
 		Vector2 fromNodePosition = ImConfig.PositionForNodePlacement(veinEndpoints.fromNodePlacement);
 		Vector2 toNodePosition = ImConfig.PositionForNodePlacement(veinEndpoints.toNodePlacement);
