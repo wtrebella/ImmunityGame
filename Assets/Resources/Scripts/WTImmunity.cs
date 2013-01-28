@@ -54,8 +54,25 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		pop.x = Futile.screen.halfWidth;
 		pop.y = Futile.screen.halfHeight;
 		pop.width = 200f;
-		pop.height = 100f;
+		pop.height = 300f;
 		AddChild(pop);
+		
+		int numRows = 20;
+		float leftX = pop.x - pop.width / 2f;
+		float topY = pop.y + pop.height / 2f;
+		float cellWidth = pop.width - pop.inset;
+		float cellHeight = (pop.height - pop.inset) / (float)numRows;
+		
+		for (int i = 0; i < numRows; i++) {
+			ImTableCell tc = new ImTableCell("tableCell", 8f, cellWidth, cellHeight, Color.white);
+			tc.x = leftX + pop.inset / 2f;
+			tc.y = topY - pop.inset / 2f - cellHeight * (i + 1);
+			tc.AddLeftLabel("TwCen", string.Format("The left label {0}!", i), Color.black, 0.2f);
+			tc.AddRightSprite("Futile_White", 1f);
+			Go.to(tc.rightSpriteComponent.sprite, 1f, new TweenConfig().setIterations(-1).setEaseType(EaseType.Linear).floatProp("rotation", 360, true));
+			tc.rightSpriteComponent.sprite.color = Color.magenta;
+			AddChild(tc);
+		}
 		
 		/*WTScrollBar scrollBar = new WTScrollBar("scroll bar!");
 		scrollBar.x = 400f;

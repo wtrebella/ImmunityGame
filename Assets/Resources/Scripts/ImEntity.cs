@@ -33,6 +33,7 @@ public class ImEntity : FContainer {
 		if (component.componentType == ComponentType.SliceSprite) AddChild((component as ImSliceSpriteComponent).sprite);
 		if (component.componentType == ComponentType.ScrollContainer) AddChild((component as ImScrollContainerComponent).scrollContainer);
 		if (component.componentType == ComponentType.ScrollBar) AddChild((component as ImScrollBarComponent).scrollBar);
+		if (component.componentType == ComponentType.Label) AddChild((component as ImLabelComponent).label);
 	}
 	
 	public void HandleComponentRemoved(ImAbstractComponent component) {
@@ -43,6 +44,7 @@ public class ImEntity : FContainer {
 		if (component.componentType == ComponentType.SliceSprite) RemoveChild((component as ImSliceSpriteComponent).sprite);
 		if (component.componentType == ComponentType.ScrollContainer) RemoveChild((component as ImScrollContainerComponent).scrollContainer);
 		if (component.componentType == ComponentType.ScrollBar) RemoveChild((component as ImScrollBarComponent).scrollBar);
+		if (component.componentType == ComponentType.Label) RemoveChild((component as ImLabelComponent).label);
 	}
 	
 	public List<ImAbstractComponent> ComponentsForType(ComponentType type) {
@@ -67,6 +69,14 @@ public class ImEntity : FContainer {
 		List<ImSpriteComponent> scs = new List<ImSpriteComponent>();
 		foreach (ImAbstractComponent comp in ComponentsForType(ComponentType.Sprite)) scs.Add((ImSpriteComponent)comp);
 		return scs;
+	}
+	
+	public List<ImLabelComponent> LabelComponents() {
+		if (ComponentsForType(ComponentType.Label).Count == 0) return null;
+		
+		List<ImLabelComponent> sls = new List<ImLabelComponent>();
+		foreach (ImAbstractComponent comp in ComponentsForType(ComponentType.Label)) sls.Add((ImLabelComponent)comp);
+		return sls;
 	}
 	
 	public List<ImRadialWipeSpriteComponent> RadialWipeSpriteComponents() {

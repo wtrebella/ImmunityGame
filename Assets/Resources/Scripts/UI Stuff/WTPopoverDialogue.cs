@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
+// i think i should make it so the anchor is the bottom left
+
 public class WTPopoverDialogue : ImEntity {
 	public WTScrollBar scrollBar;
 	
@@ -12,8 +14,8 @@ public class WTPopoverDialogue : ImEntity {
 	public WTPopoverDialogue(bool withScrollBar, string name = "popover dialogue") : base(name) {
 		AddComponent(new ImSliceSpriteComponent("sliceSpriteComponent", "uiPopover.psd", 100, 100, inset_, inset_, inset_, inset_));
 		
-		triangleSpriteComponent = new ImSpriteComponent("triangleSpriteComponent", "popoverTriangle.psd");
-		AddComponent(triangleSpriteComponent);
+		//triangleSpriteComponent = new ImSpriteComponent("triangleSpriteComponent", "popoverTriangle.psd");
+		//AddComponent(triangleSpriteComponent);
 		
 		if (withScrollBar) {
 			AddComponent(new ImScrollBarComponent("scrollBarComponent"));
@@ -57,6 +59,10 @@ public class WTPopoverDialogue : ImEntity {
 			return true;
 		}
 		return false;
+	}
+	
+	public float inset {
+		get {return inset_;}	
 	}
 	
 	/*public bool HandleTouchMoved(FTouch touch) {

@@ -7,7 +7,7 @@ public enum UIButtonType {
 	ZoomOut
 }
 
-public class ImUILayer : FContainer {
+public class ImUILayer : ImEntity {
 	public FButton zoomInButton;
 	public FButton zoomOutButton;
 	

@@ -34,7 +34,7 @@ public class WTScrollContainer : FContainer, FSingleTouchableInterface {
 	private bool dragging_ = false;
 	private bool tracking_ = false;
 	private bool decelerating_ = false;
-	private Vector2 originalTouchPoint_;
+	//private Vector2 originalTouchPoint_;
 	private Vector2 lastTouchPoint_;
 	private Vector2 contentOffset_ = Vector2.zero;
 		
@@ -78,7 +78,7 @@ public class WTScrollContainer : FContainer, FSingleTouchableInterface {
 	public bool HandleSingleTouchBegan(FTouch touch) {
 		// for now, just do dragging, not tracking
 		
-		originalTouchPoint_ = touch.position;
+		//originalTouchPoint_ = touch.position;
 		lastTouchPoint_ = touch.position;
 		
 		return true;

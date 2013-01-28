@@ -106,10 +106,10 @@
 },
 "twCen.png":
 {
-	"frame": {"x":1461,"y":2,"w":2018,"h":1080},
+	"frame": {"x":1461,"y":2,"w":2012,"h":1158},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":1,"y":1,"w":2018,"h":1080},
+	"spriteSourceSize": {"x":8,"y":9,"w":2012,"h":1158},
 	"sourceSize": {"w":2048,"h":2048}
 },
 "uiPopover.psd":
@@ -127,6 +127,6 @@
 	"format": "RGBA8888",
 	"size": {"w":4096,"h":4096},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:ef5ee246be602f13c88573345b843ab5$"
+	"smartupdate": "$TexturePacker:SmartUpdate:21fdb0f6a17048e952096e1452f3147e$"
 }
 }

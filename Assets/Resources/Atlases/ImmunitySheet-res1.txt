@@ -42,7 +42,7 @@
 },
 "liver.png":
 {
-	"frame": {"x":887,"y":2,"w":104,"h":43},
+	"frame": {"x":885,"y":2,"w":104,"h":43},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":1,"w":104,"h":43},
@@ -106,10 +106,10 @@
 },
 "twCen.png":
 {
-	"frame": {"x":379,"y":2,"w":506,"h":272},
+	"frame": {"x":379,"y":2,"w":504,"h":290},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":0,"w":506,"h":272},
+	"spriteSourceSize": {"x":1,"y":2,"w":504,"h":290},
 	"sourceSize": {"w":512,"h":512}
 },
 "uiPopover.psd":
@@ -127,6 +127,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":1024},
 	"scale": "0.25",
-	"smartupdate": "$TexturePacker:SmartUpdate:227051d884715cf1aeb785f722430ddf$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ef0d62233fb3209f6af0fbd9af73194d$"
 }
 }
