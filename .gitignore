@@ -118,48 +118,8 @@ Temp/CaseSensitiveTest
 
 *.asset
 
-Library/cache/00/00000000000000001000000000000000
-
-Library/cache/00/00000000000000003000000000000000
-
 *.mdb
 
 *.dll
 
-Library/ScriptAssemblies/CompilationCompleted.txt
-
-Library/FailedAssetImports.txt
-
-Library/BuildPlayer.prefs
-
-Library/AssetServerCacheV3
-
-Library/AssetImportState
-
-Library/AnnotationManager
-
-Library/ScriptMapper
-
-Library/assetDatabase3
-
-Library/cache/58/58cf301f9741a47e69de799ff086b5c7
-
-Library/previews/fe/feb3118e43aff4d0b936f9bb2a71879c
-
-Library/cache/00/00000000000000002000000000000000
-
-Library/cache/00/00000000000000004100000000000000
-
-Library/cache/00/00000000000000004000000000000000
-
-Library/cache/00/00000000000000005000000000000000
-
-Library/cache/00/00000000000000006000000000000000
-
-Library/cache/00/00000000000000007000000000000000
-
-Library/cache/00/00000000000000008000000000000000
-
-Library/guidmapper
-
-Library/expandedItems
+Library/*
