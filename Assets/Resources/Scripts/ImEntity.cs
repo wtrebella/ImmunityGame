@@ -25,6 +25,11 @@ public class ImEntity : FContainer {
 		if (SignalComponentAdded != null) SignalComponentAdded(component);
 	}
 	
+	public void RemoveComponent(ImAbstractComponent component) {
+		components_.Remove(component.name);
+		if (SignalComponentRemoved != null) SignalComponentRemoved(component);
+	}
+	
 	public void HandleComponentAdded(ImAbstractComponent component) {
 		component.owner = this;
 		

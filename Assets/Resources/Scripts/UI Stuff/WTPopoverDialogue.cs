@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 // i think i should make it so the anchor is the bottom left
 
 public class WTPopoverDialogue : ImEntity {
 	public WTScrollBar scrollBar;
+	public List<ImTableCell> tableCells;
 	
 	private float width_;
 	private float height_;
@@ -12,6 +14,8 @@ public class WTPopoverDialogue : ImEntity {
 	private ImSpriteComponent triangleSpriteComponent;
 	
 	public WTPopoverDialogue(bool withScrollBar, string name = "popover dialogue") : base(name) {
+		tableCells = new List<ImTableCell>();
+		
 		AddComponent(new ImSliceSpriteComponent("sliceSpriteComponent", "uiPopover.psd", 100, 100, inset_, inset_, inset_, inset_));
 		
 		//triangleSpriteComponent = new ImSpriteComponent("triangleSpriteComponent", "popoverTriangle.psd");
@@ -23,6 +27,31 @@ public class WTPopoverDialogue : ImEntity {
 		
 		this.width = 100f;
 		this.height = 100f;
+	}
+	
+	public void AddTableCell(string leftLabelString, string rightSpriteImageName) {
+		// later i should make it so padding and scale and stuff changes on size of popover
+		
+		ImTableCell tableCell = new ImTableCell("tableCell", 8f, 3f, width_ - inset_, Color.white);
+		tableCells.Add(tableCell);
+		tableCell.x = this.x - width_ / 2f + inset_ / 2f;
+		tableCell.AddLeftLabel("TwCen", leftLabelString, Color.black, 0.2f);
+		tableCell.AddRightSprite(rightSpriteImageName, 1f);
+		tableCell.rightSpriteComponent.sprite.color = Color.blue;
+		AddChild(tableCell);
+		
+		RearrangeCells();
+	}
+	
+	private void RearrangeCells() {
+		// i have to make it so it takes offset into account for which cells to show
+		
+		float yPositionSoFar = this.y + height_ / 2f - inset_ / 2f;
+		
+		foreach (ImTableCell tableCell in tableCells) {
+			yPositionSoFar -= tableCell.height;
+			tableCell.y = yPositionSoFar;
+		}
 	}
 	
 	public float width {
