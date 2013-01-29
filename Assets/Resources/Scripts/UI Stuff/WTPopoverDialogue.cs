@@ -34,7 +34,7 @@ public class WTPopoverDialogue : ImEntity {
 		
 		ImTableCell tableCell = new ImTableCell("tableCell", 8f, 3f, width_ - inset_, Color.white);
 		tableCells.Add(tableCell);
-		tableCell.x = this.x - width_ / 2f + inset_ / 2f;
+		tableCell.x = inset_ / 2f - width_ / 2f;
 		tableCell.AddLeftLabel("TwCen", leftLabelString, Color.black, 0.2f);
 		tableCell.AddRightSprite(rightSpriteImageName, 1f);
 		tableCell.rightSpriteComponent.sprite.color = Color.blue;
@@ -46,7 +46,7 @@ public class WTPopoverDialogue : ImEntity {
 	private void RearrangeCells() {
 		// i have to make it so it takes offset into account for which cells to show
 		
-		float yPositionSoFar = this.y + height_ / 2f - inset_ / 2f;
+		float yPositionSoFar = height_ / 2f - inset_ / 2f;
 		
 		foreach (ImTableCell tableCell in tableCells) {
 			yPositionSoFar -= tableCell.height;

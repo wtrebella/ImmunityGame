@@ -9,6 +9,7 @@ public class ImTableCell : ImEntity {
 	
 	public ImLabelComponent leftLabelComponent;
 	public ImSpriteComponent rightSpriteComponent;
+	public ImSpriteComponent bottomLineSpriteComponent;
 	
 	public ImTableCell(string name, float horizontalPadding, float verticalPadding, float width, Color backgroundColor) : base(name) {
 		horizontalPadding_ = horizontalPadding;
@@ -24,6 +25,14 @@ public class ImTableCell : ImEntity {
 			sc.sprite.anchorY = 0;
 			AddComponent(sc);
 		}
+		
+		bottomLineSpriteComponent = new ImSpriteComponent("bottomLineSpriteComponent", "Futile_White");
+		bottomLineSpriteComponent.sprite.width = width;
+		bottomLineSpriteComponent.sprite.height = 1f;
+		bottomLineSpriteComponent.sprite.color = Color.black;
+		bottomLineSpriteComponent.sprite.alpha = 0.2f;
+		bottomLineSpriteComponent.sprite.anchorX = 0;
+		AddComponent(bottomLineSpriteComponent);
 	}
 	
 	public void AddLeftLabel(string fontName, string labelString, Color labelColor, float labelScale) {
@@ -33,7 +42,7 @@ public class ImTableCell : ImEntity {
 		leftLabelComponent = lc;
 		AddComponent(lc);
 		
-		height_ = Mathf.Max(height_, lc.label.textRect.height + verticalPadding_ * 2);
+		height_ = Mathf.Max(height_, lc.label.textRect.height * lc.label.scaleY + verticalPadding_ * 2);
 		
 		lc.label.y = height_ / 2f;
 	}
