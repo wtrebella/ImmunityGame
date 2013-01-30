@@ -58,7 +58,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		
 		pop.AddTableCell("This is a table cell", "Futile_White");
 		pop.AddTableCell("This is a table cell", "Futile_White");
-		pop.AddTableCell("This is a table cell that is longer than usual", "Futile_White");
+		pop.AddTableCell("This is a table cell that is longer than usual the dog went to the market and bought a bone because he was fucking hungry as shit!", "Futile_White");
 		pop.AddTableCell("This is a table cell", "Futile_White");
 		//pop.AddTableCell("This is a table cell", "Futile_White");
 		//pop.AddTableCell("This is a table cell", "Futile_White");
