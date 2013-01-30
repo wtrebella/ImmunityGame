@@ -36,6 +36,30 @@ public class ImTableCell : ImEntity {
 	}
 	
 	public void AddLeftLabel(string fontName, string labelString, Color labelColor, float labelScale) {
+		int amountOfSplitsNeeded = labelString.Length / 30;
+		int currentIndexOfNewLine = 0;
+		
+		while (labelString.Length > currentIndexOfNewLine + 29) {
+			int indexOfLastSpaceBeforeSplit = -1;
+			
+			for (int i = currentIndexOfNewLine + 29; i >= 0; i--) {
+				//if (i >= labelString.Length) return;
+				
+				if (labelString[i] == ' ') {
+					indexOfLastSpaceBeforeSplit = i;
+					break;
+				}
+			}
+			
+			if (indexOfLastSpaceBeforeSplit == -1) {
+				Debug.Log("No space found!");
+				return;
+			}
+			
+			labelString[indexOfLastSpaceBeforeSplit] = '\n';
+			currentIndexOfNewLine = indexOfLastSpaceBeforeSplit + 1;
+		}
+					
 		ImLabelComponent lc = new ImLabelComponent("leftLabelComponent", fontName, labelString, labelColor, labelScale);
 		lc.label.anchorX = 0;
 		lc.label.x = horizontalPadding_;

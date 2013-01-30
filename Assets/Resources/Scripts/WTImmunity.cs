@@ -54,18 +54,16 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		pop.x = Futile.screen.halfWidth;
 		pop.y = Futile.screen.halfHeight;
 		pop.width = 200f;
-		pop.height = 300f;
 		AddChild(pop);
 		
 		pop.AddTableCell("This is a table cell", "Futile_White");
 		pop.AddTableCell("This is a table cell", "Futile_White");
-		pop.AddTableCell("This is a table cell\nthat is longer than\nusual", "Futile_White");
-		pop.AddTableCell("This is a table cell\ntable cell table cell\ntable cell", "Futile_White");
+		pop.AddTableCell("This is a table cell that is longer than usual", "Futile_White");
 		pop.AddTableCell("This is a table cell", "Futile_White");
-		pop.AddTableCell("This is a table cell", "Futile_White");
-		pop.AddTableCell("This is a table cell", "Futile_White");
-		pop.AddTableCell("This is a table cell", "Futile_White");
-		pop.AddTableCell("This is a table cell", "Futile_White");
+		//pop.AddTableCell("This is a table cell", "Futile_White");
+		//pop.AddTableCell("This is a table cell", "Futile_White");
+		//pop.AddTableCell("This is a table cell", "Futile_White");
+		//pop.AddTableCell("This is a table cell", "Futile_White");
 		
 		/*WTScrollBar scrollBar = new WTScrollBar("scroll bar!");
 		scrollBar.x = 400f;

@@ -16,7 +16,7 @@ public class WTPopoverDialogue : ImEntity {
 	public WTPopoverDialogue(bool withScrollBar, string name = "popover dialogue") : base(name) {
 		tableCells = new List<ImTableCell>();
 		
-		AddComponent(new ImSliceSpriteComponent("sliceSpriteComponent", "uiPopover.psd", 100, 100, inset_, inset_, inset_, inset_));
+		AddComponent(new ImSliceSpriteComponent("sliceSpriteComponent", "uiPopover.psd", 10, 10, inset_, inset_, inset_, inset_));
 		
 		//triangleSpriteComponent = new ImSpriteComponent("triangleSpriteComponent", "popoverTriangle.psd");
 		//AddComponent(triangleSpriteComponent);
@@ -25,8 +25,8 @@ public class WTPopoverDialogue : ImEntity {
 			AddComponent(new ImScrollBarComponent("scrollBarComponent"));
 		}
 		
-		this.width = 100f;
-		this.height = 100f;
+		//this.width = 100f;
+		//this.height = 100f;
 	}
 	
 	public void AddTableCell(string leftLabelString, string rightSpriteImageName) {
@@ -39,6 +39,12 @@ public class WTPopoverDialogue : ImEntity {
 		tableCell.AddRightSprite(rightSpriteImageName, 1f);
 		tableCell.rightSpriteComponent.sprite.color = Color.blue;
 		AddChild(tableCell);
+		
+		float totalHeight = inset_;
+		
+		foreach (ImTableCell cell in tableCells) totalHeight += cell.height;
+		
+		this.height = totalHeight;
 		
 		RearrangeCells();
 	}
