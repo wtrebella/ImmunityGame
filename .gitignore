@@ -123,3 +123,7 @@ Temp/*
 *.dll
 
 Library/*
+
+Assembly-CSharp.pidb
+
+*.pidb
