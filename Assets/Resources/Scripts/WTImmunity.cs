@@ -20,6 +20,8 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	private float MAX_GAMELAYER_SCROLL = Futile.screen.height;
 	private float MIN_GAMELAYER_SCROLL = 0;
 	
+	ImEntity testEntity = new ImEntity("testEntity");
+	
 	private WTPopoverDialogue pop;
 	
 	public WTImmunity() : base("") {	
@@ -56,10 +58,16 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		pop.width = 200f;
 		AddChild(pop);
 		
-		pop.AddTableCell("This is a table cell", "Futile_White");
-		pop.AddTableCell("This is a table cell", "Futile_White");
-		pop.AddTableCell("This is a table cell that is longer than usual the dog went to the market and bought a bone because he was fucking hungry as shit!", "Futile_White");
-		pop.AddTableCell("This is a table cell", "Futile_White");
+		testEntity.AddComponent(new ImSpriteComponent("spriteComponent", "Futile_White"));
+		testEntity.x = 50;
+		testEntity.y = 50;
+		testEntity.SpriteComponents()[0].sprite.color = Color.red;
+		AddChild(testEntity);
+		
+		pop.AddTableCell("This is a table cell", "Futile_White", testEntity, ActionOnEntityTest);
+		pop.AddTableCell("This is a table cell", "Futile_White", null, null);
+		pop.AddTableCell("This is a table cell that is longer than usual the dog went to the market and bought a bone because he was fucking hungry as shit!", "Futile_White", null, null);
+		pop.AddTableCell("This is a table cell", "Futile_White", null, null);
 		//pop.AddTableCell("This is a table cell", "Futile_White");
 		//pop.AddTableCell("This is a table cell", "Futile_White");
 		//pop.AddTableCell("This is a table cell", "Futile_White");
@@ -74,6 +82,10 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		uiLayer.zoomInButton.SignalPress += OnPressedUIButton;
 		uiLayer.zoomOutButton.SignalPress += OnPressedUIButton;
 		AddChild(uiLayer);*/
+	}
+	
+	public void ActionOnEntityTest(ImEntity entity) {
+		entity.SpriteComponents()[0].sprite.scale = 3;
 	}
 
 	override public void HandleAddedToStage() {
@@ -128,7 +140,10 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		isZoomed_ = !isZoomed_;
 	}
 		
-	public bool HandleSingleTouchBegan(FTouch touch) {		
+	public bool HandleSingleTouchBegan(FTouch touch) {
+		FSprite sprite = pop.tableCells[0].rightSpriteComponent.sprite;
+		if (sprite.localRect.Contains(sprite.GlobalToLocal(touch.position))) pop.tableCells[0].RunAction();
+		
 		//pop.PlaceAtPosition(touch.position.x, touch.position.y);
 		if (pop.HandleTouchBegan(touch)) {
 			currentEntityWithFocus = pop;

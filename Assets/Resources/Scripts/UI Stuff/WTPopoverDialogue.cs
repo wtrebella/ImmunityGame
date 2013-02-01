@@ -24,16 +24,13 @@ public class WTPopoverDialogue : ImEntity {
 		if (withScrollBar) {
 			AddComponent(new ImScrollBarComponent("scrollBarComponent"));
 		}
-		
-		//this.width = 100f;
-		//this.height = 100f;
 	}
 	
-	public void AddTableCell(string leftLabelString, string rightSpriteImageName) {
-		// later i should make it so padding and scale and stuff changes on size of popover
-		
+	public void AddTableCell(string leftLabelString, string rightSpriteImageName, ImEntity correspondingEntity, ActionOnEntity ActionForEntity) {	
 		ImTableCell tableCell = new ImTableCell("tableCell", 8f, 3f, width_ - inset_, Color.white);
 		tableCells.Add(tableCell);
+		tableCell.correspondingEntity = correspondingEntity;
+		tableCell.ActionToPerformOnCorrespondingEntity = ActionForEntity;
 		tableCell.x = inset_ / 2f - width_ / 2f;
 		tableCell.AddLeftLabel("TwCen", leftLabelString, Color.black, 0.2f);
 		tableCell.AddRightSprite(rightSpriteImageName, 1f);
@@ -49,9 +46,7 @@ public class WTPopoverDialogue : ImEntity {
 		RearrangeCells();
 	}
 	
-	private void RearrangeCells() {
-		// i have to make it so it takes offset into account for which cells to show
-		
+	private void RearrangeCells() {		
 		float yPositionSoFar = height_ / 2f - inset_ / 2f;
 		
 		foreach (ImTableCell tableCell in tableCells) {

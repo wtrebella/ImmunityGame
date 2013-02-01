@@ -7,6 +7,7 @@ public class ImTableCell : ImEntity {
 	float width_;
 	float height_ = 0;
 	
+	public ActionOnEntity ActionToPerformOnCorrespondingEntity;	
 	public ImEntity correspondingEntity;
 	
 	public ImLabelComponent leftLabelComponent;
@@ -76,7 +77,12 @@ public class ImTableCell : ImEntity {
 		
 		return new string(labelStringArray);
 	}
-		
+	
+	public void RunAction() {
+		if (ActionToPerformOnCorrespondingEntity != null) {
+			ActionToPerformOnCorrespondingEntity(correspondingEntity);
+		}
+	}
 	
 	public void AddRightSprite(string imageName, float spriteScale) {
 		ImSpriteComponent sc = new ImSpriteComponent("rightSpriteComponent", imageName);
