@@ -7,6 +7,8 @@ public class ImTableCell : ImEntity {
 	float width_;
 	float height_ = 0;
 	
+	public ImEntity correspondingEntity;
+	
 	public ImLabelComponent leftLabelComponent;
 	public ImSpriteComponent rightSpriteComponent;
 	public ImSpriteComponent bottomLineSpriteComponent;
