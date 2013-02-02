@@ -161,10 +161,8 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 				pop.width = 200f;
 				AddChild(pop);
 				
-				pop.AddTableCell("Lower health", "Futile_White", node, TestLowerHealth);
-				pop.AddTableCell("Raise health", "Futile_White", node, TestRaiseHealth);
-				pop.AddTableCell("Enlarge sprite", "Futile_White", node, TestEnlargeSprite);
-				pop.AddTableCell("Shrink sprite", "Futile_White", node, TestShrinkSprite);
+				pop.AddTableCell("Lower health", "Futile_White", node, TestLowerHealth, new ImHealthPill("healthPillBad", -15));
+				pop.AddTableCell("Raise health", "Futile_White", node, TestRaiseHealth, new ImHealthPill("healthPillGood", 15));
 				return true;
 			}
 		}

@@ -14,6 +14,7 @@ public class ImTableCell : ImEntity {
 	public ImSpriteComponent rightSpriteComponent;
 	public ImSpriteComponent bottomLineSpriteComponent;
 	
+	public ImHealthPill item;
 	private ImSpriteComponent backgroundSpriteComponent;
 	
 	public ImTableCell(string name, float horizontalPadding, float verticalPadding, float width, Color backgroundColor) : base(name) {
@@ -86,9 +87,11 @@ public class ImTableCell : ImEntity {
 	}
 	
 	public void RunAction() {
-		if (ActionToPerformOnCorrespondingEntity != null) {
+		/*if (ActionToPerformOnCorrespondingEntity != null) {
 			ActionToPerformOnCorrespondingEntity(correspondingEntity);
-		}
+		}*/
+		
+		item.PerformActionOnEntity(correspondingEntity);
 	}
 	
 	public void AddRightSprite(string imageName, float spriteScale) {
