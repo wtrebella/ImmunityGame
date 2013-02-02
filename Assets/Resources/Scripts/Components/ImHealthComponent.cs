@@ -21,6 +21,7 @@ public class ImHealthComponent : ImAbstractComponent {
 			float prevHealth = currentHealth_;
 			currentHealth_ = value;
 			if (currentHealth_ < 0) currentHealth_ = 0;
+			if (currentHealth_ > maxHealth_) currentHealth_ = maxHealth_;
 			if (currentHealth_ != prevHealth) {
 				if (SignalHealthChanged != null) SignalHealthChanged(this);
 			}
