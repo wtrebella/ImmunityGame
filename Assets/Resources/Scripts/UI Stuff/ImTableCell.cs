@@ -14,19 +14,20 @@ public class ImTableCell : ImEntity {
 	public ImSpriteComponent rightSpriteComponent;
 	public ImSpriteComponent bottomLineSpriteComponent;
 	
+	private ImSpriteComponent backgroundSpriteComponent;
+	
 	public ImTableCell(string name, float horizontalPadding, float verticalPadding, float width, Color backgroundColor) : base(name) {
 		horizontalPadding_ = horizontalPadding;
 		verticalPadding_ = verticalPadding;
 		width_ = width;
 		
 		if (backgroundColor.a > 0) {
-			ImSpriteComponent sc = new ImSpriteComponent("backgroundSpriteComponent", "Futile_White");
-			sc.sprite.color = backgroundColor;
-			sc.sprite.width = width_;
-			sc.sprite.height = height_;
-			sc.sprite.anchorX = 0;
-			sc.sprite.anchorY = 0;
-			AddComponent(sc);
+			backgroundSpriteComponent = new ImSpriteComponent("backgroundSpriteComponent", "Futile_White");
+			backgroundSpriteComponent.sprite.color = backgroundColor;
+			backgroundSpriteComponent.sprite.width = width_;
+			backgroundSpriteComponent.sprite.anchorX = 0;
+			backgroundSpriteComponent.sprite.anchorY = 0;
+			AddComponent(backgroundSpriteComponent);
 		}
 		
 		bottomLineSpriteComponent = new ImSpriteComponent("bottomLineSpriteComponent", "Futile_White");
@@ -47,9 +48,15 @@ public class ImTableCell : ImEntity {
 		leftLabelComponent = lc;
 		AddComponent(lc);
 		
-		height_ = Mathf.Max(height_, lc.label.textRect.height * lc.label.scaleY + verticalPadding_ * 2);
+		this.height = Mathf.Max(height_, lc.label.textRect.height * lc.label.scaleY + verticalPadding_ * 2);
 		
 		lc.label.y = height_ / 2f;
+	}
+	
+	public bool LocalRectContainsTouch(FTouch touch) {
+		Vector2 localPos = backgroundSpriteComponent.sprite.GlobalToLocal(touch.position);
+		if (backgroundSpriteComponent.sprite.localRect.Contains(localPos)) return true;
+		else return false;
 	}
 	
 	public string AddLineBreaksToString(string stringToBreak, int charsPerRow) {
@@ -91,7 +98,7 @@ public class ImTableCell : ImEntity {
 		rightSpriteComponent = sc;
 		AddComponent(sc);
 		
-		height_ = Mathf.Max(height_, sc.sprite.localRect.height + verticalPadding_ * 2);
+		this.height = Mathf.Max(height_, sc.sprite.localRect.height + verticalPadding_ * 2);
 		
 		sc.sprite.y = height_ / 2f;
 	}
@@ -102,6 +109,10 @@ public class ImTableCell : ImEntity {
 	
 	public float height {
 		get {return height_;}
+		set {
+			height_ = value;
+			backgroundSpriteComponent.sprite.height = height_;
+		}
 	}
 	
 	public float horizontalPadding {

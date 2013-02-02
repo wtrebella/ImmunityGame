@@ -86,6 +86,11 @@ public class WTPopoverDialogue : ImEntity {
 		FSliceSprite sprite = SliceSpriteComponents()[0].sprite;
 		Vector2 localPos = GlobalToLocal(touch.position);
 		if (sprite.localRect.Contains(localPos)) {
+			foreach (ImTableCell cell in tableCells) {
+				if (cell.LocalRectContainsTouch(touch)) {
+					cell.RunAction();
+				}
+			}
 			return true;
 		}
 		return false;

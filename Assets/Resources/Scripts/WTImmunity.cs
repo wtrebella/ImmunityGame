@@ -52,26 +52,16 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		/*pop = new ImPopoverDialogue(100f, 100f, 4f, PopoverTriangleDirectionType.PointingRight);
 		AddChild(pop);*/
 		
-		pop = new WTPopoverDialogue(false, "popover!");
+		/*pop = new WTPopoverDialogue(false, "popover!");
 		pop.x = Futile.screen.halfWidth;
 		pop.y = Futile.screen.halfHeight;
 		pop.width = 200f;
 		AddChild(pop);
 		
-		testEntity.AddComponent(new ImSpriteComponent("spriteComponent", "Futile_White"));
-		testEntity.x = 50;
-		testEntity.y = 50;
-		testEntity.SpriteComponents()[0].sprite.color = Color.red;
-		AddChild(testEntity);
-		
 		pop.AddTableCell("This is a table cell", "Futile_White", testEntity, ActionOnEntityTest);
 		pop.AddTableCell("This is a table cell", "Futile_White", null, null);
 		pop.AddTableCell("This is a table cell that is longer than usual the dog went to the market and bought a bone because he was fucking hungry as shit!", "Futile_White", null, null);
-		pop.AddTableCell("This is a table cell", "Futile_White", null, null);
-		//pop.AddTableCell("This is a table cell", "Futile_White");
-		//pop.AddTableCell("This is a table cell", "Futile_White");
-		//pop.AddTableCell("This is a table cell", "Futile_White");
-		//pop.AddTableCell("This is a table cell", "Futile_White");
+		pop.AddTableCell("This is a table cell", "Futile_White", null, null);*/
 		
 		/*WTScrollBar scrollBar = new WTScrollBar("scroll bar!");
 		scrollBar.x = 400f;
@@ -82,10 +72,6 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		uiLayer.zoomInButton.SignalPress += OnPressedUIButton;
 		uiLayer.zoomOutButton.SignalPress += OnPressedUIButton;
 		AddChild(uiLayer);*/
-	}
-	
-	public void ActionOnEntityTest(ImEntity entity) {
-		entity.SpriteComponents()[0].sprite.scale = 3;
 	}
 
 	override public void HandleAddedToStage() {
@@ -139,26 +125,51 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		
 		isZoomed_ = !isZoomed_;
 	}
+	
+	public void TestLowerHealth(ImEntity entity) {
+		if (entity.HealthComponent() != null) entity.HealthComponent().currentHealth -= 10f;
+	}
+	
+	public void TestRaiseHealth(ImEntity entity) {
+		if (entity.HealthComponent() != null) entity.HealthComponent().currentHealth += 10f;
+	}
+	
+	public void TestEnlargeSprite(ImEntity entity) {
+		entity.RadialWipeSpriteComponents()[0].sprite.scale *= 2f;
+	}
+	
+	public void TestShrinkSprite(ImEntity entity) {
+		entity.RadialWipeSpriteComponents()[0].sprite.scale /= 2f;
+	}
 		
 	public bool HandleSingleTouchBegan(FTouch touch) {
-		FSprite sprite = pop.tableCells[0].rightSpriteComponent.sprite;
-		if (sprite.localRect.Contains(sprite.GlobalToLocal(touch.position))) pop.tableCells[0].RunAction();
 		
-		//pop.PlaceAtPosition(touch.position.x, touch.position.y);
-		if (pop.HandleTouchBegan(touch)) {
-			currentEntityWithFocus = pop;
-			return true;
+		if (pop != null) {
+			if (pop.HandleTouchBegan(touch)) {
+				currentEntityWithFocus = pop;
+				return true;
+			}
 		}
 		
 		foreach (ImEntity entity in nodeLayer.entities) {
 			ImNode node = entity as ImNode;
 			if (node.RadialWipeSpriteComponents()[0].SpriteContainsGlobalPoint(touch.position)) {
-				node.HealthComponent().currentHealth -= Random.Range(1, 50);
+				//node.HealthComponent().currentHealth -= Random.Range(1, 50);
+				pop = new WTPopoverDialogue(false, "popover!");
+				pop.x = Futile.screen.halfWidth;
+				pop.y = Futile.screen.halfHeight;
+				pop.width = 200f;
+				AddChild(pop);
+				
+				pop.AddTableCell("Lower health", "Futile_White", node, TestLowerHealth);
+				pop.AddTableCell("Raise health", "Futile_White", node, TestRaiseHealth);
+				pop.AddTableCell("Enlarge sprite", "Futile_White", node, TestEnlargeSprite);
+				pop.AddTableCell("Shrink sprite", "Futile_White", node, TestShrinkSprite);
 				return true;
 			}
 		}
 		
-		bool touchedOrgan = false;
+		/*bool touchedOrgan = false;
 		foreach (ImEntity entity in organLayer.entities) {
 			ImOrgan organ = entity as ImOrgan;
 			if (organ.SpriteComponents()[0].SpriteContainsGlobalPoint(touch.position)) {
@@ -177,7 +188,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		if (!touchedOrgan && currentOrgan != null) {
 			currentOrgan.isSelected = false;
 			currentOrgan = null;
-		}
+		}*/
 		
 		if (doubleClickTimer_ <= DOUBLE_CLICK_MAX_WAIT) {
 			doubleClickTimer_ = 1000.0f;
