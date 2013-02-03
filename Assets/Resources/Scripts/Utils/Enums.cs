@@ -5,6 +5,12 @@ public enum SideType {
 	Left
 }
 
+public enum TableCellType {
+	Title,
+	Item,
+	Done
+}
+
 public enum BodyPartType {
 	None,
 	Node,

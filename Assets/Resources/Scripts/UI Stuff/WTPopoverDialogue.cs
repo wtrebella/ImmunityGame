@@ -11,6 +11,7 @@ public class WTPopoverDialogue : ImEntity {
 	public event Action<ImAbstractItem> SignalItemUsed;
 	public bool isShowing = false;
 	public ImEntity correspondingEntity;
+	public event Action<WTPopoverDialogue> SignalNeedsInventoryRefresh;
 
 	private float width_;
 	private float height_;
@@ -29,8 +30,8 @@ public class WTPopoverDialogue : ImEntity {
 		}
 	}
 	
-	public void AddTableCell(string leftLabelString, string rightSpriteImageName, ImAbstractItem item) {	
-		ImTableCell tableCell = new ImTableCell("tableCell", 8f, 3f, width_ - inset_, Color.white);
+	public void AddTableCell(string leftLabelString, string rightSpriteImageName, ImAbstractItem item, TableCellType type) {	
+		ImTableCell tableCell = new ImTableCell("tableCell", 8f, 3f, width_ - inset_, Color.white, type);
 		tableCells.Add(tableCell);
 		tableCell.x = inset_ / 2f - width_ / 2f;
 		tableCell.AddLeftLabel("TwCen", leftLabelString, Color.black, 0.2f);
@@ -43,8 +44,8 @@ public class WTPopoverDialogue : ImEntity {
 		ArrangeCells();
 	}
 	
-	public void AddTableCell(string centerLabelString) {	
-		ImTableCell tableCell = new ImTableCell("tableCell", 8f, 3f, width_ - inset_, Color.white);
+	public void AddTableCell(string centerLabelString, TableCellType type) {	
+		ImTableCell tableCell = new ImTableCell("tableCell", 8f, 3f, width_ - inset_, Color.white, type);
 		tableCells.Add(tableCell);
 		tableCell.x = inset_ / 2f - width_ / 2f;
 		tableCell.AddCenterLabel("TwCen", centerLabelString, Color.black, 0.2f);
@@ -58,8 +59,7 @@ public class WTPopoverDialogue : ImEntity {
 		isShowing = true;
 		this.isVisible = true;
 		this.correspondingEntity = correspondingEntity;
-		foreach (ImAbstractItem item in inventory) AddTableCell(item.Description(), "Futile_White", item);
-		AddTableCell("Done");
+		if (SignalNeedsInventoryRefresh != null) SignalNeedsInventoryRefresh(this);
 	}
 	
 	public void Dismiss() {
@@ -75,6 +75,7 @@ public class WTPopoverDialogue : ImEntity {
 	public void RemoveTableCell(ImTableCell tableCell) {
 		tableCells.Remove(tableCell);
 		RemoveChild(tableCell);
+		if (SignalNeedsInventoryRefresh != null) SignalNeedsInventoryRefresh(this);
 		RefreshHeight();
 		ArrangeCells();
 	}
@@ -88,6 +89,17 @@ public class WTPopoverDialogue : ImEntity {
 	}
 	
 	private void ArrangeCells() {		
+		ImTableCell doneCell = null;
+		
+		foreach (ImTableCell cell in tableCells) {
+			if (cell.tableCellType == TableCellType.Done) doneCell = cell;	
+		}
+		
+		if (doneCell != null) {
+			tableCells.Remove(doneCell);
+			tableCells.Add(doneCell);
+		}
+		
 		float yPositionSoFar = height_ / 2f - inset_ / 2f;
 		
 		foreach (ImTableCell tableCell in tableCells) {
@@ -131,7 +143,7 @@ public class WTPopoverDialogue : ImEntity {
 					if (SignalItemUsed != null) SignalItemUsed(cell.item);
 					RemoveTableCell(cell);
 				}
-				else Dismiss();
+				else if (cell.tableCellType == TableCellType.Done) Dismiss();
 				return true;
 			}
 		}

@@ -12,6 +12,10 @@ public class ImAbstractItem : ImEntity {
 		
 	}
 	
+	virtual public bool CanBeUsedOnEntity(ImEntity targetEntity) {
+		return true;
+	}
+	
 	virtual public string Description() {
 		return "Abstract description";
 	}

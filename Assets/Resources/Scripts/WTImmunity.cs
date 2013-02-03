@@ -20,9 +20,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	private const float DOUBLE_CLICK_MAX_WAIT = 0.4f;
 	private float MAX_GAMELAYER_SCROLL = Futile.screen.height;
 	private float MIN_GAMELAYER_SCROLL = 0;
-	
-	ImEntity testEntity = new ImEntity("testEntity");
-	
+		
 	private WTPopoverDialogue pop;
 	
 	public WTImmunity() : base("") {	
@@ -63,6 +61,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		AddChild(pop);*/
 		
 		pop = new WTPopoverDialogue(false, "popover!");
+		pop.SignalNeedsInventoryRefresh += HandlePopoverNeedsInventoryRefresh;
 		pop.SignalItemUsed += HandleItemUsed;
 		pop.x = Futile.screen.halfWidth;
 		pop.y = Futile.screen.halfHeight;
@@ -89,6 +88,29 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		base.HandleRemovedFromStage();
 		Futile.touchManager.RemoveSingleTouchTarget(this);
 		Futile.instance.SignalUpdate -= HandleUpdate;
+	}
+	
+	public void HandlePopoverNeedsInventoryRefresh(WTPopoverDialogue popover) {
+		ImNode node = (ImNode)popover.correspondingEntity;
+		bool hasTitle = false;
+		bool hasDone = false;
+		foreach (ImTableCell cell in popover.tableCells) {
+			if (cell.tableCellType == TableCellType.Done) hasDone = true;
+			if (cell.tableCellType == TableCellType.Title) hasTitle = true;
+		}
+		
+		if (!hasTitle) popover.AddTableCell(ImConfig.NameForNodePlacement(node.nodePlacement), TableCellType.Title);
+		
+		foreach (ImAbstractItem item in inventory) {
+			ImTableCell cellWithItem = null;
+			foreach (ImTableCell itemCell in popover.tableCells) {
+				if (itemCell.item == item) cellWithItem = itemCell;
+			}
+			if (cellWithItem == null && item.CanBeUsedOnEntity(popover.correspondingEntity)) popover.AddTableCell(item.Description(), "Futile_White", item, TableCellType.Item);
+			if (cellWithItem != null && !item.CanBeUsedOnEntity(popover.correspondingEntity)) popover.RemoveTableCell(cellWithItem);
+		}
+		
+		if (!hasDone) popover.AddTableCell("Done", TableCellType.Done);
 	}
 	
 	public void HandleItemUsed(ImAbstractItem item) {
@@ -152,13 +174,6 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	}
 		
 	public bool HandleSingleTouchBegan(FTouch touch) {
-		
-		if (pop != null) {
-			if (pop.HandleTouchBegan(touch)) {
-				currentEntityWithFocus = pop;
-			}
-		}
-		
 		ImNode touchedNode = null;
 		
 		foreach (ImEntity entity in nodeLayer.entities) {
@@ -171,27 +186,12 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		
 		if (touchedNode != null && !pop.isShowing) pop.Show(inventory, touchedNode);
 		
-		/*bool touchedOrgan = false;
-		foreach (ImEntity entity in organLayer.entities) {
-			ImOrgan organ = entity as ImOrgan;
-			if (organ.SpriteComponents()[0].SpriteContainsGlobalPoint(touch.position)) {
-				touchedOrgan = true;
-				if (currentOrgan != null) {
-					if (currentOrgan == organ) break;
-					currentOrgan.isSelected = false;
-					currentOrgan = null;
-				}
-				currentOrgan = organ;
-				currentOrgan.isSelected = true;
-				return true;
+		if (pop != null) {
+			if (pop.HandleTouchBegan(touch)) {
+				currentEntityWithFocus = pop;
 			}
 		}
-		
-		if (!touchedOrgan && currentOrgan != null) {
-			currentOrgan.isSelected = false;
-			currentOrgan = null;
-		}*/
-		
+
 		if (doubleClickTimer_ <= DOUBLE_CLICK_MAX_WAIT) {
 			doubleClickTimer_ = 1000.0f;
 			

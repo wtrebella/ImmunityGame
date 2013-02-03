@@ -13,6 +13,10 @@ public class ImHealthPill : ImAbstractItem {
 		entity.HealthComponent().currentHealth += healthRefill_;	
 	}
 	
+	override public bool CanBeUsedOnEntity(ImEntity targetEntity) {
+		return targetEntity.HealthComponent() != null && targetEntity.HealthComponent().currentHealth < targetEntity.HealthComponent().maxHealth;
+	}
+	
 	override public string Description() {
 		return string.Format("{0}: +{1}", name, healthRefill_);	
 	}

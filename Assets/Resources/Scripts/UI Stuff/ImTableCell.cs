@@ -7,6 +7,7 @@ public class ImTableCell : ImEntity {
 	float width_;
 	float height_ = 0;
 		
+	public TableCellType tableCellType;
 	public ImLabelComponent leftLabelComponent;
 	public ImSpriteComponent rightSpriteComponent;
 	public ImLabelComponent centerLabelComponent;
@@ -15,7 +16,8 @@ public class ImTableCell : ImEntity {
 	public ImAbstractItem item;
 	private ImSpriteComponent backgroundSpriteComponent;
 	
-	public ImTableCell(string name, float horizontalPadding, float verticalPadding, float width, Color backgroundColor) : base(name) {
+	public ImTableCell(string name, float horizontalPadding, float verticalPadding, float width, Color backgroundColor, TableCellType type) : base(name) {
+		this.tableCellType = type;
 		horizontalPadding_ = horizontalPadding;
 		verticalPadding_ = verticalPadding;
 		width_ = width;
@@ -26,6 +28,7 @@ public class ImTableCell : ImEntity {
 			backgroundSpriteComponent.sprite.width = width_;
 			backgroundSpriteComponent.sprite.anchorX = 0;
 			backgroundSpriteComponent.sprite.anchorY = 0;
+			backgroundSpriteComponent.sprite.y = 1;
 			AddComponent(backgroundSpriteComponent);
 		}
 		
@@ -35,6 +38,7 @@ public class ImTableCell : ImEntity {
 		bottomLineSpriteComponent.sprite.color = Color.black;
 		bottomLineSpriteComponent.sprite.alpha = 0.2f;
 		bottomLineSpriteComponent.sprite.anchorX = 0;
+		//bottomLineSpriteComponent.sprite.y = 1f;
 		AddComponent(bottomLineSpriteComponent);
 	}
 	
@@ -119,7 +123,7 @@ public class ImTableCell : ImEntity {
 		get {return height_;}
 		set {
 			height_ = value;
-			backgroundSpriteComponent.sprite.height = height_;
+			backgroundSpriteComponent.sprite.height = height_ - 2f;
 		}
 	}
 	

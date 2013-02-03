@@ -16,4 +16,8 @@ public class ImPoisonPill : ImAbstractItem {
 	override public string Description() {
 		return string.Format("{0}: -{1}", name, poisonPower_);	
 	}
+	
+	override public bool CanBeUsedOnEntity(ImEntity targetEntity) {
+		return targetEntity.HealthComponent() != null && targetEntity.HealthComponent().currentHealth > 0;
+	}
 }
