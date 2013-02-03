@@ -75,10 +75,8 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		scrollBar.y = Futile.screen.halfHeight - scrollBar.mainSpriteComponent.sprite.height / 2f;
 		AddChild(scrollBar);*/
 		
-		/*uiLayer = new ImUILayer();
-		uiLayer.zoomInButton.SignalPress += OnPressedUIButton;
-		uiLayer.zoomOutButton.SignalPress += OnPressedUIButton;
-		AddChild(uiLayer);*/
+		uiLayer = new ImUILayer();
+		AddChild(uiLayer);
 	}
 
 	override public void HandleAddedToStage() {

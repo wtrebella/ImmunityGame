@@ -2,17 +2,18 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public enum UIButtonType {
+/*public enum UIButtonType {
 	ZoomIn,
 	ZoomOut
-}
+}*/
 
 public class ImUILayer : ImEntity {
-	public FButton zoomInButton;
-	public FButton zoomOutButton;
+	//public FButton zoomInButton;
+	//public FButton zoomOutButton;
+	public FLabel dollarsLabel;
 	
 	public ImUILayer() {
-		zoomInButton = new FButton("whiteSquare.png", "whiteSquare.png", null);
+		/*zoomInButton = new FButton("whiteSquare.png", "whiteSquare.png", null);
 		zoomOutButton = new FButton("whiteSquare.png", "whiteSquare.png", null);
 		zoomInButton.data = UIButtonType.ZoomIn;
 		zoomOutButton.data = UIButtonType.ZoomOut;
@@ -27,6 +28,20 @@ public class ImUILayer : ImEntity {
 		zoomInButton.y = Futile.screen.height - padding;
 		zoomOutButton.y = zoomInButton.y - zoomInButton.sprite.height - padding;
 		AddChild(zoomInButton);
-		AddChild(zoomOutButton);
+		AddChild(zoomOutButton);*/
+		
+		dollarsLabel = new FLabel("TwCen", string.Format("$" + ImPlayerStats.dollars));
+		dollarsLabel.anchorX = 0;
+		dollarsLabel.anchorY = 1;
+		dollarsLabel.x = 10f;
+		dollarsLabel.y = Futile.screen.height - 10f;
+		dollarsLabel.scale = 0.25f;
+		AddChild(dollarsLabel);
+		
+		ImPlayerStats.SignalDollarsChanged += HandleDollarsChanged;
+	}
+	
+	public void HandleDollarsChanged () {
+		dollarsLabel.text = string.Format("$" + ImPlayerStats.dollars);
 	}
 }

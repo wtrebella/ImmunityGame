@@ -63,6 +63,7 @@
      <Compile Include="Assets\Resources\Scripts\ImConfig.cs" />
      <Compile Include="Assets\Resources\Scripts\ImEntity.cs" />
      <Compile Include="Assets\Resources\Scripts\ImHealthPill.cs" />
+     <Compile Include="Assets\Resources\Scripts\ImPlayerStats.cs" />
      <Compile Include="Assets\Resources\Scripts\ImPoisonPill.cs" />
      <Compile Include="Assets\Resources\Scripts\UI Stuff\ImTableCell.cs" />
      <Compile Include="Assets\Resources\Scripts\UI Stuff\ImUILayer.cs" />
