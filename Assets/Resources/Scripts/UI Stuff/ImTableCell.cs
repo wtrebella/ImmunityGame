@@ -6,10 +6,7 @@ public class ImTableCell : ImEntity {
 	float verticalPadding_ = 0;
 	float width_;
 	float height_ = 0;
-	
-	public ActionOnEntity ActionToPerformOnCorrespondingEntity;	
-	public ImEntity correspondingEntity;
-	
+		
 	public ImLabelComponent leftLabelComponent;
 	public ImSpriteComponent rightSpriteComponent;
 	public ImSpriteComponent bottomLineSpriteComponent;
@@ -86,12 +83,8 @@ public class ImTableCell : ImEntity {
 		return new string(labelStringArray);
 	}
 	
-	public void RunAction() {
-		/*if (ActionToPerformOnCorrespondingEntity != null) {
-			ActionToPerformOnCorrespondingEntity(correspondingEntity);
-		}*/
-		
-		item.PerformActionOnEntity(correspondingEntity);
+	public void UseItem(ImEntity targetEntity) {
+		item.PerformActionOnEntity(targetEntity);	
 	}
 	
 	public void AddRightSprite(string imageName, float spriteScale) {

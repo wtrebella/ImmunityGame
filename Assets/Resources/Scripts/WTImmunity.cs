@@ -156,22 +156,29 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		if (pop != null) {
 			if (pop.HandleTouchBegan(touch)) {
 				currentEntityWithFocus = pop;
-				return true;
 			}
 		}
+		
+		ImNode touchedNode = null;
 		
 		foreach (ImEntity entity in nodeLayer.entities) {
 			ImNode node = entity as ImNode;
+			
 			if (node.RadialWipeSpriteComponents()[0].SpriteContainsGlobalPoint(touch.position)) {
-				//node.HealthComponent().currentHealth -= Random.Range(1, 50);
-				pop.isVisible = true;
-				
-				foreach (ImAbstractItem item in inventory) pop.AddTableCell(item.Description(), "Futile_White", node, item.PerformActionOnEntity, item);
-				
-				return true;
+				touchedNode = node;
 			}
 		}
 		
+		if (pop.isShowing && !pop.ContainsTouch(touch)) {
+			pop.Dismiss();
+			
+			if (touchedNode != null && pop.correspondingEntity != touchedNode) {
+				pop.Dismiss();
+				pop.Show(inventory, touchedNode);
+			}
+		}
+		else if (touchedNode != null) pop.Show(inventory, touchedNode);
+				
 		/*bool touchedOrgan = false;
 		foreach (ImEntity entity in organLayer.entities) {
 			ImOrgan organ = entity as ImOrgan;

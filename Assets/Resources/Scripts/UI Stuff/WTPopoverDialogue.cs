@@ -9,7 +9,9 @@ public class WTPopoverDialogue : ImEntity {
 	public WTScrollBar scrollBar;
 	public List<ImTableCell> tableCells;
 	public event Action<ImAbstractItem> SignalItemUsed;
-	
+	public bool isShowing = false;
+	public ImEntity correspondingEntity;
+
 	private float width_;
 	private float height_;
 	private float inset_ = 7.5f;
@@ -27,11 +29,9 @@ public class WTPopoverDialogue : ImEntity {
 		}
 	}
 	
-	public void AddTableCell(string leftLabelString, string rightSpriteImageName, ImEntity correspondingEntity, ActionOnEntity ActionForEntity, ImAbstractItem item) {	
+	public void AddTableCell(string leftLabelString, string rightSpriteImageName, ImAbstractItem item) {	
 		ImTableCell tableCell = new ImTableCell("tableCell", 8f, 3f, width_ - inset_, Color.white);
 		tableCells.Add(tableCell);
-		tableCell.correspondingEntity = correspondingEntity;
-		tableCell.ActionToPerformOnCorrespondingEntity = ActionForEntity;
 		tableCell.x = inset_ / 2f - width_ / 2f;
 		tableCell.AddLeftLabel("TwCen", leftLabelString, Color.black, 0.2f);
 		tableCell.AddRightSprite(rightSpriteImageName, 1f);
@@ -41,6 +41,23 @@ public class WTPopoverDialogue : ImEntity {
 		
 		RefreshHeight();		
 		ArrangeCells();
+	}
+
+	public void Show(List<ImAbstractItem> inventory, ImEntity correspondingEntity) {
+		isShowing = true;
+		this.isVisible = true;
+		this.correspondingEntity = correspondingEntity;
+		foreach (ImAbstractItem item in inventory) AddTableCell(item.Description(), "Futile_White", item);
+	}
+	
+	public void Dismiss() {
+		isShowing = false;
+		this.isVisible = false;
+		for (int i = tableCells.Count - 1; i >= 0; i--) {
+			ImTableCell cell = tableCells[i];
+			RemoveTableCell(cell);
+		}
+		correspondingEntity = null;
 	}
 	
 	public void RemoveTableCell(ImTableCell tableCell) {
@@ -97,7 +114,7 @@ public class WTPopoverDialogue : ImEntity {
 	public bool HandleTouchBegan(FTouch touch) {
 		foreach (ImTableCell cell in tableCells) {
 			if (cell.LocalRectContainsTouch(touch)) {
-				cell.RunAction();
+				cell.UseItem(correspondingEntity);
 				if (SignalItemUsed != null) SignalItemUsed(cell.item);
 				RemoveTableCell(cell);
 				return true;
@@ -105,6 +122,13 @@ public class WTPopoverDialogue : ImEntity {
 		}
 		
 		return false;
+	}
+	
+	public bool ContainsTouch(FTouch touch) {
+		FSliceSprite sprite = SliceSpriteComponents()[0].sprite;
+		Vector2 localPos = GlobalToLocal(touch.position);
+		if (sprite.localRect.Contains(localPos)) return true;
+		else return false;
 	}
 	
 	public float inset {
