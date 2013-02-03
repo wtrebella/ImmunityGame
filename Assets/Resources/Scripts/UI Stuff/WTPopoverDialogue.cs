@@ -75,7 +75,6 @@ public class WTPopoverDialogue : ImEntity {
 	public void RemoveTableCell(ImTableCell tableCell) {
 		tableCells.Remove(tableCell);
 		RemoveChild(tableCell);
-		if (SignalNeedsInventoryRefresh != null) SignalNeedsInventoryRefresh(this);
 		RefreshHeight();
 		ArrangeCells();
 	}
@@ -142,6 +141,7 @@ public class WTPopoverDialogue : ImEntity {
 					cell.UseItem(correspondingEntity);
 					if (SignalItemUsed != null) SignalItemUsed(cell.item);
 					RemoveTableCell(cell);
+					if (SignalNeedsInventoryRefresh != null) SignalNeedsInventoryRefresh(this);
 				}
 				else if (cell.tableCellType == TableCellType.Done) Dismiss();
 				return true;
