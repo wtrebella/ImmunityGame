@@ -9,6 +9,7 @@ public class ImTableCell : ImEntity {
 		
 	public ImLabelComponent leftLabelComponent;
 	public ImSpriteComponent rightSpriteComponent;
+	public ImLabelComponent centerLabelComponent;
 	public ImSpriteComponent bottomLineSpriteComponent;
 	
 	public ImAbstractItem item;
@@ -44,6 +45,17 @@ public class ImTableCell : ImEntity {
 		lc.label.anchorX = 0;
 		lc.label.x = horizontalPadding_;
 		leftLabelComponent = lc;
+		AddComponent(lc);
+		
+		this.height = Mathf.Max(height_, lc.label.textRect.height * lc.label.scaleY + verticalPadding_ * 2);
+		
+		lc.label.y = height_ / 2f;
+	}
+	
+	public void AddCenterLabel(string fontName, string labelString, Color labelColor, float labelScale) {					
+		ImLabelComponent lc = new ImLabelComponent("centerLabelComponent", fontName, labelString, labelColor, labelScale);
+		lc.label.x = width_ / 2f;
+		centerLabelComponent = lc;
 		AddComponent(lc);
 		
 		this.height = Mathf.Max(height_, lc.label.textRect.height * lc.label.scaleY + verticalPadding_ * 2);

@@ -169,16 +169,8 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 			}
 		}
 		
-		if (pop.isShowing && !pop.ContainsTouch(touch)) {
-			pop.Dismiss();
-			
-			if (touchedNode != null && pop.correspondingEntity != touchedNode) {
-				pop.Dismiss();
-				pop.Show(inventory, touchedNode);
-			}
-		}
-		else if (touchedNode != null) pop.Show(inventory, touchedNode);
-				
+		if (touchedNode != null && !pop.isShowing) pop.Show(inventory, touchedNode);
+		
 		/*bool touchedOrgan = false;
 		foreach (ImEntity entity in organLayer.entities) {
 			ImOrgan organ = entity as ImOrgan;

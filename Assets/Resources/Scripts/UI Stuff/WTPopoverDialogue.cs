@@ -42,12 +42,24 @@ public class WTPopoverDialogue : ImEntity {
 		RefreshHeight();		
 		ArrangeCells();
 	}
+	
+	public void AddTableCell(string centerLabelString) {	
+		ImTableCell tableCell = new ImTableCell("tableCell", 8f, 3f, width_ - inset_, Color.white);
+		tableCells.Add(tableCell);
+		tableCell.x = inset_ / 2f - width_ / 2f;
+		tableCell.AddCenterLabel("TwCen", centerLabelString, Color.black, 0.2f);
+		AddChild(tableCell);
+		
+		RefreshHeight();		
+		ArrangeCells();
+	}
 
 	public void Show(List<ImAbstractItem> inventory, ImEntity correspondingEntity) {
 		isShowing = true;
 		this.isVisible = true;
 		this.correspondingEntity = correspondingEntity;
 		foreach (ImAbstractItem item in inventory) AddTableCell(item.Description(), "Futile_White", item);
+		AddTableCell("Done");
 	}
 	
 	public void Dismiss() {
@@ -114,9 +126,12 @@ public class WTPopoverDialogue : ImEntity {
 	public bool HandleTouchBegan(FTouch touch) {
 		foreach (ImTableCell cell in tableCells) {
 			if (cell.LocalRectContainsTouch(touch)) {
-				cell.UseItem(correspondingEntity);
-				if (SignalItemUsed != null) SignalItemUsed(cell.item);
-				RemoveTableCell(cell);
+				if (cell.item != null) {
+					cell.UseItem(correspondingEntity);
+					if (SignalItemUsed != null) SignalItemUsed(cell.item);
+					RemoveTableCell(cell);
+				}
+				else Dismiss();
 				return true;
 			}
 		}
