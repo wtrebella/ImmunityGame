@@ -14,7 +14,7 @@ public class ImTableCell : ImEntity {
 	public ImSpriteComponent rightSpriteComponent;
 	public ImSpriteComponent bottomLineSpriteComponent;
 	
-	public ImHealthPill item;
+	public ImAbstractItem item;
 	private ImSpriteComponent backgroundSpriteComponent;
 	
 	public ImTableCell(string name, float horizontalPadding, float verticalPadding, float width, Color backgroundColor) : base(name) {

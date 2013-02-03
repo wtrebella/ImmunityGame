@@ -59,9 +59,11 @@
      <Compile Include="Assets\Resources\Scripts\Components\ImScrollContainerComponent.cs" />
      <Compile Include="Assets\Resources\Scripts\Components\ImSliceSpriteComponent.cs" />
      <Compile Include="Assets\Resources\Scripts\Components\ImSpriteComponent.cs" />
+     <Compile Include="Assets\Resources\Scripts\ImAbstractItem.cs" />
      <Compile Include="Assets\Resources\Scripts\ImConfig.cs" />
      <Compile Include="Assets\Resources\Scripts\ImEntity.cs" />
      <Compile Include="Assets\Resources\Scripts\ImHealthPill.cs" />
+     <Compile Include="Assets\Resources\Scripts\ImPoisonPill.cs" />
      <Compile Include="Assets\Resources\Scripts\UI Stuff\ImTableCell.cs" />
      <Compile Include="Assets\Resources\Scripts\UI Stuff\ImUILayer.cs" />
      <Compile Include="Assets\Resources\Scripts\UI Stuff\WTPopoverDialogue.cs" />

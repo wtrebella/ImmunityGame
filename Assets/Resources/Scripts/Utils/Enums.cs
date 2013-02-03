@@ -27,6 +27,12 @@ public enum OrganType {
 	Stomach
 }
 
+public enum ItemType {
+	Abstract,
+	HealthPill,
+	PoisonPill
+}
+
 public enum ScrollType {
 	Horizontal,
 	Vertical,

@@ -9,6 +9,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	public ImNodeLayer nodeLayer;
 	public ImVeinLayer veinLayer;
 	
+	private List<ImAbstractItem> inventory;
 	private ImEntity currentEntityWithFocus;
 	private ImOrgan currentOrgan;
 	private ImUILayer uiLayer;
@@ -34,6 +35,15 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		zoomLevel_ = gameLayer.scale;
 		AddChild(gameLayer);
 		
+		inventory = new List<ImAbstractItem>();
+		inventory.Add(new ImHealthPill("Health Pill", 15));
+		inventory.Add(new ImPoisonPill("Poison Pill", 6));
+		inventory.Add(new ImPoisonPill("Poison Pill", 17));
+		inventory.Add(new ImHealthPill("Health Pill", 5));	
+		inventory.Add(new ImPoisonPill("Poison Pill", 30));
+		inventory.Add(new ImHealthPill("Health Pill", 7));
+		inventory.Add(new ImHealthPill("Health Pill", 42));			
+		
 		FSprite sprite = new FSprite("body.png");
 		gameLayer.AddChild(sprite);
 		
@@ -52,16 +62,13 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		/*pop = new ImPopoverDialogue(100f, 100f, 4f, PopoverTriangleDirectionType.PointingRight);
 		AddChild(pop);*/
 		
-		/*pop = new WTPopoverDialogue(false, "popover!");
+		pop = new WTPopoverDialogue(false, "popover!");
+		pop.SignalItemUsed += HandleItemUsed;
 		pop.x = Futile.screen.halfWidth;
 		pop.y = Futile.screen.halfHeight;
 		pop.width = 200f;
+		pop.isVisible = false;
 		AddChild(pop);
-		
-		pop.AddTableCell("This is a table cell", "Futile_White", testEntity, ActionOnEntityTest);
-		pop.AddTableCell("This is a table cell", "Futile_White", null, null);
-		pop.AddTableCell("This is a table cell that is longer than usual the dog went to the market and bought a bone because he was fucking hungry as shit!", "Futile_White", null, null);
-		pop.AddTableCell("This is a table cell", "Futile_White", null, null);*/
 		
 		/*WTScrollBar scrollBar = new WTScrollBar("scroll bar!");
 		scrollBar.x = 400f;
@@ -84,6 +91,10 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		base.HandleRemovedFromStage();
 		Futile.touchManager.RemoveSingleTouchTarget(this);
 		Futile.instance.SignalUpdate -= HandleUpdate;
+	}
+	
+	public void HandleItemUsed(ImAbstractItem item) {
+		inventory.Remove(item);
 	}
 	
 	public void HandleUpdate() {
@@ -155,14 +166,10 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 			ImNode node = entity as ImNode;
 			if (node.RadialWipeSpriteComponents()[0].SpriteContainsGlobalPoint(touch.position)) {
 				//node.HealthComponent().currentHealth -= Random.Range(1, 50);
-				pop = new WTPopoverDialogue(false, "popover!");
-				pop.x = Futile.screen.halfWidth;
-				pop.y = Futile.screen.halfHeight;
-				pop.width = 200f;
-				AddChild(pop);
+				pop.isVisible = true;
 				
-				pop.AddTableCell("Lower health", "Futile_White", node, TestLowerHealth, new ImHealthPill("healthPillBad", -15));
-				pop.AddTableCell("Raise health", "Futile_White", node, TestRaiseHealth, new ImHealthPill("healthPillGood", 15));
+				foreach (ImAbstractItem item in inventory) pop.AddTableCell(item.Description(), "Futile_White", node, item.PerformActionOnEntity, item);
+				
 				return true;
 			}
 		}

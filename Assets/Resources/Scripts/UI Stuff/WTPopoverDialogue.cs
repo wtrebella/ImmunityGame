@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 public class WTPopoverDialogue : ImEntity {
 	public WTScrollBar scrollBar;
 	public List<ImTableCell> tableCells;
+	public event Action<ImAbstractItem> SignalItemUsed;
 	
 	private float width_;
 	private float height_;
@@ -25,7 +27,7 @@ public class WTPopoverDialogue : ImEntity {
 		}
 	}
 	
-	public void AddTableCell(string leftLabelString, string rightSpriteImageName, ImEntity correspondingEntity, ActionOnEntity ActionForEntity, ImHealthPill item) {	
+	public void AddTableCell(string leftLabelString, string rightSpriteImageName, ImEntity correspondingEntity, ActionOnEntity ActionForEntity, ImAbstractItem item) {	
 		ImTableCell tableCell = new ImTableCell("tableCell", 8f, 3f, width_ - inset_, Color.white);
 		tableCells.Add(tableCell);
 		tableCell.correspondingEntity = correspondingEntity;
@@ -37,16 +39,26 @@ public class WTPopoverDialogue : ImEntity {
 		tableCell.item = item;
 		AddChild(tableCell);
 		
+		RefreshHeight();		
+		ArrangeCells();
+	}
+	
+	public void RemoveTableCell(ImTableCell tableCell) {
+		tableCells.Remove(tableCell);
+		RemoveChild(tableCell);
+		RefreshHeight();
+		ArrangeCells();
+	}
+	
+	private void RefreshHeight() {
 		float totalHeight = inset_;
 		
 		foreach (ImTableCell cell in tableCells) totalHeight += cell.height;
 		
 		this.height = totalHeight;
-		
-		RearrangeCells();
 	}
 	
-	private void RearrangeCells() {		
+	private void ArrangeCells() {		
 		float yPositionSoFar = height_ / 2f - inset_ / 2f;
 		
 		foreach (ImTableCell tableCell in tableCells) {
@@ -83,16 +95,15 @@ public class WTPopoverDialogue : ImEntity {
 	}
 	
 	public bool HandleTouchBegan(FTouch touch) {
-		FSliceSprite sprite = SliceSpriteComponents()[0].sprite;
-		Vector2 localPos = GlobalToLocal(touch.position);
-		if (sprite.localRect.Contains(localPos)) {
-			foreach (ImTableCell cell in tableCells) {
-				if (cell.LocalRectContainsTouch(touch)) {
-					cell.RunAction();
-				}
+		foreach (ImTableCell cell in tableCells) {
+			if (cell.LocalRectContainsTouch(touch)) {
+				cell.RunAction();
+				if (SignalItemUsed != null) SignalItemUsed(cell.item);
+				RemoveTableCell(cell);
+				return true;
 			}
-			return true;
 		}
+		
 		return false;
 	}
 	
