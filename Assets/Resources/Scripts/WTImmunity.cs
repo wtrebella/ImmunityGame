@@ -23,6 +23,8 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		
 	private WTPopoverDialogue pop;
 	
+	public ImVirus testVirus = new ImVirus("testVirus");
+	
 	public WTImmunity() : base("") {	
 		Futile.AddStage(this);
 		
@@ -119,6 +121,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	
 	public void HandleUpdate() {
 		doubleClickTimer_ += Time.fixedDeltaTime;
+		foreach (ImNode node in nodeLayer.entities) node.HandleUpdate(); // add updates for everything
 	}
 	
 	public void Zoom(Vector2 globalFocalPoint, float zoomLevel, bool withAnimation) {								
@@ -179,7 +182,20 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		foreach (ImEntity entity in nodeLayer.entities) {
 			ImNode node = entity as ImNode;
 			
-			if (node.RadialWipeSpriteComponents()[0].SpriteContainsGlobalPoint(touch.position)) {
+			if (node.ContainsGlobalPoint(touch.position)) {
+				touchedNode = node;
+			}
+		}
+		
+		if (touchedNode != null) {
+			touchedNode.AddComponent(new ImInfectionComponent("infectionComponent", testVirus));
+			touchedNode.InfectionComponent().StartInfecting();
+		}
+		
+		/*foreach (ImEntity entity in nodeLayer.entities) {
+			ImNode node = entity as ImNode;
+			
+			if (node.ContainsGlobalPoint(touch.position)) {
 				touchedNode = node;
 			}
 		}
@@ -190,7 +206,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 			if (pop.HandleTouchBegan(touch)) {
 				currentEntityWithFocus = pop;
 			}
-		}
+		}*/
 
 		if (doubleClickTimer_ <= DOUBLE_CLICK_MAX_WAIT) {
 			doubleClickTimer_ = 1000.0f;

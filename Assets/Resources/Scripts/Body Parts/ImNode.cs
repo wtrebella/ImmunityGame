@@ -9,12 +9,23 @@ public class ImNode : ImEntity {
 		name = string.Format("node: a node at " + ImConfig.NameForNodePlacement(nodePlacement));
 		
 		this.nodePlacement = nodePlacement;
-		ImRadialWipeSpriteComponent ssc = new ImRadialWipeSpriteComponent("circleRadialWipeComponent", "circle.psd");
+		
+		ImSpriteComponent sc = new ImSpriteComponent("baseSpriteComponent", "circle.psd");
+		sc.sprite.scale = 0.25f;
+		sc.sprite.color = Color.blue;
+		AddComponent(sc);
+		
+		ImRadialWipeSpriteComponent ssc = new ImRadialWipeSpriteComponent("diseaseRadialWipeComponent", "circle.psd");
 		ssc.sprite.scale = 0.25f;
 		ssc.sprite.color = Color.red;
+		ssc.sprite.percentage = 0;
 		AddComponent(ssc);
 		
 		AddComponent(new ImHealthComponent("healthComponent", 100));
+	}
+	
+	override public void HandleUpdate() {
+		base.HandleUpdate();
 	}
 	
 	public ImOrgan CorrespondingOrganInOrganLayer(ImOrganLayer organLayer) {
@@ -24,5 +35,15 @@ public class ImNode : ImEntity {
 	
 	public List<ImVein> CorrespondingVeinsInVeinLayer(ImVeinLayer veinLayer) {
 		return veinLayer.VeinsForNodePlacement(nodePlacement);
+	}
+	
+	public bool ContainsGlobalPoint(Vector2 point) {
+		return SpriteComponents()[0].SpriteContainsGlobalPoint(point);	
+	}
+	
+	override public void HandleInfectionPercentChanged(ImInfectionComponent infectionComponent) {
+		base.HandleInfectionPercentChanged(infectionComponent);
+		Debug.Log("handling");
+		RadialWipeSpriteComponents()[0].sprite.percentage = infectionComponent.infectionPercent;
 	}
 }

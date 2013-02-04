@@ -127,3 +127,23 @@ Library/*
 Assembly-CSharp.pidb
 
 *.pidb
+
+*.csproj
+
+*.csproj
+
+*.csproj
+
+Assembly-CSharp-firstpass-vs.csproj
+
+Assembly-CSharp-firstpass-vs.csproj
+
+Assembly-CSharp-firstpass.csproj
+
+Assembly-CSharp-firstpass.pidb
+
+Assembly-CSharp-vs.csproj
+
+Assembly-CSharp.csproj
+
+Assembly-CSharp.csproj

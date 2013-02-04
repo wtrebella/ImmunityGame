@@ -11,6 +11,10 @@ public class ImAbstractEntityLayer : FContainer {
 		entities = new List<ImEntity>();
 	}
 	
+	virtual public void HandleUpdate() {
+		foreach (ImEntity entity in entities) entity.HandleUpdate();	
+	}
+	
 	/*public void BodyPartHealthChanged(ImAbstractBodyPartComponent bodyPartComponent) {
 		ImBodyPart bodyPart = bodyPartComponent.owner;
 		BodyPartType bodyPartType = bodyPart.bodyPartType;

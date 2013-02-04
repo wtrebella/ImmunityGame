@@ -20,6 +20,14 @@ public class ImEntity : FContainer {
 		this.SignalComponentRemoved += HandleComponentRemoved;
 	}
 	
+	virtual public void HandleUpdate() {
+		foreach (ImAbstractComponent component in components_.Values) component.HandleUpdate();
+	}
+	
+	virtual public void HandleInfectionPercentChanged(ImInfectionComponent infectionComponent) {
+		
+	}
+	
 	public void AddComponent(ImAbstractComponent component) {
 		components_.Add(component.name, component);
 		if (SignalComponentAdded != null) SignalComponentAdded(component);
@@ -39,6 +47,7 @@ public class ImEntity : FContainer {
 		if (component.componentType == ComponentType.ScrollContainer) AddChild((component as ImScrollContainerComponent).scrollContainer);
 		if (component.componentType == ComponentType.ScrollBar) AddChild((component as ImScrollBarComponent).scrollBar);
 		if (component.componentType == ComponentType.Label) AddChild((component as ImLabelComponent).label);
+		if (component.componentType == ComponentType.Infection) (component as ImInfectionComponent).SignalInfectionPercentChanged += HandleInfectionPercentChanged;
 	}
 	
 	public void HandleComponentRemoved(ImAbstractComponent component) {
@@ -50,6 +59,7 @@ public class ImEntity : FContainer {
 		if (component.componentType == ComponentType.ScrollContainer) RemoveChild((component as ImScrollContainerComponent).scrollContainer);
 		if (component.componentType == ComponentType.ScrollBar) RemoveChild((component as ImScrollBarComponent).scrollBar);
 		if (component.componentType == ComponentType.Label) RemoveChild((component as ImLabelComponent).label);
+		if (component.componentType == ComponentType.Infection) (component as ImInfectionComponent).SignalInfectionPercentChanged -= HandleInfectionPercentChanged;
 	}
 	
 	public List<ImAbstractComponent> ComponentsForType(ComponentType type) {
@@ -66,6 +76,13 @@ public class ImEntity : FContainer {
 			Debug.Log("no component with that name");
 			return null;
 		}
+	}
+	
+	public ImInfectionComponent InfectionComponent() {
+		if (ComponentsForType(ComponentType.Infection).Count == 0) return null;
+		
+		if (ComponentsForType(ComponentType.Infection).Count > 1) Debug.Log("there's more than one infection component attached to this object; should there be?");
+		return (ImInfectionComponent)ComponentsForType(ComponentType.Infection)[0];	
 	}
 	
 	public List<ImSpriteComponent> SpriteComponents() {

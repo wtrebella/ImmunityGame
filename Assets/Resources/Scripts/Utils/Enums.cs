@@ -50,6 +50,7 @@ public enum ComponentType {
 	Sprite,
 	SliceSprite,
 	ScrollBar,
+	Infection,
 	Label,
 	RadialWipeSprite,
 	ScrollContainer,

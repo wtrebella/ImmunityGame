@@ -20,4 +20,8 @@ public class ImAbstractComponent {
 	public ComponentType componentType {
 		get {return componentType_;}	
 	}
+	
+	virtual public void HandleUpdate() {
+		
+	}
 }
