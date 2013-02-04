@@ -21,6 +21,7 @@ public class ImInfectionComponent : ImAbstractComponent {
 		
 		if (infectionPercent < 1f) {
 			infectionPercent += virus.power * Time.deltaTime;
+			if (infectionPercent > 1f) infectionPercent = 1f;
 			if (SignalInfectionPercentChanged != null) SignalInfectionPercentChanged(this);
 		}
 	}

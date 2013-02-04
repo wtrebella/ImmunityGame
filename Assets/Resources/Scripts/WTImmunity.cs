@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class WTImmunity : FStage, FSingleTouchableInterface {
+	public static WTImmunity instance;
+	
 	public ImOrganLayer organLayer;
 	public ImNodeLayer nodeLayer;
 	public ImVeinLayer veinLayer;
@@ -26,6 +28,8 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	public ImVirus testVirus = new ImVirus("testVirus");
 	
 	public WTImmunity() : base("") {	
+		instance = this;
+		
 		Futile.AddStage(this);
 		
 		gameLayer = new FContainer();

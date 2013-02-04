@@ -43,7 +43,10 @@ public class ImNode : ImEntity {
 	
 	override public void HandleInfectionPercentChanged(ImInfectionComponent infectionComponent) {
 		base.HandleInfectionPercentChanged(infectionComponent);
-		Debug.Log("handling");
 		RadialWipeSpriteComponents()[0].sprite.percentage = infectionComponent.infectionPercent;
+		if (infectionComponent.infectionPercent == 1) {
+			ImOrgan organ = CorrespondingOrganInOrganLayer(WTImmunity.instance.organLayer);
+			if (organ != null) SpriteComponents()[0].sprite.color = Color.red;
+		}
 	}
 }
