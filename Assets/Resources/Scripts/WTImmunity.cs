@@ -3,6 +3,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class WTImmunity : FStage, FSingleTouchableInterface {
 	public static WTImmunity instance;
@@ -10,7 +11,9 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	public ImOrganLayer organLayer;
 	public ImNodeLayer nodeLayer;
 	public ImVeinLayer veinLayer;
+	public event Action<bool> SignalPauseStateChanged;
 	
+	private bool isPaused = false;
 	private List<ImAbstractItem> inventory;
 	private ImEntity currentEntityWithFocus;
 	private ImOrgan currentOrgan;
@@ -81,6 +84,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		AddChild(scrollBar);*/
 		
 		uiLayer = new ImUILayer();
+		SignalPauseStateChanged += uiLayer.SetTransportBar;
 		AddChild(uiLayer);
 	}
 
@@ -123,9 +127,19 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		inventory.Remove(item);
 	}
 	
-	public void HandleUpdate() {
+	public void HandleUpdate() {		
 		doubleClickTimer_ += Time.fixedDeltaTime;
-		foreach (ImNode node in nodeLayer.entities) node.HandleUpdate(); // add updates for everything
+		
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			isPaused = !isPaused;
+			if (SignalPauseStateChanged != null) SignalPauseStateChanged(isPaused);
+		}
+		
+		if (!isPaused) {
+			foreach (ImNode node in nodeLayer.entities) node.HandleUpdate();
+			foreach (ImOrgan organ in organLayer.entities) organ.HandleUpdate();
+			foreach (ImVein vein in veinLayer.entities) vein.HandleUpdate();
+		}
 	}
 	
 	public void Zoom(Vector2 globalFocalPoint, float zoomLevel, bool withAnimation) {								

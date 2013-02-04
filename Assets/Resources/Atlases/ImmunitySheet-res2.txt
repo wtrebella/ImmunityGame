@@ -26,7 +26,7 @@
 },
 "heart.png":
 {
-	"frame": {"x":564,"y":1911,"w":101,"h":127},
+	"frame": {"x":586,"y":1911,"w":101,"h":127},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":3,"y":4,"w":101,"h":127},
@@ -42,7 +42,7 @@
 },
 "liver.png":
 {
-	"frame": {"x":354,"y":1952,"w":208,"h":85},
+	"frame": {"x":376,"y":1952,"w":208,"h":85},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":2,"w":208,"h":85},
@@ -90,7 +90,7 @@
 },
 "scrollBar.psd":
 {
-	"frame": {"x":667,"y":1852,"w":25,"h":75},
+	"frame": {"x":689,"y":1852,"w":25,"h":75},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":25,"h":75},
@@ -98,11 +98,43 @@
 },
 "stomach.png":
 {
-	"frame": {"x":189,"y":1952,"w":163,"h":92},
+	"frame": {"x":211,"y":1952,"w":163,"h":92},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":163,"h":92},
 	"sourceSize": {"w":165,"h":92}
+},
+"transportPause.psd":
+{
+	"frame": {"x":174,"y":1973,"w":35,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":35},
+	"sourceSize": {"w":35,"h":35}
+},
+"transportPausePressed.psd":
+{
+	"frame": {"x":137,"y":2010,"w":35,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":35},
+	"sourceSize": {"w":35,"h":35}
+},
+"transportPlay.psd":
+{
+	"frame": {"x":137,"y":1973,"w":35,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":35},
+	"sourceSize": {"w":35,"h":35}
+},
+"transportPlayPressed.psd":
+{
+	"frame": {"x":100,"y":1976,"w":35,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":35},
+	"sourceSize": {"w":35,"h":35}
 },
 "twCen.png":
 {
@@ -127,6 +159,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":2048},
 	"scale": "0.5",
-	"smartupdate": "$TexturePacker:SmartUpdate:81390953a4f24fb7220b09acd749e673$"
+	"smartupdate": "$TexturePacker:SmartUpdate:042a05f271517c6140e8da125a0fbdcd$"
 }
 }

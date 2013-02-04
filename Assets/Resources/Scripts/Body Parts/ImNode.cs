@@ -46,7 +46,7 @@ public class ImNode : ImEntity {
 		RadialWipeSpriteComponents()[0].sprite.percentage = infectionComponent.infectionPercent;
 		if (infectionComponent.infectionPercent == 1) {
 			ImOrgan organ = CorrespondingOrganInOrganLayer(WTImmunity.instance.organLayer);
-			if (organ != null) SpriteComponents()[0].sprite.color = Color.red;
+			if (organ != null) organ.SpriteComponents()[0].sprite.color = Color.red;
 		}
 	}
 }
