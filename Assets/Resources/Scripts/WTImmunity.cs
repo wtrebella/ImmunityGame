@@ -162,11 +162,10 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		float oldScale = gameLayer.scale;
 		float newScale = zoomLevel_;
 		
-		Vector2 localLayerOriginBeforeScale = new Vector2(min * oldScale, min * oldScale);
-		Vector2 localLayerOriginAfterScale = new Vector2(min * newScale, min * newScale);
+		Vector2 globalLayerZero = gameLayer.LocalToGlobal(Vector2.zero);
 		
-		Vector2 globalLayerOriginBeforeScale = gameLayer.LocalToGlobal(localLayerOriginBeforeScale);
-		Vector2 globalLayerOriginAfterScale = gameLayer.LocalToGlobal(localLayerOriginAfterScale);
+		Vector2 globalLayerOriginBeforeScale = new Vector2(globalLayerZero.x - min * oldScale, globalLayerZero.y - min * oldScale);
+		Vector2 globalLayerOriginAfterScale = new Vector2(globalLayerZero.x - min * newScale, globalLayerZero.y - min * newScale);
 		
 		Vector2 ratioOfFocusToOrigin = new Vector2((globalFocalPoint.x - globalLayerOriginBeforeScale.x) / (width * oldScale), (globalFocalPoint.y - globalLayerOriginBeforeScale.y) / (height * oldScale));		
 		
