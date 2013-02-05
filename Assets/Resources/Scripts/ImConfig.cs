@@ -5,6 +5,14 @@ public static class ImConfig {
 	public const float MAX_ZOOM = 3f;
 	public const float MIN_ZOOM = 0.5f;
 	
+	public static Vector2 GetMousePosition() {
+		float touchScale = 1.0f/Futile.displayScale;
+		
+		float offsetX = -Futile.screen.originX * Futile.screen.pixelWidth;
+		float offsetY = -Futile.screen.originY * Futile.screen.pixelHeight;
+		return new Vector2((Input.mousePosition.x+offsetX)*touchScale, (Input.mousePosition.y+offsetY)*touchScale);	
+	}
+	
 	public static NodePlacement NodePlacementForOrganType(OrganType organType) {
 		NodePlacement nodePlacement;
 		

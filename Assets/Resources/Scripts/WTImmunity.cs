@@ -20,7 +20,6 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	private ImUILayer uiLayer;
 	private FContainer gameLayer;
 	private float zoomLevel_;
-	private float doubleClickTimer_ = 1000.0f;
 	private const float DOUBLE_CLICK_MAX_WAIT = 0.4f;
 	private float MAX_GAMELAYER_SCROLL_X = Futile.screen.width;
 	private float MIN_GAMELAYER_SCROLL_X = 0;
@@ -52,8 +51,8 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		inventory.Add(new ImHealthPill("Health Pill", 7));
 		inventory.Add(new ImHealthPill("Health Pill", 42));			
 		
-		FSprite sprite = new FSprite("body.png");
-		gameLayer.AddChild(sprite);
+		FSprite body = new FSprite("body.png");
+		gameLayer.AddChild(body);
 		
 		organLayer = new ImOrganLayer();
 		organLayer.owner = this;
@@ -78,11 +77,6 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		pop.width = 200f;
 		pop.isVisible = false;
 		AddChild(pop);
-		
-		/*WTScrollBar scrollBar = new WTScrollBar("scroll bar!");
-		scrollBar.x = 400f;
-		scrollBar.y = Futile.screen.halfHeight - scrollBar.mainSpriteComponent.sprite.height / 2f;
-		AddChild(scrollBar);*/
 		
 		uiLayer = new ImUILayer();
 		SignalPauseStateChanged += uiLayer.SetTransportBar;
@@ -127,17 +121,15 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	public void HandleItemUsed(ImAbstractItem item) {
 		inventory.Remove(item);
 	}
-	
-	static float zoomLev = 2f;
-	
-	public void HandleUpdate() {		
-		/*float newZoom = zoomLevel_;
+		
+	public void HandleUpdate() {
+		float newZoom = zoomLevel_;
 		newZoom += Input.GetAxis("Mouse ScrollWheel");
 		newZoom = Math.Min(ImConfig.MAX_ZOOM, newZoom);
 		newZoom = Math.Max(ImConfig.MIN_ZOOM, newZoom);
 		if (newZoom != zoomLevel_) {
-			Zoom(Input.mousePosition, newZoom, false);	
-		}*/
+			Zoom(ImConfig.GetMousePosition(), newZoom);	
+		}
 		
 		if (Input.GetKeyDown(KeyCode.Space)) {
 			isPaused = !isPaused;
@@ -164,15 +156,14 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		
 		Vector2 globalLayerZero = gameLayer.LocalToGlobal(Vector2.zero);
 		
-		Vector2 globalLayerOriginBeforeScale = new Vector2(globalLayerZero.x - min * oldScale, globalLayerZero.y - min * oldScale);
-		Vector2 globalLayerOriginAfterScale = new Vector2(globalLayerZero.x - min * newScale, globalLayerZero.y - min * newScale);
+		Vector2 globalLayerOriginBeforeScale = new Vector2(globalLayerZero.x + min * oldScale, globalLayerZero.y + min * oldScale);
+		Vector2 globalLayerOriginAfterScale = new Vector2(globalLayerZero.x + min * newScale, globalLayerZero.y + min * newScale);
 		
 		Vector2 ratioOfFocusToOrigin = new Vector2((globalFocalPoint.x - globalLayerOriginBeforeScale.x) / (width * oldScale), (globalFocalPoint.y - globalLayerOriginBeforeScale.y) / (height * oldScale));		
 		
 		Vector2 globalFocusAfterScale = new Vector2(globalLayerOriginAfterScale.x + ratioOfFocusToOrigin.x * width * newScale, globalLayerOriginAfterScale.y + ratioOfFocusToOrigin.y * height * newScale);		
 		
-		Vector2 deltaPoint = new Vector2(globalFocusAfterScale.x - globalFocalPoint.x, globalFocusAfterScale.y - globalFocalPoint.y);
-		
+		Vector2 deltaPoint = new Vector2(globalFocalPoint.x - globalFocusAfterScale.x, globalFocalPoint.y - globalFocusAfterScale.y);
 		gameLayer.scale = newScale;
 		float newX = gameLayer.x + deltaPoint.x;
 		float newY = gameLayer.y + deltaPoint.y;
@@ -197,12 +188,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		entity.RadialWipeSpriteComponents()[0].sprite.scale /= 2f;
 	}
 		
-	public bool HandleSingleTouchBegan(FTouch touch) {
-		if (Input.GetMouseButtonDown(0)) Zoom(Input.mousePosition, zoomLev);
-		
-		if (zoomLev == 2f) zoomLev = 0.5f;
-		else if (zoomLev == 0.5f) zoomLev = 2f;
-		
+	public bool HandleSingleTouchBegan(FTouch touch) {		
 		ImNode touchedNode = null;
 		
 		foreach (ImEntity entity in nodeLayer.entities) {
@@ -218,7 +204,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 			touchedNode.InfectionComponent().StartInfecting();
 		}
 		
-		/*foreach (ImEntity entity in nodeLayer.entities) {
+		foreach (ImEntity entity in nodeLayer.entities) {
 			ImNode node = entity as ImNode;
 			
 			if (node.ContainsGlobalPoint(touch.position)) {
@@ -232,7 +218,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 			if (pop.HandleTouchBegan(touch)) {
 				currentEntityWithFocus = pop;
 			}
-		}*/
+		}
 		
 		return true;
 	}
