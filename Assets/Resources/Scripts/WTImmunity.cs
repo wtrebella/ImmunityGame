@@ -20,11 +20,12 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	private ImUILayer uiLayer;
 	private FContainer gameLayer;
 	private float zoomLevel_;
-	private bool isZoomed_ = false;
 	private float doubleClickTimer_ = 1000.0f;
 	private const float DOUBLE_CLICK_MAX_WAIT = 0.4f;
-	private float MAX_GAMELAYER_SCROLL = Futile.screen.height;
-	private float MIN_GAMELAYER_SCROLL = 0;
+	private float MAX_GAMELAYER_SCROLL_X = Futile.screen.width;
+	private float MIN_GAMELAYER_SCROLL_X = 0;
+	private float MAX_GAMELAYER_SCROLL_Y = Futile.screen.height;
+	private float MIN_GAMELAYER_SCROLL_Y = 0;
 		
 	private WTPopoverDialogue pop;
 	
@@ -127,8 +128,16 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		inventory.Remove(item);
 	}
 	
+	static float zoomLev = 2f;
+	
 	public void HandleUpdate() {		
-		doubleClickTimer_ += Time.fixedDeltaTime;
+		/*float newZoom = zoomLevel_;
+		newZoom += Input.GetAxis("Mouse ScrollWheel");
+		newZoom = Math.Min(ImConfig.MAX_ZOOM, newZoom);
+		newZoom = Math.Max(ImConfig.MIN_ZOOM, newZoom);
+		if (newZoom != zoomLevel_) {
+			Zoom(Input.mousePosition, newZoom, false);	
+		}*/
 		
 		if (Input.GetKeyDown(KeyCode.Space)) {
 			isPaused = !isPaused;
@@ -142,40 +151,35 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		}
 	}
 	
-	public void Zoom(Vector2 globalFocalPoint, float zoomLevel, bool withAnimation) {								
+	public void Zoom(Vector2 globalFocalPoint, float zoomLevel) {								
 		zoomLevel_ = zoomLevel;
 		
+		float min = -3000;
+		float max = 3000;
+		float width = max - min;
+		float height = max - min;
+		
 		float oldScale = gameLayer.scale;
-		float newScale = zoomLevel;
+		float newScale = zoomLevel_;
 		
-		Vector2 unscaledLocalPos = gameLayer.GlobalToLocal(globalFocalPoint);
-		Vector2 scaledLocalPos = new Vector2(unscaledLocalPos.x * gameLayer.scale, unscaledLocalPos.y * gameLayer.scale);
-		// have to do this because the GlobalToLocal method doesn't take scale into account
+		Vector2 localLayerOriginBeforeScale = new Vector2(min * oldScale, min * oldScale);
+		Vector2 localLayerOriginAfterScale = new Vector2(min * newScale, min * newScale);
 		
-		Vector2 transformedFocalPoint = new Vector2(newScale / oldScale * scaledLocalPos.x, newScale / oldScale * scaledLocalPos.y);
-		Vector2 deltaPoint = new Vector2(scaledLocalPos.x - transformedFocalPoint.x, scaledLocalPos.y - transformedFocalPoint.y);
+		Vector2 globalLayerOriginBeforeScale = gameLayer.LocalToGlobal(localLayerOriginBeforeScale);
+		Vector2 globalLayerOriginAfterScale = gameLayer.LocalToGlobal(localLayerOriginAfterScale);
 		
+		Vector2 ratioOfFocusToOrigin = new Vector2((globalFocalPoint.x - globalLayerOriginBeforeScale.x) / (width * oldScale), (globalFocalPoint.y - globalLayerOriginBeforeScale.y) / (height * oldScale));		
+		
+		Vector2 globalFocusAfterScale = new Vector2(globalLayerOriginAfterScale.x + ratioOfFocusToOrigin.x * width * newScale, globalLayerOriginAfterScale.y + ratioOfFocusToOrigin.y * height * newScale);		
+		
+		Vector2 deltaPoint = new Vector2(globalFocusAfterScale.x - globalFocalPoint.x, globalFocusAfterScale.y - globalFocalPoint.y);
+		
+		gameLayer.scale = newScale;
 		float newX = gameLayer.x + deltaPoint.x;
 		float newY = gameLayer.y + deltaPoint.y;
 		
-		if (isZoomed_) {
-			newX = Futile.screen.halfWidth;
-			newY = Futile.screen.halfHeight;
-		}
-		
-		if (!withAnimation) {
-			gameLayer.scale = newScale;
-			gameLayer.x = newX;
-			gameLayer.y = newY;
-		}
-		else {
-			Go.to(gameLayer, 0.3f, new TweenConfig()
-				.floatProp("scale", newScale)
-				.floatProp("x", newX)
-				.floatProp("y", newY));
-		}
-		
-		isZoomed_ = !isZoomed_;
+		gameLayer.x = newX;
+		gameLayer.y = newY;
 	}
 	
 	public void TestLowerHealth(ImEntity entity) {
@@ -195,6 +199,11 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	}
 		
 	public bool HandleSingleTouchBegan(FTouch touch) {
+		if (Input.GetMouseButtonDown(0)) Zoom(Input.mousePosition, zoomLev);
+		
+		if (zoomLev == 2f) zoomLev = 0.5f;
+		else if (zoomLev == 0.5f) zoomLev = 2f;
+		
 		ImNode touchedNode = null;
 		
 		foreach (ImEntity entity in nodeLayer.entities) {
@@ -225,18 +234,6 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 				currentEntityWithFocus = pop;
 			}
 		}*/
-
-		if (doubleClickTimer_ <= DOUBLE_CLICK_MAX_WAIT) {
-			doubleClickTimer_ = 1000.0f;
-			
-			float newZoomLevel;
-			
-			if (isZoomed_) newZoomLevel = zoomLevel_ * 0.5f;
-			else newZoomLevel = zoomLevel_ * 2.0f;
-			
-			Zoom(new Vector2(Futile.screen.halfWidth, touch.position.y), newZoomLevel, true);
-		}
-		else doubleClickTimer_ = 0;
 		
 		return true;
 	}
@@ -244,12 +241,15 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	public void HandleSingleTouchMoved(FTouch touch) {
 		if (currentEntityWithFocus == pop) return;
 		
-		if (isZoomed_) {
-			float newY = gameLayer.y + touch.deltaPosition.y;
-			if (newY > MAX_GAMELAYER_SCROLL) newY = MAX_GAMELAYER_SCROLL;
-			if (newY < MIN_GAMELAYER_SCROLL) newY = MIN_GAMELAYER_SCROLL;
-			gameLayer.y = newY;
-		}
+		float newX = gameLayer.x + touch.deltaPosition.x;
+		if (newX > MAX_GAMELAYER_SCROLL_X) newX = MAX_GAMELAYER_SCROLL_X;
+		if (newX < MIN_GAMELAYER_SCROLL_X) newX = MIN_GAMELAYER_SCROLL_X;
+		gameLayer.x = newX;
+		
+		float newY = gameLayer.y + touch.deltaPosition.y;
+		if (newY > MAX_GAMELAYER_SCROLL_Y) newY = MAX_GAMELAYER_SCROLL_Y;
+		if (newY < MIN_GAMELAYER_SCROLL_Y) newY = MIN_GAMELAYER_SCROLL_Y;
+		gameLayer.y = newY;
 	}
 	
 	public void HandleSingleTouchEnded(FTouch touch) {

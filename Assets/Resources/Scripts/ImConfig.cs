@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public static class ImConfig {
+	public const float MAX_ZOOM = 3f;
+	public const float MIN_ZOOM = 0.5f;
+	
 	public static NodePlacement NodePlacementForOrganType(OrganType organType) {
 		NodePlacement nodePlacement;
 		
