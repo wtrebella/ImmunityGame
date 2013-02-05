@@ -22,8 +22,8 @@ public class ImOrganLayer : ImAbstractEntityLayer {
 		
 		foreach (ImEntity entity in entities) AddChild(entity);
 		
-		float maxWidth = 35f * 1.3f;
-		float maxHeight = 302f * 1.3f;
+		float maxWidth = 35f * 2.6f;
+		float maxHeight = 302f * 2.6f;
 		
 		heart.x = 0.086f * maxWidth;
 		heart.y = 0.474f * maxHeight;

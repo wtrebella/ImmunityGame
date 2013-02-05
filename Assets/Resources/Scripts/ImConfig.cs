@@ -2,8 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public static class ImConfig {
-	public const float MAX_ZOOM = 3f;
-	public const float MIN_ZOOM = 0.5f;
+	public const float MAX_ZOOM = 1f;
+	public const float MIN_ZOOM = 0.15f;
 	
 	public static Vector2 GetMousePosition() {
 		float touchScale = 1.0f/Futile.displayScale;
@@ -128,8 +128,8 @@ public static class ImConfig {
 	}
 	
 	public static Vector2 PositionForNodePlacement(NodePlacement placement) {
-		float maxWidth = 105 * 1.3f;
-		float maxHeight = 305 * 1.3f;
+		float maxWidth = 105 * 2.6f;
+		float maxHeight = 305 * 2.6f;
 		
 		switch (placement) {
 		case NodePlacement.Brain:

@@ -24,7 +24,7 @@ public class ImVein : ImEntity {
 		if (Mathf.Sign(higherNodePosition.x - lowerNodePosition.x) == -1f) sRotation += 180f;
 		
 		sc.sprite.anchorY = 0;
-		sc.sprite.width = 5f;
+		sc.sprite.width = 10f;
 		sc.sprite.height = Mathf.Sqrt(Mathf.Pow(toNodePosition.y - fromNodePosition.y, 2) + Mathf.Pow(toNodePosition.x - fromNodePosition.x, 2));
 		sc.sprite.rotation = sRotation;
 		

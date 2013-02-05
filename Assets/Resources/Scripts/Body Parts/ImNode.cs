@@ -11,12 +11,12 @@ public class ImNode : ImEntity {
 		this.nodePlacement = nodePlacement;
 		
 		ImSpriteComponent sc = new ImSpriteComponent("baseSpriteComponent", "circle.psd");
-		sc.sprite.scale = 0.25f;
+		sc.sprite.scale = 0.5f;
 		sc.sprite.color = Color.blue;
 		AddComponent(sc);
 		
 		ImRadialWipeSpriteComponent ssc = new ImRadialWipeSpriteComponent("diseaseRadialWipeComponent", "circle.psd");
-		ssc.sprite.scale = 0.25f;
+		ssc.sprite.scale = 0.5f;
 		ssc.sprite.color = Color.red;
 		ssc.sprite.percentage = 0;
 		AddComponent(ssc);

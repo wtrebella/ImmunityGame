@@ -21,10 +21,6 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	private FContainer gameLayer;
 	private float zoomLevel_;
 	private const float DOUBLE_CLICK_MAX_WAIT = 0.4f;
-	private float MAX_GAMELAYER_SCROLL_X = Futile.screen.width;
-	private float MIN_GAMELAYER_SCROLL_X = 0;
-	private float MAX_GAMELAYER_SCROLL_Y = Futile.screen.height;
-	private float MIN_GAMELAYER_SCROLL_Y = 0;
 		
 	private WTPopoverDialogue pop;
 	
@@ -38,7 +34,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		gameLayer = new FContainer();
 		gameLayer.x = Futile.screen.halfWidth;
 		gameLayer.y = Futile.screen.halfHeight;
-		gameLayer.scale = 0.45f;
+		gameLayer.scale = 0.23f;
 		zoomLevel_ = gameLayer.scale;
 		AddChild(gameLayer);
 		
@@ -49,10 +45,32 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		inventory.Add(new ImHealthPill("Health Pill", 5));	
 		inventory.Add(new ImPoisonPill("Poison Pill", 30));
 		inventory.Add(new ImHealthPill("Health Pill", 7));
-		inventory.Add(new ImHealthPill("Health Pill", 42));			
+		inventory.Add(new ImHealthPill("Health Pill", 42));
 		
-		FSprite body = new FSprite("body.png");
-		gameLayer.AddChild(body);
+		float sliceWidth = 460f / 4f;
+		float sliceHeight = 437f / 4f;
+		int sliceHorizontalCount = 6;
+		int sliceVerticalCount = 16;
+		float bodyWidth = sliceWidth * sliceHorizontalCount;
+		float bodyHeight = sliceHeight * sliceVerticalCount;
+		
+		FContainer bodyContainer = new FContainer();
+		bodyContainer.x -= bodyWidth / 2f;
+		bodyContainer.y -= bodyHeight / 2f;
+		gameLayer.AddChild(bodyContainer);
+		
+		for (int i = 0; i < sliceVerticalCount; i++) {
+			for (int j = 0; j < sliceHorizontalCount; j++) {
+				int imageNum = i * sliceHorizontalCount + j + 1;
+				string imageName = string.Format("bodySlices/body_{0}.png", imageNum.ToString("D2"));
+				FSprite slice = new FSprite(imageName);
+				slice.anchorX = slice.anchorY = 0;
+				slice.x = j * sliceWidth;
+				slice.y = bodyHeight - (i + 1) * sliceHeight;
+				bodyContainer.AddChild(slice);
+				Debug.Log(imageName);
+			}
+		}
 		
 		organLayer = new ImOrganLayer();
 		organLayer.owner = this;
@@ -225,15 +243,15 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 	
 	public void HandleSingleTouchMoved(FTouch touch) {
 		if (currentEntityWithFocus == pop) return;
-		
+
 		float newX = gameLayer.x + touch.deltaPosition.x;
-		if (newX > MAX_GAMELAYER_SCROLL_X) newX = MAX_GAMELAYER_SCROLL_X;
-		if (newX < MIN_GAMELAYER_SCROLL_X) newX = MIN_GAMELAYER_SCROLL_X;
+		//if (newX > MAX_GAMELAYER_SCROLL_X) newX = MAX_GAMELAYER_SCROLL_X;
+		//if (newX < MIN_GAMELAYER_SCROLL_X) newX = MIN_GAMELAYER_SCROLL_X;
 		gameLayer.x = newX;
 		
 		float newY = gameLayer.y + touch.deltaPosition.y;
-		if (newY > MAX_GAMELAYER_SCROLL_Y) newY = MAX_GAMELAYER_SCROLL_Y;
-		if (newY < MIN_GAMELAYER_SCROLL_Y) newY = MIN_GAMELAYER_SCROLL_Y;
+		//if (newY > MAX_GAMELAYER_SCROLL_Y) newY = MAX_GAMELAYER_SCROLL_Y;
+		//if (newY < MIN_GAMELAYER_SCROLL_Y) newY = MIN_GAMELAYER_SCROLL_Y;
 		gameLayer.y = newY;
 	}
 	
