@@ -48,7 +48,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		inventory.Add(new ImHealthPill("Health Pill", 42));
 		
 		float sliceWidth = 460f / 4f;
-		float sliceHeight = 437f / 4f;
+		float sliceHeight = 436f / 4f;
 		int sliceHorizontalCount = 6;
 		int sliceVerticalCount = 16;
 		float bodyWidth = sliceWidth * sliceHorizontalCount;
@@ -68,7 +68,6 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 				slice.x = j * sliceWidth;
 				slice.y = bodyHeight - (i + 1) * sliceHeight;
 				bodyContainer.AddChild(slice);
-				Debug.Log(imageName);
 			}
 		}
 		
