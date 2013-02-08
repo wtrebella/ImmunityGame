@@ -24,7 +24,7 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		
 	private WTPopoverDialogue pop;
 	
-	public ImVirus testVirus = new ImVirus("testVirus");
+	public ImVirus testVirus = new ImVirus("testVirus", 0.5f, 0.03f);
 	
 	public WTImmunity() : base("") {	
 		instance = this;
@@ -98,6 +98,10 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 		uiLayer = new ImUILayer();
 		SignalPauseStateChanged += uiLayer.SetTransportBar;
 		AddChild(uiLayer);
+		
+		ImNode node = nodeLayer.NodeForPlacement(NodePlacement.ElbowRight);
+		node.Infect(testVirus);
+		node.InfectionComponent().StartInfecting();
 	}
 
 	override public void HandleAddedToStage() {
@@ -214,11 +218,6 @@ public class WTImmunity : FStage, FSingleTouchableInterface {
 			if (node.ContainsGlobalPoint(touch.position)) {
 				touchedNode = node;
 			}
-		}
-		
-		if (touchedNode != null) {
-			touchedNode.AddComponent(new ImInfectionComponent("infectionComponent", testVirus));
-			touchedNode.InfectionComponent().StartInfecting();
 		}
 		
 		foreach (ImEntity entity in nodeLayer.entities) {

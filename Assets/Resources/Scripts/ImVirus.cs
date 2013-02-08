@@ -2,10 +2,11 @@ using UnityEngine;
 using System.Collections;
 
 public class ImVirus : ImEntity {
-	public float spread = 0.5f;
-	public float power = 0.5f;
+	public float spread;
+	public float power;
 	
-	public ImVirus(string name) : base(name) {
-		
+	public ImVirus(string name, float spread, float power) : base(name) {
+		this.spread = spread;
+		this.power = power;
 	}
 }

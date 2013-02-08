@@ -28,6 +28,10 @@ public class ImNode : ImEntity {
 		base.HandleUpdate();
 	}
 	
+	public void Infect(ImVirus virus) {
+		AddComponent(new ImInfectionComponent("infectionComponent", virus));
+	}
+	
 	public ImOrgan CorrespondingOrganInOrganLayer(ImOrganLayer organLayer) {
 		OrganType organType = ImConfig.OrganTypeForNodePlacement(nodePlacement);
 		return organLayer.OrganForType(organType);
