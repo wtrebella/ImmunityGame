@@ -98,7 +98,7 @@
 },
 "bodySlices/body_13.png":
 {
-	"frame": {"x":3,"y":714,"w":10,"h":26},
+	"frame": {"x":3,"y":772,"w":10,"h":26},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":24,"y":192,"w":10,"h":26},
@@ -106,7 +106,7 @@
 },
 "bodySlices/body_14.png":
 {
-	"frame": {"x":3,"y":650,"w":98,"h":60},
+	"frame": {"x":33,"y":650,"w":98,"h":60},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":132,"y":158,"w":98,"h":60},
@@ -130,7 +130,7 @@
 },
 "bodySlices/body_17.png":
 {
-	"frame": {"x":32,"y":587,"w":144,"h":52},
+	"frame": {"x":49,"y":587,"w":144,"h":52},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":166,"w":144,"h":52},
@@ -282,7 +282,7 @@
 },
 "bodySlices/body_36.png":
 {
-	"frame": {"x":1439,"y":650,"w":26,"h":102},
+	"frame": {"x":3,"y":616,"w":26,"h":102},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":116,"w":26,"h":102},
@@ -826,7 +826,7 @@
 },
 "popoverEdgeCurved.psd":
 {
-	"frame": {"x":3,"y":616,"w":25,"h":25},
+	"frame": {"x":3,"y":587,"w":25,"h":25},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":2,"w":25,"h":25},
@@ -834,7 +834,7 @@
 },
 "popoverEdgeStraight.psd":
 {
-	"frame": {"x":3,"y":587,"w":25,"h":25},
+	"frame": {"x":1897,"y":177,"w":25,"h":25},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":25,"h":25},
@@ -842,7 +842,7 @@
 },
 "popoverTriangle.psd":
 {
-	"frame": {"x":180,"y":587,"w":50,"h":40},
+	"frame": {"x":135,"y":643,"w":50,"h":40},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":40},
@@ -866,34 +866,34 @@
 },
 "transportPause.psd":
 {
-	"frame": {"x":312,"y":587,"w":35,"h":35},
+	"frame": {"x":135,"y":687,"w":13,"h":23},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":35},
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":6,"w":13,"h":23},
 	"sourceSize": {"w":35,"h":35}
 },
 "transportPausePressed.psd":
 {
-	"frame": {"x":273,"y":587,"w":35,"h":35},
+	"frame": {"x":32,"y":587,"w":13,"h":23},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":35},
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":6,"w":13,"h":23},
 	"sourceSize": {"w":35,"h":35}
 },
 "transportPlay.psd":
 {
-	"frame": {"x":234,"y":587,"w":35,"h":35},
+	"frame": {"x":3,"y":747,"w":21,"h":21},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":35},
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":7,"w":21,"h":21},
 	"sourceSize": {"w":35,"h":35}
 },
 "transportPlayPressed.psd":
 {
-	"frame": {"x":1897,"y":177,"w":35,"h":35},
+	"frame": {"x":3,"y":722,"w":21,"h":21},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":35},
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":7,"w":21,"h":21},
 	"sourceSize": {"w":35,"h":35}
 },
 "twCen.png":
@@ -919,6 +919,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":2048},
 	"scale": "0.5",
-	"smartupdate": "$TexturePacker:SmartUpdate:cb90441f1d0dd3ed33ed37e34d8fa594$"
+	"smartupdate": "$TexturePacker:SmartUpdate:1f7d354da5c9a162c475d95bea3b0805$"
 }
 }
